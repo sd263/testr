@@ -5,7 +5,13 @@
 # Home page
 GET     /                           controllers.Application.index()
 
-# Create a Test
+# List tests availble
+GET     /tests                  controllers.Application.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
+
+# Create new test
+GET     /computers/new              controllers.Application.createTest()
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
