@@ -21,6 +21,10 @@ public class Application extends Controller {
     	
     }
     
+    public static Result takeTest(Long id){
+    	return TODO;
+    }
+    
     
     
     public static Result list(int page, String sortBy, String order, String filter) {

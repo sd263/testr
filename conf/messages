@@ -1,5 +1,5 @@
 # Messages
 
-tests.list.title={0,choice,0#No computers|1#One computer|1<{0,number,integer} computers} found
+tests.list.title={tests} found
 
 

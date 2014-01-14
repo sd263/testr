@@ -17,7 +17,7 @@ public class Test extends Model{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	public Long testID;
+	public Long id;
 	
 	@Constraints.Required
 	public String testName;
