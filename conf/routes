@@ -5,14 +5,9 @@
 # Home page
 GET     /                           controllers.Application.index()
 
-# List tests availble
-GET     /tests                  controllers.Application.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
-
 # Create new test
-GET     /tests/new              controllers.Application.createTest()
-
-# Take a test
-GET		/tests					controllers.Application.takeTest(id:Long)
+POST	/tests					controllers.Application.createTest()
+GET		/tests					controllers.Application.getTests()
 
 
 

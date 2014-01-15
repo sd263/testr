@@ -1,0 +1,24 @@
+@(message: String)
+
+@main(message) {
+
+	<script src='@routes.Assets.at("javascripts/index.js")'></script>
+
+
+
+	<table border> 
+		<tr>
+			<th id = "tname">test name </th>
+			<th id = "tdesc"> test desc </th>
+			
+		</tr>			
+	 </table>
+	
+
+	<form action="@routes.Application.createTest()" method="post">
+		<input name="name">
+		<input name="testDesc">
+		<input type="submit">	
+	</form>
+
+}

@@ -1,39 +1,33 @@
 package controllers;
+import java.util.List;
 
-import play.*;
+import play.data.Form;
+import play.db.ebean.Model;
+import play.libs.Json;
 import play.mvc.*;
-import views.html.*;
 import models.*;
+import views.html.*;
 
 public class Application extends Controller {
 	
-	
-    public static Result GO_HOME = redirect(
-            routes.Application.list(0, "name", "asc", "")
-        );
 
     public static Result index() {
-    	return GO_HOME;
+    	return ok(index.render("hey"));
     }
+   
     
     public static Result createTest() {
-		return TODO;
-    	
+    	Test test = Form.form(Test.class).bindFromRequest().get();
+    	test.save();
+    	return redirect(routes.Application.index());
+    } 
+    
+    public static Result getTests(){
+    	List<Test> tests = new Model.Finder<>(long.class,Test.class).all();
+    	return ok(Json.toJson(tests));
     }
     
-    public static Result takeTest(Long id){
-    	return TODO;
-    }
     
-    
-    
-    public static Result list(int page, String sortBy, String order, String filter) {
-        return ok(
-            list.render(
-                Test.page(page, 10, sortBy, order, filter),
-                sortBy, order, filter
-            )
-        );
-    }
+   
 
 }
