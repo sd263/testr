@@ -1,4 +1,6 @@
-This is your new Play application
-=====================================
+Simon Date - University of Brighton Final year Project
 
-This file will be packaged with your application, when using `play dist`.
+A system for schools that allows for multiple choice questions to be easily created for students to be taken.
+Data about the students stored conviently for teachers to digest.
+
+Documentation avilable at: https://drive.google.com/folderview?id=0B1uTR6WrDQXVV3pLMlhoN1FsUFU&usp=sharing
