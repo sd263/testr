@@ -19,8 +19,12 @@ public class Test extends Model{
 	
 	@Constraints.Required
 	public String name;
-	
 	public String testDesc;
+	
+	Test(String aName, String aTestDesc){
+		name = aName;
+		testDesc = aTestDesc;
+	}
 
 
 

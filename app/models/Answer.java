@@ -7,22 +7,21 @@ import play.db.ebean.Model;
 
 // The responses to any test from one student.
 
-public class TestResponse extends Model {
+public class Answer extends Model {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	long reponseID;
-	long testID;
-	
+		
 	@ManyToOne
-	public Test test;
+	 long questionID;
+
+	boolean correct;
 	
 	
-	TestResponse(long atestID){
-		testID = atestID;
+	Answer(long aQuestionID){
+		questionID = aQuestionID;
 	}
 
 }

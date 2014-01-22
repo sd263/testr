@@ -27,6 +27,14 @@ public class Application extends Controller {
     	return ok(Json.toJson(tests));
     }
     
+    public static Result addQuestion(long testID){ // creates
+    	return TODO;
+    }
+    
+    public static Result addAnswers(long questionID, String[] answers, boolean[]correct ){
+    	return TODO;
+    }
+    
     
    
 
