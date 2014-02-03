@@ -9,6 +9,9 @@ GET     /                           controllers.Application.index()
 POST	/tests					controllers.Application.createTest()
 GET		/tests					controllers.Application.getTests()
 
+# Take a test
+GET		/tests					controllers.Application.takeTest()
+
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -13,13 +13,23 @@
 			<th id = "tdesc"> test desc </th>
 			<th id = "tbutton"> Take this test! </th>
 	 </table>
-	
-
-
+	 
 	<form action="@routes.Application.createTest()" method="post">
+		
 		<input name="name">
 		<input name="testDesc">
 		<input type="submit">	
 	</form>
+	
+	<br>
+	
+	
 
+	
+	<form method="get" action="@routes.Application.takeTest()" id="takeTest">
+	<select id=tselect name="name" value=""/>
+           <input type="submit">
+       </select> 
+   </form>
+	
 }
