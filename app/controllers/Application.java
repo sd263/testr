@@ -14,7 +14,6 @@ public class Application extends Controller {
     public static Result index() {
     	return ok(index.render("hey"));
     }
-   
     
     public static Result createTest() {
     	Test test = Form.form(Test.class).bindFromRequest().get();
@@ -27,6 +26,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(tests));
     }
     
+  
     public static Result addQuestion(long testID){ // creates
     	return TODO;
     }
