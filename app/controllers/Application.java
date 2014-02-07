@@ -12,13 +12,13 @@ public class Application extends Controller {
 	
 
     public static Result index() {
-    	return ok(index.render("hey"));
+    	return ok(index.render("Testr"));
     }
     
     public static Result createTest() {
     	Test test = Form.form(Test.class).bindFromRequest().get();
     	test.save();
-    	return redirect(routes.Application.index());
+    	return ok(createForm.
     } 
     
     public static Result getTests(){
