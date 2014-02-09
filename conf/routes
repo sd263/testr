@@ -8,6 +8,11 @@ GET     /                           controllers.Application.index()
 # Create new test
 POST	/tests					controllers.Application.createTest()
 GET		/tests					controllers.Application.getTests()
+GET		/tests					controllers.Application.save()
+
+
+# Add Questions
+POST	/tests/()				controllers.Application.addQuestion()
 
 # Take a test
 

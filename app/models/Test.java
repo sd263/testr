@@ -14,6 +14,11 @@ import play.db.ebean.Model.Finder;
 @Entity
 public class Test extends Model{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	public Long id;
 	

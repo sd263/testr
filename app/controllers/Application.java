@@ -1,4 +1,6 @@
 package controllers;
+import static play.data.Form.form;
+
 import java.util.List;
 
 import play.data.Form;
@@ -15,10 +17,18 @@ public class Application extends Controller {
     	return ok(index.render("Testr"));
     }
     
+//    public static Result createTest() {
+//    	Test test = Form.form(Test.class).bindFromRequest().get();
+//    	test.save();
+//    	return ok(index.render(test.name));
+//    } 
+    
     public static Result createTest() {
     	Test test = Form.form(Test.class).bindFromRequest().get();
     	test.save();
-    	return ok(createForm.
+        return ok(
+            createTest.render(test)
+        );
     } 
     
     public static Result getTests(){
@@ -26,8 +36,18 @@ public class Application extends Controller {
     	return ok(Json.toJson(tests));
     }
     
+    public static Result save() {
+        Form<Test> testForm = form(Test.class).bindFromRequest();
+//        if(testForm.hasErrors()) {
+//            return badRequest(testForm.render(testForm));
+//        }
+        testForm.get().save();
+        flash("success", "Computer " + testForm.get().name + " has been created");
+        return ok(index.render("Testr"));
+    }
+    
   
-    public static Result addQuestion(long testID){ // creates
+    public static Result addQuestion(){ // creates
     	return TODO;
     }
     
