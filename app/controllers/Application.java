@@ -38,17 +38,17 @@ public class Application extends Controller {
     
     public static Result save() {
         Form<Test> testForm = form(Test.class).bindFromRequest();
-//        if(testForm.hasErrors()) {
-//            return badRequest(testForm.render(testForm));
-//        }
         testForm.get().save();
         flash("success", "Computer " + testForm.get().name + " has been created");
         return ok(index.render("Testr"));
     }
     
   
-    public static Result addQuestion(){ // creates
-    	return TODO;
+    public static Result addQuestion(long id){ // creates
+    	Question question = Form.form(Question.class).bindFromRequest().get(); 
+    	Test test = new Model.Finder<>(long.class, Test.class).byId(id);
+    	question.save();
+		return ok(createTest.render(test));
     }
     
     public static Result addAnswers(long questionID, String[] answers, boolean[]correct ){

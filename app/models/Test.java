@@ -21,16 +21,16 @@ public class Test extends Model{
 
 	@Id
 	public Long id;
-	
 	@Constraints.Required
 	public String name;
 	public String testDesc;
+//	
+//	@OneToMany
+//	public Question[] questions;
+//	
+//	public int numOfQuestions;
+//	
 	
-	Test(String aName, String aTestDesc){
-		name = aName;
-		testDesc = aTestDesc;
-	}
-
 
 
 }

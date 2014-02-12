@@ -6,8 +6,7 @@
     <h1>@test.name</h1>	
     <h3>@test.testDesc</h3>
     
-	<form action="@routes.Application.addQuestion()" method="post">
-		
+	<form action="@routes.Application.addQuestion(test.id)" method="post">
 		<h4> Question name:  <input name="questionText"> </h4> 
 		<p> Answer 1:  <input name="answer1"> </p>
 		<p> Answer 2:  <input name="answer2"> </p>
@@ -17,9 +16,8 @@
 		<input type="submit">	
 	</form>
         
-        <div class="actions">
-            <input type="submit" value="Create this Test" class="btn primary">
-        </div>
+ 
+            <a href="@routes.Application.index()" class="btn">Cancel</a> 
         }
     
  

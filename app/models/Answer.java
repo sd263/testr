@@ -16,12 +16,9 @@ public class Answer extends Model {
 		
 	@ManyToOne
 	 long questionID;
-
+	
 	boolean correct;
 	
-	
-	Answer(long aQuestionID){
-		questionID = aQuestionID;
-	}
+
 
 }
