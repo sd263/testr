@@ -62,10 +62,20 @@ public class Application extends Controller {
     
     public static Result takeTest(long id){
     	Test test = new Model.Finder<>(long.class,Test.class).byId(id);
-    	return ok(index.render(test.name));
+    	return ok(takeTest.render(test));
     }
     
-  
+	public Question getQuestion(){
+		List<Question> question = new Model.Finder<>(long.class,Question.class).all();
+		for(int i = 0; i <= question.size();i++){
+			Question q = question.get(i);
+			if(null == q.test){ // null should be a test
+				return q;
+			}
+		}
+		return null;
+	}
+    
     
     public static Result addAnswers(long questionID, String[] answers, boolean[]correct ){
     	return TODO;
