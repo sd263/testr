@@ -5,19 +5,19 @@
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 
 
-
+	<h2> Tests currently avilable </h2>
 	<table border> 
-			<th id = "tname">
-			test name
-			 </th>
+			<th id = "tid"> test id  </th>
+			<th id = "tname"> test name  </th>	
 			<th id = "tdesc"> test desc </th>
-			<th id = "tbutton"> Take this test! </th>
+			<th id = "tnum"> Number of Questions </th>
 	 </table>
 	 
+	 <h3> Create a test! </h3>
 	<form action="@routes.Application.createTest()" method="post">
 		
-		<input name="name"> 
-		<input name="testDesc">
+		<p> Test Name: <input name="name"> <br>
+		 	Test Description: <input name="testDesc"> </p>
 		<input type="submit">	
 	</form>
 	
@@ -25,10 +25,9 @@
 	
 	
 
-	
-	<form method="get" action="@routes.Application.takeTest(20)" id="id">
-	<select id=tselect name="name" value=""/>
-
+	<h3> Take a test! </h3>
+	<form method="get" action="@routes.Application.takeTest(1)" id="id">
+	<select id=tselect name="id" value=""/>
            <input type="submit">
        </select> 
    </form>

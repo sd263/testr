@@ -36,12 +36,17 @@ public class Application extends Controller {
     	return ok(Json.toJson(tests));
     }
     
-    public static Result save() {
-        Form<Test> testForm = form(Test.class).bindFromRequest();
-        testForm.get().save();
-        flash("success", "Computer " + testForm.get().name + " has been created");
-        return ok(index.render("Testr"));
+    public static Result getQuestions(){
+       	List<Question> questions = new Model.Finder<>(long.class,Question.class).all();
+    	return ok(Json.toJson(questions));
     }
+    
+//    public static Result save() {
+//        Form<Test> testForm = form(Test.class).bindFromRequest();
+//        testForm.get().save();
+//        flash("success", "Computer " + testForm.get().name + " has been created");
+//        return ok(index.render("Testr"));
+//    }
     
   
     public static Result addQuestion(long id){ // creates
@@ -49,15 +54,18 @@ public class Application extends Controller {
     	Test test = new Model.Finder<>(long.class, Test.class).byId(id);
     	test.numQuestions++;
     	question.save();
+    	test.addQuestion(question);
     	test.save();
 		return ok(createTest.render(test));
     }
     
     
     public static Result takeTest(long id){
-    	Test test = Test.find.byId(id);
-		return TODO;
+    	Test test = new Model.Finder<>(long.class,Test.class).byId(id);
+    	return ok(index.render(test.name));
     }
+    
+  
     
     public static Result addAnswers(long questionID, String[] answers, boolean[]correct ){
     	return TODO;
