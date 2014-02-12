@@ -21,8 +21,8 @@ public class Question extends Model{
 	@Id
 	public long id;
 	
-	@ManyToOne
-	public Test test;
+    @ManyToOne
+    public Test test;
 	
 	@Constraints.Required
 	public String questionText;
@@ -30,4 +30,9 @@ public class Question extends Model{
 	public String answer2;
 	public String answer3;
 	public String answer4;
+	
+	public void assignTest(Test atest){
+		test = atest;
+	}
+	
 	}

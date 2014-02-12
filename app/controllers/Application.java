@@ -53,8 +53,8 @@ public class Application extends Controller {
     	Question question = Form.form(Question.class).bindFromRequest().get(); 
     	Test test = new Model.Finder<>(long.class, Test.class).byId(id);
     	test.numQuestions++;
+    	question.assignTest(test);
     	question.save();
-    	test.addQuestion(question);
     	test.save();
 		return ok(createTest.render(test));
     }
