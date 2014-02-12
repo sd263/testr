@@ -3,8 +3,10 @@
 
     
   @main(test.name) {
-    <h1>@test.name</h1>	
-    <h3>@test.testDesc</h3>
+    <h1>Test name: @test.name</h1>	
+    <h3>Test Description: @test.testDesc</h3>
+    
+    <h4>Number of Questions in this test: @test.numQuestions</h4>
     
 	<form action="@routes.Application.addQuestion(test.id)" method="post">
 		<h4> Question name:  <input name="questionText"> </h4> 
@@ -12,7 +14,7 @@
 		<p> Answer 2:  <input name="answer2"> </p>
 		<p> Answer 3: <input name="answer3">  </p>
 		<p> Answer 4: <input name="answer4"> </p> 
-		
+		@test.numQuestions = @test.numQuestions+1
 		<input type="submit">	
 	</form>
         

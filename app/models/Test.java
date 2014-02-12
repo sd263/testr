@@ -24,12 +24,16 @@ public class Test extends Model{
 	@Constraints.Required
 	public String name;
 	public String testDesc;
-//	
-//	@OneToMany
-//	public Question[] questions;
-//	
-//	public int numOfQuestions;
-//	
+	public int numQuestions;
+	
+	@OneToMany
+	public Question[] questions;
+	
+	public void addQuestion(Question aquestion){
+		
+	}
+
+	public static Finder<Long,Test> find = new Finder<Long,Test>(Long.class, Test.class);
 	
 
 

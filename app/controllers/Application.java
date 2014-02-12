@@ -47,8 +47,16 @@ public class Application extends Controller {
     public static Result addQuestion(long id){ // creates
     	Question question = Form.form(Question.class).bindFromRequest().get(); 
     	Test test = new Model.Finder<>(long.class, Test.class).byId(id);
+    	test.numQuestions++;
     	question.save();
+    	test.save();
 		return ok(createTest.render(test));
+    }
+    
+    
+    public static Result takeTest(long id){
+    	Test test = Test.find.byId(id);
+		return TODO;
     }
     
     public static Result addAnswers(long questionID, String[] answers, boolean[]correct ){

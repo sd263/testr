@@ -1,8 +1,11 @@
 package models;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -18,9 +21,9 @@ public class Question extends Model{
 	@Id
 	public long id;
 	
-//	@ManyToOne
-//	public Test test;
-
+	@ManyToOne
+	public Test test;
+	
 	@Constraints.Required
 	public String questionText;
 	public String answer1;
