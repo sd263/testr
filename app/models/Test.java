@@ -27,13 +27,16 @@ public class Test extends Model{
 	public String testDesc;
 	public int numQuestions;
 	
+	
+	
+//	
 //	@OneToMany
 //	public List<Question> questions;
 //	
 //	public void addQuestion(Question aQuestion){
 //		questions.add(aQuestion);
 //	}
-	
+//	
 
 
 	public static Finder<Long,Test> find = new Finder<Long,Test>(Long.class, Test.class);

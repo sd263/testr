@@ -22,6 +22,10 @@ create table test (
   constraint pk_test primary key (id))
 ;
 
+create table test_answer (
+  current                   integer)
+;
+
 create sequence question_seq;
 
 create sequence test_seq;
@@ -38,6 +42,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 drop table if exists question;
 
 drop table if exists test;
+
+drop table if exists test_answer;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 

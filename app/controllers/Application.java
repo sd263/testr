@@ -46,18 +46,16 @@ public class Application extends Controller {
 		return ok(createTest.render(test));
     }
     
-    public static Result takeTest(int questionNum, long id){
-    	Test test = new Model.Finder<>(long.class,Test.class).byId(id);
-    	Question question = getQuestion(questionNum,test);
-    	return ok(takeTest.render(questionNum,question));
+    public static Result beginTest(long id){
+    	TestAnswer testAnswer = new TestAnswer(id);
+    	Question question = testAnswer.getQuestion();
+    	return ok(takeTest.render(question,testAnswer));
+    }
+    
+    public static Result nextQuestion(TestAnswer testAnswer){
+    	return TODO;
     }
         
-	public static Question getQuestion(int questionNum,Test test){
-		List<Question> questions = Question.testQuestion(test);
-		return questions.get(questionNum);
-	}
-    
-    
     public static Result markQuestion( int answer, int question, long id){
     	return TODO;
     }

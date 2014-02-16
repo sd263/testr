@@ -37,10 +37,12 @@ public class Question extends Model {
 		test = atest;
 	}
 	
-	public static List<Question> testQuestion(Test test){
+
+	
+	public static List<Question> testQuestion(Test atest){
 		List<Question> allQuestion = new Model.Finder<>(long.class,Question.class).all();
-		for(int i = 0; i<allQuestion.size();i++){
-			if(allQuestion.get(i).test != test)
+		for(int i = 0; i < allQuestion.size();i++){
+			if(allQuestion.get(i).test.id != atest.id)
 				allQuestion.remove(i);
 		}
 		return allQuestion;
