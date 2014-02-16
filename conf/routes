@@ -16,7 +16,7 @@ GET		/questions					controllers.Application.getQuestions()
 POST	/tests/questions/:id		controllers.Application.addQuestion(id: Long)
 
 # Take a test
-GET		/takeTest/:id						controllers.Application.takeTest(id: Long)
+GET		/takeTest/:id						controllers.Application.takeTest(questionNum: Int, id: Long)
 POST	/takeTest/:id						controllers.Application.markQuestion(answer: Int, question: Int, id: Long)
 
 

@@ -1,17 +1,38 @@
-@(message: String)
+@(tests: List[Test])
 
-@main(message) {
+@main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
-
+	<h1> Testr </h1>
 
 	<h2> Tests currently avilable </h2>
-	<table border> 
-			<th id = "tid"> test id  </th>
-			<th id = "tname"> test name  </th>	
-			<th id = "tdesc"> test desc </th>
-			<th id = "tnum"> Number of Questions </th>
-	 </table>
+
 	 
+	  	<table border> 
+	  	       <thead>
+	  	       
+                <tr>
+                  <b> 
+                  <td> test ID </td>
+                  <td> test name  </td>
+                    <td> test description</td>
+                   <td> Number of Questions</td>  
+                   <td> Take this test! 	</td>
+                   </b>
+                </tr>
+               
+            </thead>
+	   @for(test <- tests) {
+	  
+             <td>   @test.id </td> 
+            <td>   @test.name </td>
+            <td>   @test.testDesc </td>
+            <td>   @test.numQuestions </td>
+            <td>   	<form method="get" action="@routes.Application.takeTest(0,test.id)">
+        			   <input type="submit">
+   						</form>  </td>
+            <tr>
+        }
+	    </table>
 	 <h3> Create a test! </h3>
 	<form action="@routes.Application.createTest()" method="post">
 		
@@ -22,12 +43,5 @@
 	
 	<br>
 	
-
-	<h3> Take a test! </h3>
-	<form method="get" action="@routes.Application.takeTest(0)">
-	<select id=tselect name="" value="tselect.value"/>
-           <input type="submit">
-       </select> 
-   </form>
 	
 }

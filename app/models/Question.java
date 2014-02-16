@@ -36,4 +36,14 @@ public class Question extends Model {
 	public void assignTest(Test atest) {
 		test = atest;
 	}
+	
+	public static List<Question> testQuestion(Test test){
+		List<Question> allQuestion = new Model.Finder<>(long.class,Question.class).all();
+		for(int i = 0; i<allQuestion.size();i++){
+			if(allQuestion.get(i).test != test)
+				allQuestion.remove(i);
+		}
+		return allQuestion;
+		
+	}
 }
