@@ -16,13 +16,7 @@ public class Application extends Controller {
     public static Result index() {
     	return ok(index.render("Testr"));
     }
-    
-//    public static Result createTest() {
-//    	Test test = Form.form(Test.class).bindFromRequest().get();
-//    	test.save();
-//    	return ok(index.render(test.name));
-//    } 
-    
+       
     public static Result createTest() {
     	Test test = Form.form(Test.class).bindFromRequest().get();
     	test.save();
@@ -40,14 +34,7 @@ public class Application extends Controller {
        	List<Question> questions = new Model.Finder<>(long.class,Question.class).all();
     	return ok(Json.toJson(questions));
     }
-    
-//    public static Result save() {
-//        Form<Test> testForm = form(Test.class).bindFromRequest();
-//        testForm.get().save();
-//        flash("success", "Computer " + testForm.get().name + " has been created");
-//        return ok(index.render("Testr"));
-//    }
-    
+       
   
     public static Result addQuestion(long id){ // creates
     	Question question = Form.form(Question.class).bindFromRequest().get(); 
@@ -62,22 +49,28 @@ public class Application extends Controller {
     
     public static Result takeTest(long id){
     	Test test = new Model.Finder<>(long.class,Test.class).byId(id);
-    	return ok(takeTest.render(test));
+    	Question question = getQuestion(test);
+    	return ok(takeTest.render(question));
     }
     
-	public Question getQuestion(){
+    
+    public static Result markQuestion( int answer, int question, long id){
+    	return TODO;
+    }
+    
+	public static Question getQuestion(Test test){
 		List<Question> question = new Model.Finder<>(long.class,Question.class).all();
-		for(int i = 0; i <= question.size();i++){
+		for(int i = 0; i < question.size();i++){
 			Question q = question.get(i);
-			if(null == q.test){ // null should be a test
+			if(test == q.test){
 				return q;
 			}
 		}
-		return null;
+		return question.get(1);
 	}
     
     
-    public static Result addAnswers(long questionID, String[] answers, boolean[]correct ){
+    public static Result addAnswers(long questionID, String[] answers, boolean[]correct ){ // will be added with the 
     	return TODO;
     }
     

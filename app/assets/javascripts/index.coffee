@@ -15,10 +15,9 @@ $ ->
         var id=$(this).val();
         var dataString = 'id='+ id;
         alert(id);
+        routes.Application.takeTest(id);
     });
 
 });
-`
 
-@getId = ->
-	@routes.Application.takeTest(1)
+	`

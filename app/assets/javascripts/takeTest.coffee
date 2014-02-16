@@ -1,5 +1,5 @@
 $ ->
-	$.get "/tests", (data) ->
+	$.get "/tests/1", (data) ->
 		$.each data, (index,test) ->
 			$("#tid").append $("<tr>").text test.id
 			$("#tname").append $("<tr>").text test.name

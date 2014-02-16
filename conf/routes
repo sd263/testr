@@ -6,7 +6,7 @@
 GET     /                           controllers.Application.index()
 
 # Create new test
-POST	/tests/				controllers.Application.createTest()
+POST	/tests				controllers.Application.createTest()
 GET		/tests					controllers.Application.getTests()
 
 
@@ -16,7 +16,8 @@ GET		/questions					controllers.Application.getQuestions()
 POST	/tests/questions/:id		controllers.Application.addQuestion(id: Long)
 
 # Take a test
-GET		/tests/:id				controllers.Application.takeTest(id:Long)
+GET		/takeTest/:id						controllers.Application.takeTest(id: Long)
+POST	/takeTest/:id						controllers.Application.markQuestion(answer: Int, question: Int, id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path

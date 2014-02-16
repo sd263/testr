@@ -15,7 +15,7 @@
 	 <h3> Create a test! </h3>
 	<form action="@routes.Application.createTest()" method="post">
 		
-		<p> Test Name: <input name="name"> <br>
+		<p> Test Name: 		<input name="name"> <br>
 		 	Test Description: <input name="testDesc"> </p>
 		<input type="submit">	
 	</form>
@@ -24,8 +24,8 @@
 	
 
 	<h3> Take a test! </h3>
-	<form method="get" action="@routes.Application.takeTest(1)">
-	<select id=tselect name="" value=""/>
+	<form method="get" action="@routes.Application.takeTest(0)">
+	<select id=tselect name="" value="tselect.value"/>
            <input type="submit">
        </select> 
    </form>
