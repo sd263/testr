@@ -7,12 +7,10 @@
 <h2>Q.@(testAnswer.current + 1) / @testAnswer.test.numQuestions : @question.questionText</h2>
 <p>
 
-	<form action="@routes.Application.markQuestion(0,1,question.test.id)" method="post">
-		<p> (A)  <input type="submit" name="a" value="@question.answer1" /> </p>
-		<p> (B)  <input type="submit" name="b" value="@question.answer2" /> </p>
-		<p> (C)  <input type="submit" name="c" value="@question.answer3" />  </p>
-		<p> (D)  <input type="submit" name="d" value="@question.answer4" /> </p> 
+	   @for(i <- 0 to 3) {
+	<form  action="@routes.Application.markQuestion(i,1,question.test.id)"  method="post">
+		<p> (A)  <input type="submit" value="@Question.getAnswer(question, i)"	/> </p>
 	</form>
-	<p>
+	}
 
 }

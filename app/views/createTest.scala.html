@@ -10,10 +10,9 @@
     
 	<form action="@routes.Application.addQuestion(test.id)" method="post">
 		<h4> Question name:  <input name="questionText"> </h4> 
-		<p> Answer 1:  <input name="answer1"> </p>
-		<p> Answer 2:  <input name="answer2"> </p>
-		<p> Answer 3: <input name="answer3">  </p>
-		<p> Answer 4: <input name="answer4"> </p> 
+		 @for(i <- 0 to 3) {
+		<p> Answer @(i + 1):  <input name="@"> </p>
+		}
 		<input type="submit">	
 	</form>
         

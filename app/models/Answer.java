@@ -1,12 +1,14 @@
 package models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import play.db.ebean.Model;
 
 
 // The responses to any test from one student.
-
+@Entity
 public class Answer extends Model {
 
 	/**
@@ -14,10 +16,18 @@ public class Answer extends Model {
 	 */
 	private static final long serialVersionUID = 1L;
 		
-	@ManyToOne
-	 long questionID;
-	
+	@Id
+	String text;
 	boolean correct;
+	
+	
+	
+//	@ManyToOne
+//	public Test test;
+	
+	Answer(){
+
+	}
 	
 
 

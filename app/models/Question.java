@@ -3,6 +3,7 @@ package models;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -28,22 +29,33 @@ public class Question extends Model {
 
 	@Constraints.Required
 	public String questionText;
-	public String answer1;
-	public String answer2;
-	public String answer3;
-	public String answer4;
+//	public String answer1;
+//	public String answer2;
+//	public String answer3;
+//	public String answer4;
+//	
+	
+	
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	public List<Answer> answer;
+	
+    public static String getAnswer(Question question, int i){
+    	Answer a = new Answer();
+		 question.answer.add(a);
+		 return a.text;
+    }
 
 	public void assignTest(Test atest) {
 		test = atest;
 	}
 	
-
-	
 	public static List<Question> testQuestion(Test atest){
 		List<Question> allQuestion = new Model.Finder<>(long.class,Question.class).all();
 		for(int i = 0; i < allQuestion.size();i++){
-			if(allQuestion.get(i).test.id != atest.id)
+			if(allQuestion.get(i).test.id != atest.id){
 				allQuestion.remove(i);
+				i--;			// required because of how .remove() works
+			}
 		}
 		return allQuestion;
 		

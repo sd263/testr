@@ -31,9 +31,13 @@ public class Application extends Controller {
     	return ok(Json.toJson(tests));
     }
     
+
+    
     public static Result getQuestions(){
-       	List<Question> questions = new Model.Finder<>(long.class,Question.class).all();
-    	return ok(Json.toJson(questions));
+//       	List<Question> questions = new Model.Finder<>(long.class,Question.class).all();
+    	Test test = new Model.Finder<>(long.class,Test.class).byId((long) 1);
+       	List<Question> quest  = Question.testQuestion(test);
+    	return ok(Json.toJson(quest));
     }       
   
     public static Result addQuestion(long id){ // creates
