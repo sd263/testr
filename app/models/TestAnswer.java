@@ -19,10 +19,10 @@ public class TestAnswer extends Model {
 	
 	public int current;
 	public Test test;	
-	public static List<Question> questions;
+	public List<Question> questions;
 	
-	public TestAnswer(long testId){
-		current = 0;
+	public TestAnswer(int current, long testId){
+		this.current = current;
 		test = findTestByID(testId);
 		questions = Question.testQuestion(test);
 	}

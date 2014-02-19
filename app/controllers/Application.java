@@ -31,8 +31,8 @@ public class Application extends Controller {
     }
     
     public static Result getTestAnswers(){
-    	List<TestAnswer> tests = new Model.Finder<>(long.class,TestAnswer.class).all();
-    	return ok(Json.toJson(tests));
+    	List<TestAnswer> data = new Model.Finder<>(long.class,TestAnswer.class).all();
+    	return ok(Json.toJson(data));
     }
  
     public static Result getQuestions(){
@@ -53,24 +53,21 @@ public class Application extends Controller {
     }
     
     public static Result beginTest(long id){
-    	TestAnswer testAnswer = new TestAnswer(id);
+    	TestAnswer testAnswer = new TestAnswer(0,id);
     	testAnswer.save();
-     	return ok(takeTest.render(testAnswer));
+     	return ok(takeTest.render(0,testAnswer));
     }
     
     public static Result nextQuestion(long id){
     	return TODO;
     }
         
-    public static Result markQuestion( int answer, long id, long testID){
+    public static Result markQuestion(int current, int answer, long id, long testID){
     	 flash("success", "Computer has been deleted");
-    	TestAnswer testAnswer  = new Model.Finder<>(long.class, TestAnswer.class).byId(id);
-      	Test test = new Model.Finder<>(long.class, Test.class).byId(id);
-      	testAnswer.findTestByID(testID);
-      	testAnswer.save();
-    	if(testAnswer == null)
+    	TestAnswer testAnswer = new TestAnswer(++current,testID);
+    	if(testAnswer.test.numQuestions <= current)
     		return index();
-    	return ok(takeTest.render(testAnswer));
+    	return ok(takeTest.render(testAnswer.current,testAnswer));
     } 
     
 }
