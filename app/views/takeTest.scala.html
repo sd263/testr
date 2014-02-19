@@ -1,15 +1,18 @@
-@(question: Question, testAnswer: TestAnswer)
+@(testAnswer: TestAnswer)
 @import helper._
 
 @main(testAnswer.test.name) {
 	<script src='@routes.Assets.at("javascripts/takeTest.js")'></script>
 	<h1> Test Name: @testAnswer.test.name  </h1>
-<h2>Q.@(testAnswer.current + 1) / @testAnswer.test.numQuestions : @question.questionText</h2>
+	
+	
+	
+	
+<h2>Q.@(testAnswer.current + 1) / @testAnswer.test.numQuestions : @testAnswer.getQuestion.questionText </h2>
 <p>
-
 	   @for(i <- 0 to 3) {
-	<form  action="@routes.Application.markQuestion(i,1,question.test.id)"  method="post">
-		<p> (A)  <input type="submit" value="@Question.getAnswer(question, i)"	/> </p>
+	<form  action="@routes.Application.markQuestion(i,testAnswer.id, testAnswer.test.id)"  method="post">
+		<p> @(i+1)  <input type="submit" value="@Question.getAnswer(testAnswer.getQuestion, i)"/> </p>
 	</form>
 	}
 

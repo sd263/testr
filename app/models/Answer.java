@@ -18,15 +18,9 @@ public class Answer extends Model {
 		
 	@Id
 	String text;
-	boolean correct;
 	
-	
-	
-//	@ManyToOne
-//	public Test test;
-	
-	Answer(){
-
+	public Answer(String text){
+		this.text = text;
 	}
 	
 

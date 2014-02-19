@@ -10,13 +10,13 @@
     
 	<form action="@routes.Application.addQuestion(test.id)" method="post">
 		<h4> Question name:  <input name="questionText"> </h4> 
-		 @for(i <- 0 to 3) {
-		<p> Answer @(i + 1):  <input name="@"> </p>
-		}
+		<p> Answer 1:  <input name="answer1"> </p>
+		<p> Answer 2:  <input name="answer2"> </p>
+		<p> Answer 3:  <input name="answer3"> </p>
+		<p> Answer 4:  <input name="answer4"> </p>
+		<p> Select the answer: <input name="correctAnswer"> </p>
 		<input type="submit">	
 	</form>
-        
- 
             <a href="@routes.Application.index()" class="btn">Cancel</a> 
         }
     

@@ -1,6 +1,7 @@
 package controllers;
 import static play.data.Form.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import play.data.Form;
@@ -21,9 +22,7 @@ public class Application extends Controller {
     public static Result createTest() {
     	Test test = Form.form(Test.class).bindFromRequest().get();
     	test.save();
-        return ok(
-            createTest.render(test)
-        );
+		return ok(createTest.render(test));
     } 
     
     public static Result getTests(){
@@ -31,17 +30,20 @@ public class Application extends Controller {
     	return ok(Json.toJson(tests));
     }
     
-
-    
+    public static Result getTestAnswers(){
+    	List<TestAnswer> tests = new Model.Finder<>(long.class,TestAnswer.class).all();
+    	return ok(Json.toJson(tests));
+    }
+ 
     public static Result getQuestions(){
-//       	List<Question> questions = new Model.Finder<>(long.class,Question.class).all();
-    	Test test = new Model.Finder<>(long.class,Test.class).byId((long) 1);
-       	List<Question> quest  = Question.testQuestion(test);
-    	return ok(Json.toJson(quest));
+       	List<Question> questions = new Model.Finder<>(long.class,Question.class).all();
+//    	Test test = new Model.Finder<>(long.class,Test.class).byId((long) 1);
+//       	List<Question> quest  = Question.testQuestion(test);
+    	return ok(Json.toJson(questions));
     }       
   
     public static Result addQuestion(long id){ // creates
-    	Question question = Form.form(Question.class).bindFromRequest().get(); 
+    	Question question = Form.form(Question.class).bindFromRequest().get();
     	Test test = new Model.Finder<>(long.class, Test.class).byId(id);
     	test.numQuestions++;
     	question.assignTest(test);
@@ -52,24 +54,23 @@ public class Application extends Controller {
     
     public static Result beginTest(long id){
     	TestAnswer testAnswer = new TestAnswer(id);
-    	Question question = testAnswer.getQuestion();
-    	return ok(takeTest.render(question,testAnswer));
+    	testAnswer.save();
+     	return ok(takeTest.render(testAnswer));
     }
     
-    public static Result nextQuestion(TestAnswer testAnswer){
+    public static Result nextQuestion(long id){
     	return TODO;
     }
         
-    public static Result markQuestion( int answer, int question, long id){
-    	return TODO;
-    }
-	
+    public static Result markQuestion( int answer, long id, long testID){
+    	 flash("success", "Computer has been deleted");
+    	TestAnswer testAnswer  = new Model.Finder<>(long.class, TestAnswer.class).byId(id);
+      	Test test = new Model.Finder<>(long.class, Test.class).byId(id);
+      	testAnswer.findTestByID(testID);
+      	testAnswer.save();
+    	if(testAnswer == null)
+    		return index();
+    	return ok(takeTest.render(testAnswer));
+    } 
     
-    public static Result addAnswers(long questionID, String[] answers, boolean[]correct ){ // will be added with the 
-    	return TODO;
-    }
-    
-    
-   
-
 }
