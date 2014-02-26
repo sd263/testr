@@ -32,6 +32,7 @@ create table test_answer (
   id                        bigint not null,
   current                   integer,
   test_id                   bigint,
+  correct_answers           integer,
   constraint pk_test_answer primary key (id))
 ;
 

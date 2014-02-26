@@ -29,13 +29,15 @@ public class TestAnswer extends Model {
 	@ManyToMany
 	public List<Question> questions;
 	
-	public ArrayList<Integer> studentAnswer;
+	public int correctAnswers;
+	
+//	public ArrayList<Integer> studentAnswer;
 	
 	public TestAnswer(int current, long testId){
 		this.current = current;
 		test = findTestByID(testId);
 		questions = Question.testQuestion(test);
-		studentAnswer = new ArrayList<Integer>();
+//		studentAnswer = new ArrayList<Integer>();
 	}
 	
 	public Test findTestByID(Long id){

@@ -61,19 +61,23 @@ public class Application extends Controller {
 	}
 
 	public static Result markQuestion(int answer, long id) {
-		flash("success", "Computer has been deleted");
+
 		TestAnswer testAnswer = new Model.Finder<>(long.class, TestAnswer.class)
 				.byId(id);
 //		testAnswer.studentAnswer.add(answer);
-//		if (testAnswer.questions.get(testAnswer.current).correctAnswer == answer + 1) {
+		if (testAnswer.questions.get(testAnswer.current).correctAnswer == answer + 1){
+			flash("correct", "");
+			testAnswer.correctAnswers++;
+		} else{
+			flash("wrong",Question.getAnswer(testAnswer.questions.get(testAnswer.current), testAnswer.questions.get(testAnswer.current).correctAnswer-1));
+		}
+
 			testAnswer.current++;
 			if (testAnswer.test.numQuestions <= testAnswer.current)
 				return ok(testResult.render(testAnswer));
 			testAnswer.save();
 			return ok(takeTest.render(testAnswer.current, testAnswer));
-//		}
-//		flash("success", "Wrong answer bro");
-//		return index();
+
 	}
 
 }

@@ -1,5 +1,0 @@
-`function myFunction()
-{
-alert("hi");
-}
-	`

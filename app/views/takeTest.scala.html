@@ -5,9 +5,15 @@
 	<script src='@routes.Assets.at("javascripts/takeTest.js")'></script>
 	<h1> Test Name: @testAnswer.test.name  </h1>
 	
-	    @if(flash.containsKey("success")) {
+	    @if(flash.containsKey("correct")) {
         <div class="alert-message warning">
-            <strong>Done!</strong> @flash.get("success")
+            <strong>Correct Answer</strong> @flash.get("correct")
+        </div>
+        }
+        
+      @if(flash.containsKey("wrong")) {
+        <div class="alert-message warning">
+            <strong>Wrong Answer</strong> @flash.get("wrong")
         </div>
     } 
 	
