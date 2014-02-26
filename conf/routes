@@ -18,7 +18,7 @@ POST	/tests/questions/:id		controllers.Application.addQuestion(id: Long)
 
 # Take a test
 GET		/takeTest/:id						controllers.Application.beginTest(id: Long)
-POST 	/takeTest/						controllers.Application.markQuestion(current: Int, answer: Int,id: Long, testId: Long)
+POST 	/takeTest/						controllers.Application.markQuestion(answer: Int,id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -5,13 +5,17 @@
 	<script src='@routes.Assets.at("javascripts/takeTest.js")'></script>
 	<h1> Test Name: @testAnswer.test.name  </h1>
 	
-	
+	    @if(flash.containsKey("success")) {
+        <div class="alert-message warning">
+            <strong>Done!</strong> @flash.get("success")
+        </div>
+    } 
 	
 	
 <h2>Q.@(testAnswer.current + 1) / @testAnswer.test.numQuestions : @testAnswer.getQuestion.questionText </h2>
 <p>
 	   @for(i <- 0 to 3) {
-	<form  action="@routes.Application.markQuestion(current, i,testAnswer.id, testAnswer.test.id)"  method="post">
+	<form  action="@routes.Application.markQuestion(i,testAnswer.id)"  method="post">
 		<p> @(i+1)  <input type="submit" value="@Question.getAnswer(testAnswer.getQuestion, i)"/> </p>
 	</form>
 	}

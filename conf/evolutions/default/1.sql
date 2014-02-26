@@ -31,9 +31,16 @@ create table test (
 create table test_answer (
   id                        bigint not null,
   current                   integer,
+  test_id                   bigint,
   constraint pk_test_answer primary key (id))
 ;
 
+
+create table test_answer_question (
+  test_answer_id                 bigint not null,
+  question_id                    bigint not null,
+  constraint pk_test_answer_question primary key (test_answer_id, question_id))
+;
 create sequence answer_seq;
 
 create sequence question_seq;
@@ -44,8 +51,14 @@ create sequence test_answer_seq;
 
 alter table question add constraint fk_question_test_1 foreign key (test_id) references test (id) on delete restrict on update restrict;
 create index ix_question_test_1 on question (test_id);
+alter table test_answer add constraint fk_test_answer_test_2 foreign key (test_id) references test (id) on delete restrict on update restrict;
+create index ix_test_answer_test_2 on test_answer (test_id);
 
 
+
+alter table test_answer_question add constraint fk_test_answer_question_test__01 foreign key (test_answer_id) references test_answer (id) on delete restrict on update restrict;
+
+alter table test_answer_question add constraint fk_test_answer_question_quest_02 foreign key (question_id) references question (id) on delete restrict on update restrict;
 
 # --- !Downs
 
@@ -58,6 +71,8 @@ drop table if exists question;
 drop table if exists test;
 
 drop table if exists test_answer;
+
+drop table if exists test_answer_question;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 

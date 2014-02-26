@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import play.db.ebean.Model;
 @Entity
@@ -16,9 +19,13 @@ public class TestAnswer extends Model {
 
 	@Id
 	public long id;
-	
+		
 	public int current;
+	
+	@ManyToOne
 	public Test test;	
+	
+	@ManyToMany
 	public List<Question> questions;
 	
 	public TestAnswer(int current, long testId){
@@ -33,7 +40,10 @@ public class TestAnswer extends Model {
 	}
 
 	public  Question getQuestion(){
-		return questions.get(current);
+//		if(test.numQuestions <= current)
+//			return null;
+//		else 
+			return questions.get(current);
 	}
 	
 }
