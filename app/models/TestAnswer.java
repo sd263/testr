@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -28,10 +29,13 @@ public class TestAnswer extends Model {
 	@ManyToMany
 	public List<Question> questions;
 	
+	public ArrayList<Integer> studentAnswer;
+	
 	public TestAnswer(int current, long testId){
 		this.current = current;
 		test = findTestByID(testId);
 		questions = Question.testQuestion(test);
+		studentAnswer = new ArrayList<Integer>();
 	}
 	
 	public Test findTestByID(Long id){

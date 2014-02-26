@@ -64,15 +64,16 @@ public class Application extends Controller {
 		flash("success", "Computer has been deleted");
 		TestAnswer testAnswer = new Model.Finder<>(long.class, TestAnswer.class)
 				.byId(id);
-		if (testAnswer.questions.get(testAnswer.current).correctAnswer == answer) {
+//		testAnswer.studentAnswer.add(answer);
+//		if (testAnswer.questions.get(testAnswer.current).correctAnswer == answer + 1) {
 			testAnswer.current++;
 			if (testAnswer.test.numQuestions <= testAnswer.current)
-				return index();
+				return ok(testResult.render(testAnswer));
 			testAnswer.save();
 			return ok(takeTest.render(testAnswer.current, testAnswer));
-		}
-		flash("success", "Wrong answer bro");
-		return index();
+//		}
+//		flash("success", "Wrong answer bro");
+//		return index();
 	}
 
 }
