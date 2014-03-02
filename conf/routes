@@ -8,6 +8,7 @@ GET     /                           controllers.Application.index()
 # Create new test
 POST	/tests				controllers.Application.createTest()
 GET		/tests					controllers.Application.getTests()
+GET		/tests/:id				controllers.Application.publishTest(id:Long)
 
 # 	JSON queries (DEBUG ONLY)
 GET		/testsAnswers			controllers.Application.getTestAnswers()

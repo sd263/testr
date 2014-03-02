@@ -24,6 +24,17 @@ public class Application extends Controller {
 		test.save();
 		return ok(createTest.render(test));
 	}
+	
+	public static Result publishTest(long id){
+		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
+		if(test.numQuestions <= 0){
+			test.delete();
+			flash("notcreated", "your test has not been made");
+		} else{
+			flash("published", test.name);
+		}
+		return index();
+	}
 
 	public static Result getTests() {
 		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
