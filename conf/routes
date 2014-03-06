@@ -3,7 +3,9 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           controllers.Application.loginScreen()
+GET     /home                           controllers.Application.teacherHome()
+GET     /home                           controllers.Application.studentHome()
 
 # Create new test
 POST	/tests				controllers.Application.createTest()
@@ -23,4 +25,4 @@ POST 	/takeTest/						controllers.Application.markQuestion(answer: Int,id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file            	   controllers.Assets.at(path="/public", file)

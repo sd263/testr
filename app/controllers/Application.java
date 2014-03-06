@@ -13,10 +13,19 @@ import models.*;
 import views.html.*;
 
 public class Application extends Controller {
-
-	public static Result index() {
+	
+	public static Result loginScreen(){
+		return ok(login.render());
+	}
+	
+	public static Result studentHome(){
 		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
-		return ok(index.render(tests));
+		return ok(teacherHome.render(tests));
+	}
+	
+	public static Result teacherHome(){
+		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
+		return ok(studentHome.render(tests));
 	}
 
 	public static Result createTest() {
@@ -33,28 +42,9 @@ public class Application extends Controller {
 		} else{
 			flash("published", test.name);
 		}
-		return index();
+		return teacherHome();
 	}
-
-	public static Result getTests() {
-		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
-		return ok(Json.toJson(tests));
-	}
-
-	public static Result getTestAnswers() {
-		List<TestAnswer> data = new Model.Finder<>(long.class, TestAnswer.class)
-				.all();
-		return ok(Json.toJson(data));
-	}
-
-	public static Result getQuestions() {
-		List<Question> questions = new Model.Finder<>(long.class,
-				Question.class).all();
-		// Test test = new Model.Finder<>(long.class,Test.class).byId((long) 1);
-		// List<Question> quest = Question.testQuestion(test);
-		return ok(Json.toJson(questions));
-	}
-
+	
 	public static Result addQuestion(long id) { // creates
 		Question question = Form.form(Question.class).bindFromRequest().get();
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
@@ -89,6 +79,27 @@ public class Application extends Controller {
 			testAnswer.save();
 			return ok(takeTest.render(testAnswer.current, testAnswer));
 
+	}
+	
+	// JSON USED FOR DEBUGGING
+
+	public static Result getTests() {
+		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
+		return ok(Json.toJson(tests));
+	}
+
+	public static Result getTestAnswers() {
+		List<TestAnswer> data = new Model.Finder<>(long.class, TestAnswer.class)
+				.all();
+		return ok(Json.toJson(data));
+	}
+
+	public static Result getQuestions() {
+		List<Question> questions = new Model.Finder<>(long.class,
+				Question.class).all();
+		// Test test = new Model.Finder<>(long.class,Test.class).byId((long) 1);
+		// List<Question> quest = Question.testQuestion(test);
+		return ok(Json.toJson(questions));
 	}
 
 }
