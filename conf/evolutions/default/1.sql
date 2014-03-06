@@ -30,10 +30,17 @@ create table test (
 
 create table test_answer (
   id                        bigint not null,
+  test_review_id            bigint not null,
   current                   integer,
   test_id                   bigint,
   correct_answers           integer,
   constraint pk_test_answer primary key (id))
+;
+
+create table test_review (
+  id                        bigint not null,
+  test_id                   bigint,
+  constraint pk_test_review primary key (id))
 ;
 
 
@@ -50,10 +57,16 @@ create sequence test_seq;
 
 create sequence test_answer_seq;
 
+create sequence test_review_seq;
+
 alter table question add constraint fk_question_test_1 foreign key (test_id) references test (id) on delete restrict on update restrict;
 create index ix_question_test_1 on question (test_id);
-alter table test_answer add constraint fk_test_answer_test_2 foreign key (test_id) references test (id) on delete restrict on update restrict;
-create index ix_test_answer_test_2 on test_answer (test_id);
+alter table test_answer add constraint fk_test_answer_test_review_2 foreign key (test_review_id) references test_review (id) on delete restrict on update restrict;
+create index ix_test_answer_test_review_2 on test_answer (test_review_id);
+alter table test_answer add constraint fk_test_answer_test_3 foreign key (test_id) references test (id) on delete restrict on update restrict;
+create index ix_test_answer_test_3 on test_answer (test_id);
+alter table test_review add constraint fk_test_review_test_4 foreign key (test_id) references test (id) on delete restrict on update restrict;
+create index ix_test_review_test_4 on test_review (test_id);
 
 
 
@@ -75,6 +88,8 @@ drop table if exists test_answer;
 
 drop table if exists test_answer_question;
 
+drop table if exists test_review;
+
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists answer_seq;
@@ -84,4 +99,6 @@ drop sequence if exists question_seq;
 drop sequence if exists test_seq;
 
 drop sequence if exists test_answer_seq;
+
+drop sequence if exists test_review_seq;
 

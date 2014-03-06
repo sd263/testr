@@ -20,6 +20,7 @@ POST 	/takeTest/						controllers.Application.markQuestion(answer: Int,id: Long)
 GET		/testsAnswers			controllers.Application.getTestAnswers()
 GET		/tests					controllers.Application.getTests()
 GET		/questions					controllers.Application.getQuestions()
+GET		/testreview					controllers.Application.getTestReview()
 
 
 # Map static resources from the /public folder to the /assets URL path
