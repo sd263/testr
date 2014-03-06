@@ -20,12 +20,12 @@ public class Application extends Controller {
 	
 	public static Result studentHome(){
 		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
-		return ok(teacherHome.render(tests));
+		return ok(studentHome.render(tests));
 	}
 	
 	public static Result teacherHome(){
 		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
-		return ok(studentHome.render(tests));
+		return ok(teacherHome.render(tests));
 	}
 
 	public static Result createTest() {

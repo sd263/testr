@@ -3,19 +3,7 @@
 @main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 <img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />
-
-	    @if(flash.containsKey("published")) {
-        <div class="alert-message warning">
-            <strong>Test Created </strong> @flash.get("published")
-        </div>
-        }
-        
-        	    @if(flash.containsKey("notcreated")) {
-        <div class="alert-message warning">
-            <strong>Test Deleted</strong> @flash.get("nocreated")
-        </div>
-        }
-
+	<h1> Student </h1>
 	<h2> Tests currently avilable </h2>
 
 	 
@@ -45,14 +33,7 @@
             <tr>
         }
 	    </table>
-	 <h3> Create a test! </h3>
-	<form action="@routes.Application.createTest()" method="post">
-		
-		<p> Test Name: 		<input name="name"> <br>
-		 	Test Description: <input name="testDesc"> </p>
-		<input type="submit">	
-	</form>
-	
+
 	<br>
 	
 	

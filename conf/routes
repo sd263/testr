@@ -4,24 +4,22 @@
 
 # Home page
 GET     /                           controllers.Application.loginScreen()
-GET     /home                           controllers.Application.teacherHome()
-GET     /home                           controllers.Application.studentHome()
+GET     /t                           controllers.Application.teacherHome()
+GET     /s                           controllers.Application.studentHome()
 
 # Create new test
 POST	/tests				controllers.Application.createTest()
-GET		/tests					controllers.Application.getTests()
 GET		/tests/:id				controllers.Application.publishTest(id:Long)
-
-# 	JSON queries (DEBUG ONLY)
-GET		/testsAnswers			controllers.Application.getTestAnswers()
-
-# Add Questions
-GET		/questions					controllers.Application.getQuestions()
 POST	/tests/questions/:id		controllers.Application.addQuestion(id: Long)
 
 # Take a test
 GET		/takeTest/:id						controllers.Application.beginTest(id: Long)
 POST 	/takeTest/						controllers.Application.markQuestion(answer: Int,id: Long)
+
+# 	JSON queries (DEBUG ONLY)
+GET		/testsAnswers			controllers.Application.getTestAnswers()
+GET		/tests					controllers.Application.getTests()
+GET		/questions					controllers.Application.getQuestions()
 
 
 # Map static resources from the /public folder to the /assets URL path
