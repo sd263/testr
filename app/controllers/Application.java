@@ -52,15 +52,19 @@ public class Application extends Controller {
 		Question question = Form.form(Question.class).bindFromRequest().get();
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
 		test.numQuestions++;
-		question.assignTest(test);
-		question.save();
+		test.addQuestion(question);
 		test.save();
 		return ok(createTest.render(test));
 	}
 
 	public static Result beginTest(long id) {
+		TestReview testReview = new Model.Finder<>(long.class, TestReview.class)
+				.byId(id);
 		TestAnswer testAnswer = new TestAnswer(0, id);
+		testReview.studentAnswers.add(testAnswer);
+		testReview.save();
 		testAnswer.save();
+	
 		return ok(takeTest.render(1, testAnswer));
 	}
 
@@ -68,13 +72,12 @@ public class Application extends Controller {
 
 		TestAnswer testAnswer = new Model.Finder<>(long.class, TestAnswer.class)
 				.byId(id);
-		testAnswer.questionAnswer.add(answer);
-//		testAnswer.studentAnswer.add(answer);
-		if (testAnswer.questions.get(testAnswer.current).correctAnswer == answer + 1){
+//		testAnswer.addAnswer(answer);
+		if (testAnswer.test.questions.get(testAnswer.current).correctAnswer == answer + 1){
 			flash("correct", "");
-			testAnswer.correctAnswers++;
+			testAnswer.markCorrect();
 		} else{
-			flash("wrong",Question.getAnswer(testAnswer.questions.get(testAnswer.current), testAnswer.questions.get(testAnswer.current).correctAnswer-1));
+			flash("wrong",Question.getAnswer(testAnswer.test.questions.get(testAnswer.current), testAnswer.test.questions.get(testAnswer.current).correctAnswer-1));
 		}
 
 			testAnswer.current++;
@@ -107,9 +110,9 @@ public class Application extends Controller {
 	}
 	
 	public static Result getTestReview() {
-		List<TestReview> questions = new Model.Finder<>(long.class,
+		List<TestReview> testreview = new Model.Finder<>(long.class,
 				TestReview.class).all();
-		return ok(Json.toJson(questions));
+		return ok(Json.toJson(testreview));
 	}
 
 }

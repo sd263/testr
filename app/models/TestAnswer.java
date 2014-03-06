@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,22 +23,17 @@ public class TestAnswer extends Model {
 	public int current;
 	
 	@ManyToOne
-	public Test test;	
+	public Test test;
 	
-	@ManyToMany
-	public List<Question> questions;
 	
-	public List<Integer> questionAnswer; // saves what the student answers
+	public List<String> questionAnswer; // saves what the student answers
 	
-	public int correctAnswers;	// counts the total correctly answered questions
-	
-//	public ArrayList<Integer> studentAnswer;
-	
+	public int score;	// counts the total correctly answered questions
+		
 	public TestAnswer(int startPos, long testId){
 		current = startPos;
 		test = findTestByID(testId);
-		questions = Question.testQuestion(test);
-//		studentAnswer = new ArrayList<Integer>();
+		score = 0;
 	}
 		
 	public Test findTestByID(Long id){
@@ -46,10 +42,16 @@ public class TestAnswer extends Model {
 	}
 
 	public  Question getQuestion(){
-//		if(test.numQuestions <= current)
-//			return null;
-//		else 
-			return questions.get(current);
+			return test.questions.get(current);
+	}
+
+	public List<String> addAnswer(int answer) {
+		questionAnswer.add(Question.getAnswer(test.questions.get(current), answer));
+		return questionAnswer ;
+	}
+	
+	public void markCorrect(){
+		score++;
 	}
 	
 }

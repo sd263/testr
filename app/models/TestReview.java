@@ -30,16 +30,4 @@ public class TestReview extends Model {
 	public TestReview(Test atest){
 		test = atest;
 	}
-
-	public void setStudentAnswers(Long id) {
-		List<TestAnswer> allAnswers = new Model.Finder<>(long.class,
-				TestAnswer.class).all();
-		for (int i = 0; i < allAnswers.size(); i++) {
-			if (allAnswers.get(i).test.id != test.id) {
-				allAnswers.remove(i);
-				i--; // required because of how .remove() works
-			}
-		}
-		studentAnswers = allAnswers;
-	}
 }

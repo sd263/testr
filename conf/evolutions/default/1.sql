@@ -3,14 +3,9 @@
 
 # --- !Ups
 
-create table answer (
-  text                      varchar(255) not null,
-  constraint pk_answer primary key (text))
-;
-
 create table question (
   id                        bigint not null,
-  test_id                   bigint,
+  test_id                   bigint not null,
   question_text             varchar(255),
   answer1                   varchar(255),
   answer2                   varchar(255),
@@ -33,7 +28,7 @@ create table test_answer (
   test_review_id            bigint not null,
   current                   integer,
   test_id                   bigint,
-  correct_answers           integer,
+  score                     integer,
   constraint pk_test_answer primary key (id))
 ;
 
@@ -42,14 +37,6 @@ create table test_review (
   test_id                   bigint,
   constraint pk_test_review primary key (id))
 ;
-
-
-create table test_answer_question (
-  test_answer_id                 bigint not null,
-  question_id                    bigint not null,
-  constraint pk_test_answer_question primary key (test_answer_id, question_id))
-;
-create sequence answer_seq;
 
 create sequence question_seq;
 
@@ -70,15 +57,9 @@ create index ix_test_review_test_4 on test_review (test_id);
 
 
 
-alter table test_answer_question add constraint fk_test_answer_question_test__01 foreign key (test_answer_id) references test_answer (id) on delete restrict on update restrict;
-
-alter table test_answer_question add constraint fk_test_answer_question_quest_02 foreign key (question_id) references question (id) on delete restrict on update restrict;
-
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
-
-drop table if exists answer;
 
 drop table if exists question;
 
@@ -86,13 +67,9 @@ drop table if exists test;
 
 drop table if exists test_answer;
 
-drop table if exists test_answer_question;
-
 drop table if exists test_review;
 
 SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists answer_seq;
 
 drop sequence if exists question_seq;
 

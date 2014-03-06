@@ -2,7 +2,7 @@
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 	
 @main(testAnswer.test.name) {
-	<h1> You scored @(testAnswer.correctAnswers)  out of @(testAnswer.test.numQuestions) <h1>
+	<h1> You scored @(testAnswer.score)  out of @(testAnswer.test.numQuestions) <h1>
 		
 		            <a href="@routes.Application.studentHome()" class="btn">Home Screen</a> 
 

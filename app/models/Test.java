@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+
 import java.util.*;
 
 import com.avaje.ebean.Page;
@@ -27,15 +28,18 @@ public class Test extends Model{
 	public String testDesc;
 	public int numQuestions;
 	
+	@OneToMany(cascade = {CascadeType.ALL})
+	public List<Question> questions;
+	
 	
 	
 //	
 //	@OneToMany
 //	public List<Question> questions;
 //	
-//	public void addQuestion(Question aQuestion){
-//		questions.add(aQuestion);
-//	}
+	public void addQuestion(Question aQuestion){
+		questions.add(aQuestion);
+	}
 //	
 
 
