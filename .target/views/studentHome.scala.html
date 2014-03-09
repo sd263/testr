@@ -1,4 +1,4 @@
-@(tests: List[Test])
+@(tests: List[Test], id: Long)
 
 @main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
@@ -27,7 +27,7 @@
             <td>   @test.name </td>
             <td>   @test.testDesc </td>
             <td>   @test.numQuestions </td>
-            <td>   	<form method="get" action="@routes.Application.beginTest(test.id)">
+            <td>   	<form method="get" action="@routes.Application.beginTest(id, test.id)">
         			   <input type="submit">
    						</form>  </td>
             <tr>

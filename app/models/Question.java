@@ -1,19 +1,10 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
+
 
 @Entity
 public class Question extends Model {
@@ -34,7 +25,7 @@ public class Question extends Model {
 	@Constraints.Min(value = 1)
 	public int correctAnswer;
 
-	public static String getAnswer(Question question, int i) { // seems legit
+	public static String getAnswer(Question question, int i) {
 		if (i == 0)
 			return question.answer1;
 		else if (i == 1)
@@ -44,8 +35,4 @@ public class Question extends Model {
 		else
 			return question.answer4;
 	}
-
-	// public void assignTest(Test atest) {
-	// test = atest;
-	// }
 }

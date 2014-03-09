@@ -26,25 +26,18 @@ public class Test extends Model{
 	@Constraints.Required
 	public String name;
 	public String testDesc;
+	
 	public int numQuestions;
 	
+	@ManyToOne
+	public Classroom classroom;
+
 	@OneToMany(cascade = {CascadeType.ALL})
 	public List<Question> questions;
-	
-	
-	
-//	
-//	@OneToMany
-//	public List<Question> questions;
-//	
+
 	public void addQuestion(Question aQuestion){
 		questions.add(aQuestion);
 	}
-//	
-
 
 	public static Finder<Long,Test> find = new Finder<Long,Test>(Long.class, Test.class);
-	
-
-
 }

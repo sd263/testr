@@ -13,63 +13,72 @@ import models.*;
 import views.html.*;
 
 public class Application extends Controller {
-	
-	
-	
+
 	// Home screen and login
-	public static Result loginScreen(){
-		List<Classroom> classes = new Model.Finder<>(long.class, Classroom.class).all();
-        Form<Student> studentForm = form(Student.class);
-		return ok(login.render(classes,studentForm));
+	public static Result loginScreen() {
+		List<Classroom> classes = new Model.Finder<>(long.class,
+				Classroom.class).all();
+		Form<Student> studentForm = form(Student.class);
+		List<Student> students = new Model.Finder<>(long.class, Student.class)
+				.all();
+		return ok(login.render(classes, studentForm, students));
 	}
-	
-	public static Result studentHome(){	
+
+	public static Result studentHome(Long id) {
+		Student student = new Model.Finder<>(long.class, Student.class)
+				.byId(id);
+		List<Test> completed = student.pastTests;
 		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
-		return ok(studentHome.render(tests));
+		tests.removeAll(completed);
+		return ok(studentHome.render(tests, id));
 	}
-	
-	public static Result teacherHome(){
-		List<TestReview> tests = new Model.Finder<>(long.class, TestReview.class).all();
-		List<Classroom> classes = new Model.Finder<>(long.class, Classroom.class).all();
-		return ok(teacherHome.render(tests,classes));
+
+	public static Result teacherHome() {
+		List<TestReview> tests = new Model.Finder<>(long.class,
+				TestReview.class).all();
+		List<Classroom> classes = new Model.Finder<>(long.class,
+				Classroom.class).all();
+		Form<Test> testForm = form(Test.class);
+		return ok(teacherHome.render(tests, classes,testForm));
 	}
-	
+
 	// creating students and classrooms
-	
+
 	public static Result createClassroom() {
-		Classroom classroom = Form.form(Classroom.class).bindFromRequest().get();
+		Classroom classroom = Form.form(Classroom.class).bindFromRequest()
+				.get();
 		classroom.save();
 		return loginScreen();
 	}
-	
+
 	public static Result createStudent() {
-        Form<Student> studentForm = form(Student.class).bindFromRequest();
-        studentForm.get().save();
+		Form<Student> studentForm = form(Student.class).bindFromRequest();
+		if (!studentForm.hasErrors() && studentForm.get().classroom != null) {
+			studentForm.get().save();
+		}
 		return loginScreen();
 	}
-	
-
 
 	public static Result createTest() {
 		Test test = Form.form(Test.class).bindFromRequest().get();
 		test.save();
 		return ok(createTest.render(test));
 	}
-	
-	public static Result publishTest(long id){
+
+	public static Result publishTest(long id) {
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
 
-		if(test.numQuestions <= 0){
+		if (test.numQuestions <= 0) {
 			test.delete();
 			flash("notcreated", "your test has not been made");
-		} else{
+		} else {
 			flash("published", test.name);
 			TestReview testReview = new TestReview(test);
 			testReview.save();
 		}
 		return teacherHome();
 	}
-	
+
 	public static Result addQuestion(long id) { // creates
 		Question question = Form.form(Question.class).bindFromRequest().get();
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
@@ -79,43 +88,46 @@ public class Application extends Controller {
 		return ok(createTest.render(test));
 	}
 
-	public static Result beginTest(long id) {
+	public static Result beginTest(long studentId, long testId) {
 		TestReview testReview = new Model.Finder<>(long.class, TestReview.class)
-				.byId(id);
-		TestAnswer testAnswer = new TestAnswer(0, id);
+				.byId(testId);
+		TestAnswer testAnswer = new TestAnswer(0, testId);
+		testAnswer.student = Student.findStudentbyId(studentId);
 		testReview.studentAnswers.add(testAnswer);
 		testReview.save();
 		testAnswer.save();
-	
-		return ok(takeTest.render(1, testAnswer));
+		return ok(takeTest.render(0, testAnswer));
 	}
 
-	public static Result markQuestion(int answer, long id) {
+	public static Result markQuestion(int current, int answer, long id) {
 
 		TestAnswer testAnswer = new Model.Finder<>(long.class, TestAnswer.class)
 				.byId(id);
-//		testAnswer.addAnswer(answer);
-		if (testAnswer.test.questions.get(testAnswer.current).correctAnswer == answer + 1){
+
+		if (testAnswer.test.questions.get(current).correctAnswer == answer) {
 			flash("correct", "");
 			testAnswer.markCorrect();
-		} else{
-			flash("wrong",Question.getAnswer(testAnswer.test.questions.get(testAnswer.current), testAnswer.test.questions.get(testAnswer.current).correctAnswer-1));
+		} else {
+			flash("wrong", Question.getAnswer(
+					testAnswer.test.questions.get(current),
+					testAnswer.test.questions.get(current).correctAnswer - 1));
+		}
+		testAnswer.save();
+		if (testAnswer.test.numQuestions <= current + 1){	// no more questions
+			testAnswer.student.pastTests.add(testAnswer.test);
+			testAnswer.save();
+			return ok(testResult.render(testAnswer));
 		}
 
-			testAnswer.current++;
-			if (testAnswer.test.numQuestions <= testAnswer.current)
-				return ok(testResult.render(testAnswer));
-			testAnswer.save();
-			return ok(takeTest.render(testAnswer.current, testAnswer));
+		return ok(takeTest.render(++current, testAnswer));
 	}
-	
-	public static Result reviewTest(long id){
-		TestReview testReview = new Model.Finder<>(long.class, TestReview.class).byId(id);
+
+	public static Result reviewTest(long id) {
+		TestReview testReview = new Model.Finder<>(long.class, TestReview.class)
+				.byId(id);
 		return ok(reviewTest.render(testReview));
 	}
-	
-	
-	
+
 	// JSON USED FOR DEBUGGING
 
 	public static Result getTests() {
@@ -136,16 +148,16 @@ public class Application extends Controller {
 		// List<Question> quest = Question.testQuestion(test);
 		return ok(Json.toJson(questions));
 	}
-	
+
 	public static Result getTestReview() {
 		List<TestReview> testreview = new Model.Finder<>(long.class,
 				TestReview.class).all();
 		return ok(Json.toJson(testreview));
 	}
-	
+
 	public static Result getStudents() {
-		List<Student> students = new Model.Finder<>(long.class,
-				Student.class).all();
+		List<Student> students = new Model.Finder<>(long.class, Student.class)
+				.all();
 		return ok(Json.toJson(students));
 	}
 

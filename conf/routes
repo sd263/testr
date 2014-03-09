@@ -5,21 +5,21 @@
 # Home page
 GET     /                           controllers.Application.loginScreen()
 GET     /t                           controllers.Application.teacherHome()
-GET     /s                           controllers.Application.studentHome()
+GET     /s/:id                           controllers.Application.studentHome(id:Long)
 
 
 # Create Student/class
 POST	/newstudent						controllers.Application.createStudent()
-POST	/newclass			controllers.Application.createClassroom()
+POST	/newclass					controllers.Application.createClassroom()
 
 # Create new test
 POST	/create				controllers.Application.createTest()
 GET		/publish/:id				controllers.Application.publishTest(id:Long)
-POST	/create/:id		controllers.Application.addQuestion(id: Long)
+POST	/create/:id			controllers.Application.addQuestion(id: Long)
 
 # Take a test
-GET		/takeTest/:id						controllers.Application.beginTest(id: Long)
-POST 	/takeTest/						controllers.Application.markQuestion(answer: Int,id: Long)
+GET		/takeTest/:studentId/:id						controllers.Application.beginTest(id: Long, studentId: Long)
+POST 	/takeTest/						controllers.Application.markQuestion(current: Int, answer: Int,id: Long)
 
 # reviewing test
 GET		/tResult/:id					controllers.Application.reviewTest(id : Long)

@@ -19,9 +19,9 @@ public class TestAnswer extends Model {
 
 	@Id
 	public long id;
-		
-	public int current;
 	
+	public Student student;
+			
 	@ManyToOne
 	public Test test;
 	
@@ -31,7 +31,6 @@ public class TestAnswer extends Model {
 	public int score;	// counts the total correctly answered questions
 		
 	public TestAnswer(int startPos, long testId){
-		current = startPos;
 		test = findTestByID(testId);
 		score = 0;
 	}
@@ -41,7 +40,7 @@ public class TestAnswer extends Model {
 		return test;
 	}
 
-	public  Question getQuestion(){
+	public  Question getQuestion(int current){
 			return test.questions.get(current);
 	}
 	

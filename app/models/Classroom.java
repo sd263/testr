@@ -24,6 +24,9 @@ public class Classroom extends Model {
 	
 	public String cname;
 	
+	@OneToMany
+	public List<Test> tests;
+	
     public static Model.Finder<Long,Classroom> find = new Model.Finder<Long,Classroom>(Long.class, Classroom.class);
 	
     public static Map<String,String> options() {
