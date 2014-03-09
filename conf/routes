@@ -7,20 +7,30 @@ GET     /                           controllers.Application.loginScreen()
 GET     /t                           controllers.Application.teacherHome()
 GET     /s                           controllers.Application.studentHome()
 
+
+# Create Student/class
+POST	/newstudent						controllers.Application.createStudent()
+POST	/newclass			controllers.Application.createClassroom()
+
 # Create new test
-POST	/tests				controllers.Application.createTest()
-GET		/tests/:id				controllers.Application.publishTest(id:Long)
-POST	/tests/questions/:id		controllers.Application.addQuestion(id: Long)
+POST	/create				controllers.Application.createTest()
+GET		/publish/:id				controllers.Application.publishTest(id:Long)
+POST	/create/:id		controllers.Application.addQuestion(id: Long)
 
 # Take a test
 GET		/takeTest/:id						controllers.Application.beginTest(id: Long)
 POST 	/takeTest/						controllers.Application.markQuestion(answer: Int,id: Long)
+
+# reviewing test
+GET		/tResult/:id					controllers.Application.reviewTest(id : Long)
 
 # 	JSON queries (DEBUG ONLY)
 GET		/testsAnswers			controllers.Application.getTestAnswers()
 GET		/tests					controllers.Application.getTests()
 GET		/questions					controllers.Application.getQuestions()
 GET		/testreview					controllers.Application.getTestReview()
+GET		/students				controllers.Application.getStudents()
+GET		/croom				controllers.Application.getClassrooms()
 
 
 # Map static resources from the /public folder to the /assets URL path

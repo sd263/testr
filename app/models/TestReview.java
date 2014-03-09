@@ -19,10 +19,11 @@ public class TestReview extends Model {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	Long id;
+	public Long id;
 
 	@OneToOne
 	public Test test;
+	
 
 	@OneToMany(cascade = {CascadeType.ALL})
 	public List<TestAnswer> studentAnswers;

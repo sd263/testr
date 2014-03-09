@@ -26,7 +26,7 @@ public class TestAnswer extends Model {
 	public Test test;
 	
 	
-	public List<String> questionAnswer; // saves what the student answers
+	public List<Integer> questionAnswer; // saves what the student answers
 	
 	public int score;	// counts the total correctly answered questions
 		
@@ -43,11 +43,6 @@ public class TestAnswer extends Model {
 
 	public  Question getQuestion(){
 			return test.questions.get(current);
-	}
-
-	public List<String> addAnswer(int answer) {
-		questionAnswer.add(Question.getAnswer(test.questions.get(current), answer));
-		return questionAnswer ;
 	}
 	
 	public void markCorrect(){

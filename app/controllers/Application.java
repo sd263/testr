@@ -14,19 +14,41 @@ import views.html.*;
 
 public class Application extends Controller {
 	
+	
+	
+	// Home screen and login
 	public static Result loginScreen(){
-		return ok(login.render());
+		List<Classroom> classes = new Model.Finder<>(long.class, Classroom.class).all();
+        Form<Student> studentForm = form(Student.class);
+		return ok(login.render(classes,studentForm));
 	}
 	
-	public static Result studentHome(){
+	public static Result studentHome(){	
 		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
 		return ok(studentHome.render(tests));
 	}
 	
 	public static Result teacherHome(){
 		List<TestReview> tests = new Model.Finder<>(long.class, TestReview.class).all();
-		return ok(teacherHome.render(tests));
+		List<Classroom> classes = new Model.Finder<>(long.class, Classroom.class).all();
+		return ok(teacherHome.render(tests,classes));
 	}
+	
+	// creating students and classrooms
+	
+	public static Result createClassroom() {
+		Classroom classroom = Form.form(Classroom.class).bindFromRequest().get();
+		classroom.save();
+		return loginScreen();
+	}
+	
+	public static Result createStudent() {
+        Form<Student> studentForm = form(Student.class).bindFromRequest();
+        studentForm.get().save();
+		return loginScreen();
+	}
+	
+
 
 	public static Result createTest() {
 		Test test = Form.form(Test.class).bindFromRequest().get();
@@ -85,8 +107,14 @@ public class Application extends Controller {
 				return ok(testResult.render(testAnswer));
 			testAnswer.save();
 			return ok(takeTest.render(testAnswer.current, testAnswer));
-
 	}
+	
+	public static Result reviewTest(long id){
+		TestReview testReview = new Model.Finder<>(long.class, TestReview.class).byId(id);
+		return ok(reviewTest.render(testReview));
+	}
+	
+	
 	
 	// JSON USED FOR DEBUGGING
 
@@ -113,6 +141,18 @@ public class Application extends Controller {
 		List<TestReview> testreview = new Model.Finder<>(long.class,
 				TestReview.class).all();
 		return ok(Json.toJson(testreview));
+	}
+	
+	public static Result getStudents() {
+		List<Student> students = new Model.Finder<>(long.class,
+				Student.class).all();
+		return ok(Json.toJson(students));
+	}
+
+	public static Result getClassrooms() {
+		List<Classroom> data = new Model.Finder<>(long.class, Classroom.class)
+				.all();
+		return ok(Json.toJson(data));
 	}
 
 }

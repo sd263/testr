@@ -1,4 +1,4 @@
-@(tests: List[TestReview])
+@(tests: List[TestReview], classes: List[Classroom])
 
 @main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
@@ -17,6 +17,20 @@
         }
 
 	<h1> Teacher </h1>
+		
+		 <h2> Create </h2>
+	<form action="@routes.Application.createTest()" method="post">
+		
+		<p> Test Name: 		<input name="name"> <br>
+		 	Test Description: <input name="testDesc">  <br>
+		 	Class		<select name="class">
+		 	@for(classroom <- classes) {
+ 				 <option value="@classroom.id">@classroom.cname</option>
+				}
+						</select></p>	 	
+		<input type="submit">	
+	</form>
+	
 	<h2> Review </h2>
 
 	 
@@ -24,37 +38,23 @@
 	  	       <thead>
 	  	       
                 <tr>
-                  <b> 
-                  <td> test ID </td>
                   <td> test name  </td>
                     <td> test description</td>
                    <td> Number of Questions</td>  
                    <td> Review Test 	</td>
-                   </b>
                 </tr>
                
             </thead>
 	   @for(testReview <- tests) {
 	  
-             <td>   @testReview.test.id </td> 
             <td>   @testReview.test.name </td>
             <td>   @testReview.test.testDesc </td>
             <td>   @testReview.test.numQuestions </td>
-            <td>   	<form method="get" action="@routes.Application.beginTest(testReview.test.id)">
+            <td>   	<form method="get" action="@routes.Application.reviewTest(testReview.test.id)">
         			   <input type="submit">
    						</form>  </td>
             <tr>
         }
 	    </table>
-	 <h2> Create </h2>
-	<form action="@routes.Application.createTest()" method="post">
-		
-		<p> Test Name: 		<input name="name"> <br>
-		 	Test Description: <input name="testDesc"> </p>
-		<input type="submit">	
-	</form>
-	
-	<br>
-	
-	
+
 }

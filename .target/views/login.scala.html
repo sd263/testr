@@ -1,6 +1,34 @@
+@(classes: List[Classroom], studentForm: Form[Student])
+@import helper._
+
 @main("Testr") {
 <img src="@routes.Assets.at("images/testrlogo.png")"/>
 <br>
  <a href="@routes.Application.teacherHome()" class="btn">Teacher Login</a> 
  <a href="@routes.Application.studentHome()" class="btn">Student login</a> 
+ 
+ <h1> New Account </h1>
+ 
+ 
+ <h3>	Classroom </h3>
+ 	 	<form action="@routes.Application.createClassroom()" method="post">
+ <p> 		 	Name: <input name="cname"> 
+ 					<input type="submit">	 </p>
+ 		</form>
+
+ 
+ <h3> New Student </h3>
+ 	<form action="@routes.Application.createStudent()" method="post">
+	        <fieldset>
+            @inputText(studentForm("name"), '_label -> "Student Name")
+            @select(
+                studentForm("classroom.id"), 
+                options(Classroom.options), 
+                '_label -> "Classroom", '_default -> "-- Choose a company --",
+                '_showConstraints -> false
+            )
+             <input type="submit">
+        </fieldset>
+					</form>	 		
+						
     } 
