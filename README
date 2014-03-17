@@ -1,6 +1,9 @@
-Simon Date - University of Brighton Final year Project
+Simon Date - University of Brighton Final year Project CI301
 
-A system for schools that allows for multiple choice questions to be easily created for students to be taken.
-Data about the students stored conviently for teachers to digest.
+A system for schools that allows teachers to easily create multiple choice tests for their students. Once published
+tests are made avilable to be taken by students in the class. Once a student finishes a test, results are sent back
+to the teacher. Who can use data received to further the educational outcomes of the students.
+
+Project created using the Play Framework (Java).
 
 Documentation available at: https://drive.google.com/folderview?id=0B1uTR6WrDQXVV3pLMlhoN1FsUFU&usp=sharing
