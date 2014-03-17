@@ -5,12 +5,11 @@
 <img src="@routes.Assets.at("images/testrlogo.png")"/>
 <br>
  <a href="@routes.Application.teacherHome()" class="btn">Teacher Login</a> 
- 
+ 	 <br>
  
  	<form action="@routes.Application.studentHome(1)" method="get">
- 	
  	@for(student <- students){
- 	<option >@student.name</option>
+ 	<option>@student.name</option>
  	 }
 	<input type="submit">
 	</form>

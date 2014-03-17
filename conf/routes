@@ -13,7 +13,7 @@ POST	/newstudent						controllers.Application.createStudent()
 POST	/newclass					controllers.Application.createClassroom()
 
 # Create new test
-POST	/create				controllers.Application.createTest()
+POST	/create				controllers.Application.createTest(classroomId:Long)
 GET		/publish/:id				controllers.Application.publishTest(id:Long)
 POST	/create/:id			controllers.Application.addQuestion(id: Long)
 

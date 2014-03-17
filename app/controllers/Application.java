@@ -59,7 +59,7 @@ public class Application extends Controller {
 		return loginScreen();
 	}
 
-	public static Result createTest() {
+	public static Result createTest(long classroomId) {
 		Test test = Form.form(Test.class).bindFromRequest().get();
 		test.save();
 		return ok(createTest.render(test));
