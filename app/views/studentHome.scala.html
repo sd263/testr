@@ -1,15 +1,13 @@
 @(tests: List[Test], id: Long)
-
+@import helper._
 @main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 <img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />
-	<h1> Student </h1>
-	<h2> Tests currently avilable </h2>
-
-	 
+	<h1> Hello, @Student.findStudentbyId(id).name</h1>
+	
+	<h2> These tests are ready for you to take</h2>
 	  	<table border> 
-	  	       <thead>
-	  	       
+	  	       <thead>	  	       
                 <tr>
                   <b> 
                   <td> test ID </td>
@@ -19,8 +17,8 @@
                    <td> Take this test! 	</td>
                    </b>
                 </tr>
-               
             </thead>
+            
 	   @for(test <- tests) {
 	  
              <td>   @test.id </td> 
@@ -34,7 +32,11 @@
         }
 	    </table>
 
-	<br>
+	<h2> Join a new classroom </h2>
+ 	 	<form action="@routes.Application.joinClassroom()" method="post">
+ 					<input type="submit">	
+ 		</form>
 	
+
 	
 }

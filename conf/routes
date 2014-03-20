@@ -4,16 +4,19 @@
 
 # Home page
 GET     /                           controllers.Application.loginScreen()
-GET     /t                           controllers.Application.teacherHome()
+POST	/							controllers.Application.login(name:String, password:String)
+GET     /t/:id                          controllers.Application.teacherHome(id: Long)
 GET     /s/:id                           controllers.Application.studentHome(id:Long)
 
 
 # Create Student/class
 POST	/newstudent						controllers.Application.createStudent()
-POST	/newclass					controllers.Application.createClassroom()
+POST	/newteacher						controllers.Application.createTeacher()
+POST	/newclass					controllers.Application.createClassroom(id:Long)
+POST	/s/joinclass				controllers.Application.joinClassroom()
 
 # Create new test
-POST	/create				controllers.Application.createTest(classroomId:Long)
+POST	/create				controllers.Application.createTest(id:Long)
 GET		/publish/:id				controllers.Application.publishTest(id:Long)
 POST	/create/:id			controllers.Application.addQuestion(id: Long)
 
@@ -31,6 +34,7 @@ GET		/questions					controllers.Application.getQuestions()
 GET		/testreview					controllers.Application.getTestReview()
 GET		/students				controllers.Application.getStudents()
 GET		/croom				controllers.Application.getClassrooms()
+GET		/teacher			controllers.Application.getTeachers()
 
 
 # Map static resources from the /public folder to the /assets URL path

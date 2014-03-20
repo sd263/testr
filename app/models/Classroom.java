@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import play.data.validation.Constraints;
@@ -21,8 +22,12 @@ public class Classroom extends Model {
 	private static final long serialVersionUID = 1L;
 	@Id
 	public Long id;
+	
 	@Constraints.Required
 	public String cname;
+	
+	@ManyToMany
+	public List<Student> students;
 	
     public static Model.Finder<Long,Classroom> find = new Model.Finder<Long,Classroom>(Long.class, Classroom.class);
 	
@@ -32,8 +37,6 @@ public class Classroom extends Model {
             options.put(c.id.toString(), c.cname);
         }
         return options;
-    }
-	
-	
+    }	
 
 }

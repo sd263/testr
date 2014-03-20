@@ -1,4 +1,4 @@
-@(tests: List[TestReview], classes: List[Classroom], testForm: Form[Test])
+@(tests: List[TestReview], classes: List[Classroom], testForm: Form[Test], teacher: Teacher)
 @import helper._
 
 @main("Testr: test redefined") {
@@ -20,6 +20,7 @@
 	<h1> Teacher </h1>
 		
 		 <h2> Create </h2>
+		 <h3> Create Test </h3>
 		  	<form action="@routes.Application.createTest(1)" method="post">
 	        <fieldset>
             @inputText(testForm("name"), '_label -> "Test Name")
@@ -32,7 +33,15 @@
             )
              	<input type="submit">
         </fieldset>
-					</form>	 		
+					</form>	 
+					
+		<h3> Create new classroom </h3>
+		 <h3>	Classroom </h3>
+ 	 	<form action="@routes.Application.createClassroom(teacher.id)" method="post">
+					Name: <input name="cname"> 
+ 					<input type="submit">	
+ 		</form>
+ 				
 		 	
 	<h2> Review </h2>
 

@@ -1,40 +1,54 @@
-@(classes: List[Classroom], studentForm: Form[Student], students: List[Student])
+@(classes: List[Classroom], studentForm: Form[Student], teacherForm: Form[Teacher], students: List[Student])
 @import helper._
 
 @main("Testr") {
 <img src="@routes.Assets.at("images/testrlogo.png")"/>
 <br>
- <a href="@routes.Application.teacherHome()" class="btn">Teacher Login</a> 
- 	 <br>
- 
- 	<form action="@routes.Application.studentHome(1)" method="get">
+ <a href="@routes.Application.teacherHome(1)" class="btn">Teacher Login</a> 
+  <br> <br>
+  
+  	<form action="@routes.Application.login("Simon", "Date")" method="post">
+  			username: <input name="name"> 
+  			password <input name="password">
+ 			<input type="submit">	
+  	</form>
+    
+  
+	<select id="swag" onchange = "swag(this)">
  	@for(student <- students){
- 	<option>@student.name</option>
+ 	<option value="@routes.Application.studentHome(student.id)" >@student.name</option>
+	 	 }
+	 	 	</select>
+ 	 <a href="@routes.Application.studentHome(1)" class="btn">Student Login</a> 
+ 	 <button onclick="swag()">Click me</button>
+ 	 
+ 	 <script type="text/javascript">
+ 	 function swag(val){
+ 	 alert(val);
  	 }
-	<input type="submit">
-	</form>
-	
+ 	 </script>
+ 	 
  
  <h1> New Account </h1>
  
- 
- <h3>	Classroom </h3>
- 	 	<form action="@routes.Application.createClassroom()" method="post">
- <p> 		 	Name: <input name="cname"> 
- 					<input type="submit">	 </p>
- 		</form>
+  <h3> Teacher </h3>
+ 	<form action="@routes.Application.createTeacher()" method="post">
+	        <fieldset>
+            @inputText(studentForm("name"), '_label -> "Student Name")
+            @inputText(studentForm("password"), '_label -> "Password")
+
+             	<input type="submit">
+        </fieldset>
+					</form>	 		
+
 
  
- <h3> New Student </h3>
+ <h3> Student </h3>
  	<form action="@routes.Application.createStudent()" method="post">
 	        <fieldset>
             @inputText(studentForm("name"), '_label -> "Student Name")
-            @select(
-                studentForm("classroom.id"), 
-                options(Classroom.options), 
-                '_label -> "Classroom", '_default -> "-- Choose a company --",
-                '_showConstraints -> true
-            )
+            @inputText(studentForm("password"), '_label -> "Password")
+
              	<input type="submit">
         </fieldset>
 					</form>	 		
