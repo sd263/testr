@@ -12,13 +12,13 @@ GET     /s/:id                           controllers.Application.studentHome(id:
 # Create Student/class
 POST	/newstudent						controllers.Application.createStudent()
 POST	/newteacher						controllers.Application.createTeacher()
-POST	/newclass					controllers.Application.createClassroom(id:Long)
-POST	/s/joinclass				controllers.Application.joinClassroom()
+POST	/newclass/:id					controllers.Application.createClassroom(id:Long)
+POST	/s/joinclass				controllers.Application.joinClassroom(s: Long, c:Long)
 
 # Create new test
 POST	/create				controllers.Application.createTest(id:Long)
-GET		/publish/:id				controllers.Application.publishTest(id:Long)
-POST	/create/:id			controllers.Application.addQuestion(id: Long)
+GET		/publish/:id				controllers.Application.publishTest(id:Long,cid:Long)
+POST	/create/:id			controllers.Application.addQuestion(id: Long,cid:Long)
 
 # Take a test
 GET		/takeTest/:studentId/:id						controllers.Application.beginTest(id: Long, studentId: Long)

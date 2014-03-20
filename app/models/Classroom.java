@@ -8,7 +8,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -23,11 +26,17 @@ public class Classroom extends Model {
 	@Id
 	public Long id;
 	
-	@Constraints.Required
 	public String cname;
 	
 	@ManyToMany
 	public List<Student> students;
+	
+	@OneToOne
+	public Teacher teacher;
+	
+	@OneToMany(cascade = {CascadeType.ALL})
+	public List<Test> tests;
+	
 	
     public static Model.Finder<Long,Classroom> find = new Model.Finder<Long,Classroom>(Long.class, Classroom.class);
 	
@@ -38,5 +47,17 @@ public class Classroom extends Model {
         }
         return options;
     }	
+    
+    public void addTest(Test aTest){
+    	tests.add(aTest);
+    }
+    
+    public void addTeacher(Teacher aTeacher){
+    	teacher = aTeacher;
+    }
+    
+    public void addStudent(Student aStudent){
+    	students.add(aStudent);
+    }
 
 }

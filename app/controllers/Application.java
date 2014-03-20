@@ -22,7 +22,9 @@ public class Application extends Controller {
 		Form<Teacher> teacherForm = form(Teacher.class);
 		List<Student> students = new Model.Finder<>(long.class, Student.class)
 				.all();
-		return ok(login.render(classes, studentForm, teacherForm, students));
+		List<Teacher> teachers = new Model.Finder<>(long.class, Teacher.class)
+				.all();
+		return ok(login.render(classes, studentForm, teacherForm, students, teachers));
 	}
 	
 	public static Result login(String name, String password){
@@ -31,27 +33,22 @@ public class Application extends Controller {
 		List<Student> students = new Model.Finder<>(long.class,
 				Student.class).all();
 		for(Teacher teacher : teachers){
-			if(teacher.name.equals(name) && teacher.password.equals(password)){
+			if(teacher.name.equals(name) || teacher.password.equals(password)){
 				return teacherHome(teacher.id);
 			}
 		}
 		for(Student student : students){
-			if(student.name.equals(name) && student.password.equals(password)){
-				return teacherHome(student.id);
+			if(student.name.equals(name) || student.password.equals(password)){
+				return studentHome(student.id);
 			}
 		}
-		return studentHome((long)1);
+		return teacherHome((long)1);
 	}
 
 	public static Result studentHome(Long id) {
-		Student student = new Model.Finder<>(long.class, Student.class)
-				.byId(id);
 		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
-		if(!student.pastTests.equals(null)){
-			List<Test> completed = student.pastTests;
-			tests.removeAll(completed);
-		}
-		return ok(studentHome.render(tests, id));
+		List<Classroom> classrooms  = new Model.Finder<>(long.class, Classroom.class).all();
+		return ok(studentHome.render(tests,classrooms, id));
 	}
 
 	public static Result teacherHome(Long id) {
@@ -60,6 +57,7 @@ public class Application extends Controller {
 		List<Classroom> classes = new Model.Finder<>(long.class,
 				Classroom.class).all();
 		Form<Test> testForm = form(Test.class);
+		Form<Classroom> classForm = form(Classroom.class);
 		Teacher teacher  = new Model.Finder<>(long.class, Teacher.class).byId(id);
 		return ok(teacherHome.render(tests, classes,testForm,teacher));
 	}
@@ -67,18 +65,20 @@ public class Application extends Controller {
 	// creating students and classrooms
 
 	public static Result createClassroom(long id) {
+		Classroom classroom = Form.form(Classroom.class).bindFromRequest().get();
 		Teacher teacher = new Model.Finder<>(long.class, Teacher.class).byId(id);
-		Classroom classroom = Form.form(Classroom.class).bindFromRequest()
-				.get();
-		teacher.addClassroom(classroom);
-		teacher.save();
+// breaks the program
+		classroom.addTeacher(teacher);
 		classroom.save();
-
 		return teacherHome(id);
 	}
 	
-	public static Result joinClassroom() {
-		return TODO;
+	public static Result joinClassroom(long id, long classid) {
+		Student student = new Model.Finder<>(long.class, Student.class).byId(id);
+		Classroom classroom = new Model.Finder<>(long.class, Classroom.class).byId(classid);
+		classroom.addStudent(student);
+		classroom.save();
+		return studentHome(id);
 	}
 	
 	public static Result createTeacher() {
@@ -98,14 +98,16 @@ public class Application extends Controller {
 	}
 
 	public static Result createTest(long classroomId) {
+		Classroom classroom = new Model.Finder<>(long.class, Classroom.class).byId(classroomId);
 		Test test = Form.form(Test.class).bindFromRequest().get();
-		test.save();
-		return ok(createTest.render(test));
+//		classroom.addTest(test);		// breaks the program
+		classroom.save();
+		return ok(createTest.render(test,classroom));
 	}
 
-	public static Result publishTest(long id) {
+	public static Result publishTest(long id, long classroomId) {
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
-
+		Classroom classroom = new Model.Finder<>(long.class, Classroom.class).byId(id);
 		if (test.numQuestions <= 0) {
 			test.delete();
 			flash("notcreated", "your test has not been made");
@@ -114,23 +116,24 @@ public class Application extends Controller {
 			TestReview testReview = new TestReview(test);
 			testReview.save();
 		}
-		return teacherHome((long)1);		// test.classroom.teacher.id
+		return teacherHome(classroom.teacher.id);		// test.classroom.teacher.id
 	}
 
-	public static Result addQuestion(long id) { // creates
+	public static Result addQuestion(long id, long classroomId) { // creates
+		Classroom classroom = new Model.Finder<>(long.class, Classroom.class).byId(classroomId);
 		Question question = Form.form(Question.class).bindFromRequest().get();
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
 		test.numQuestions++;
 		test.addQuestion(question);
 		test.save();
-		return ok(createTest.render(test));
+		return ok(createTest.render(test,classroom));
 	}
 
-	public static Result beginTest(long studentId, long testId) {
+	public static Result beginTest(long testId, long studentId) {
 		TestReview testReview = new Model.Finder<>(long.class, TestReview.class)
 				.byId(testId);
-		TestAnswer testAnswer = new TestAnswer(0, testId);
-		testAnswer.student = Student.findStudentbyId(studentId);
+		TestAnswer testAnswer = new TestAnswer(0, testId, studentId);
+
 		testReview.studentAnswers.add(testAnswer);
 		testReview.save();
 		testAnswer.save();
@@ -142,6 +145,8 @@ public class Application extends Controller {
 		TestAnswer testAnswer = new Model.Finder<>(long.class, TestAnswer.class)
 				.byId(id);
 
+//		testAnswer.addAnswer(answer);		
+
 		if (testAnswer.test.questions.get(current).correctAnswer == answer) {
 			flash("correct", "");
 			testAnswer.markCorrect();
@@ -152,9 +157,10 @@ public class Application extends Controller {
 		}
 		testAnswer.save();
 		if (testAnswer.test.numQuestions <= current + 1){	// no more questions
-			testAnswer.student.pastTests.add(testAnswer.test);
+			Student student = testAnswer.student;
+			student.save();
 			testAnswer.save();
-			return ok(testResult.render(testAnswer));
+			return ok(testResult.render(testAnswer,testAnswer.student.id));
 		}
 
 		return ok(takeTest.render(++current, testAnswer));

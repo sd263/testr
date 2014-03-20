@@ -20,21 +20,30 @@ public class TestAnswer extends Model {
 	@Id
 	public long id;
 	
+	@ManyToOne
 	public Student student;
 			
 	@ManyToOne
 	public Test test;
 	
-	
+	@ManyToOne
 	public List<Integer> questionAnswer; // saves what the student answers
 	
 	public int score;	// counts the total correctly answered questions
+	
+	public double percentage;
 		
-	public TestAnswer(int startPos, long testId){
+	public TestAnswer(int startPos, long testId, long studentId){
 		test = findTestByID(testId);
-		score = 0;
+		student = findStudentbyId(studentId);
 	}
 		
+	public Student findStudentbyId(Long id) {
+		Student student = new Model.Finder<>(long.class, Student.class)
+				.byId(id);
+		return student;
+	}
+	
 	public Test findTestByID(Long id){
 		Test test = new Model.Finder<>(long.class,Test.class).byId(id);
 		return test;
@@ -46,6 +55,21 @@ public class TestAnswer extends Model {
 	
 	public void markCorrect(){
 		score++;
+	}
+	
+	public void calculatePercentage(){
+		if(score == 0)
+			percentage = 0.0;
+		else
+		percentage = (score/test.numQuestions)*100;
+	}
+	
+	public void addStudent(Student aStudent){
+		student = aStudent;
+	}
+
+	public void addAnswer(int answer) {
+		questionAnswer.add(answer);
 	}
 	
 }

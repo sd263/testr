@@ -5,8 +5,8 @@
 
 create table classroom (
   id                        bigint not null,
-  teacher_id                bigint not null,
   cname                     varchar(255),
+  teacher_id                bigint,
   constraint pk_classroom primary key (id))
 ;
 
@@ -38,18 +38,20 @@ create table teacher (
 
 create table test (
   id                        bigint not null,
+  classroom_id              bigint not null,
   name                      varchar(255),
   test_desc                 varchar(255),
   num_questions             integer,
-  classroom_id              bigint,
   constraint pk_test primary key (id))
 ;
 
 create table test_answer (
   id                        bigint not null,
   test_review_id            bigint not null,
+  student_id                bigint,
   test_id                   bigint,
   score                     integer,
+  percentage                double,
   constraint pk_test_answer primary key (id))
 ;
 
@@ -64,18 +66,6 @@ create table classroom_student (
   classroom_id                   bigint not null,
   student_id                     bigint not null,
   constraint pk_classroom_student primary key (classroom_id, student_id))
-;
-
-create table student_classroom (
-  student_id                     bigint not null,
-  classroom_id                   bigint not null,
-  constraint pk_student_classroom primary key (student_id, classroom_id))
-;
-
-create table student_test (
-  student_id                     bigint not null,
-  test_id                        bigint not null,
-  constraint pk_student_test primary key (student_id, test_id))
 ;
 create sequence classroom_seq;
 
@@ -99,24 +89,18 @@ alter table test add constraint fk_test_classroom_3 foreign key (classroom_id) r
 create index ix_test_classroom_3 on test (classroom_id);
 alter table test_answer add constraint fk_test_answer_test_review_4 foreign key (test_review_id) references test_review (id) on delete restrict on update restrict;
 create index ix_test_answer_test_review_4 on test_answer (test_review_id);
-alter table test_answer add constraint fk_test_answer_test_5 foreign key (test_id) references test (id) on delete restrict on update restrict;
-create index ix_test_answer_test_5 on test_answer (test_id);
-alter table test_review add constraint fk_test_review_test_6 foreign key (test_id) references test (id) on delete restrict on update restrict;
-create index ix_test_review_test_6 on test_review (test_id);
+alter table test_answer add constraint fk_test_answer_student_5 foreign key (student_id) references student (id) on delete restrict on update restrict;
+create index ix_test_answer_student_5 on test_answer (student_id);
+alter table test_answer add constraint fk_test_answer_test_6 foreign key (test_id) references test (id) on delete restrict on update restrict;
+create index ix_test_answer_test_6 on test_answer (test_id);
+alter table test_review add constraint fk_test_review_test_7 foreign key (test_id) references test (id) on delete restrict on update restrict;
+create index ix_test_review_test_7 on test_review (test_id);
 
 
 
 alter table classroom_student add constraint fk_classroom_student_classroo_01 foreign key (classroom_id) references classroom (id) on delete restrict on update restrict;
 
 alter table classroom_student add constraint fk_classroom_student_student_02 foreign key (student_id) references student (id) on delete restrict on update restrict;
-
-alter table student_classroom add constraint fk_student_classroom_student_01 foreign key (student_id) references student (id) on delete restrict on update restrict;
-
-alter table student_classroom add constraint fk_student_classroom_classroo_02 foreign key (classroom_id) references classroom (id) on delete restrict on update restrict;
-
-alter table student_test add constraint fk_student_test_student_01 foreign key (student_id) references student (id) on delete restrict on update restrict;
-
-alter table student_test add constraint fk_student_test_test_02 foreign key (test_id) references test (id) on delete restrict on update restrict;
 
 # --- !Downs
 
@@ -129,10 +113,6 @@ drop table if exists classroom_student;
 drop table if exists question;
 
 drop table if exists student;
-
-drop table if exists student_classroom;
-
-drop table if exists student_test;
 
 drop table if exists teacher;
 

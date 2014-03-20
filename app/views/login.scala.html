@@ -1,33 +1,26 @@
-@(classes: List[Classroom], studentForm: Form[Student], teacherForm: Form[Teacher], students: List[Student])
+@(classes: List[Classroom], studentForm: Form[Student], teacherForm: Form[Teacher], students: List[Student], teachers: List[Teacher])
 @import helper._
 
 @main("Testr") {
 <img src="@routes.Assets.at("images/testrlogo.png")"/>
-<br>
- <a href="@routes.Application.teacherHome(1)" class="btn">Teacher Login</a> 
-  <br> <br>
-  
-  	<form action="@routes.Application.login("Simon", "Date")" method="post">
-  			username: <input name="name"> 
-  			password <input name="password">
- 			<input type="submit">	
-  	</form>
-    
-  
-	<select id="swag" onchange = "swag(this)">
- 	@for(student <- students){
- 	<option value="@routes.Application.studentHome(student.id)" >@student.name</option>
+<br> 
+  	<h1> Teachers login </h1>
+  	
+  	 	@for(teacher <- teachers){
+ 	<form method="get" action="@routes.Application.teacherHome(teacher.id)">
+ 			@teacher.name
+ 		 <input type="submit">
+ 		 </form>
 	 	 }
-	 	 	</select>
- 	 <a href="@routes.Application.studentHome(1)" class="btn">Student Login</a> 
- 	 <button onclick="swag()">Click me</button>
- 	 
- 	 <script type="text/javascript">
- 	 function swag(val){
- 	 alert(val);
- 	 }
- 	 </script>
- 	 
+    
+  	<h1> Studetns login </h1>
+
+ 	@for(student <- students){
+ 	<form method="get" action="@routes.Application.studentHome(student.id)">
+ 			@student.name
+ 		 <input type="submit">
+ 		 </form>
+	 	 }
  
  <h1> New Account </h1>
  
@@ -52,5 +45,14 @@
              	<input type="submit">
         </fieldset>
 					</form>	 		
+					
+					
+					<h1> new features </h1>
+					
+					  	<form action="@routes.Application.login("Simon", "Date")" method="post">
+  			username: <input name="name"> 
+  			password <input name="password">
+ 			<input type="submit">	
+  	</form>
 						
     } 

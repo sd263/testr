@@ -1,10 +1,10 @@
-@(testAnswer:TestAnswer)
+@(testAnswer:TestAnswer, id: Long)
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 	
 @main(testAnswer.test.name) {
-	<h1> You scored @(testAnswer.score)  out of @(testAnswer.test.numQuestions) <h1>
-		
-		            <a href="@routes.Application.studentHome(1)" class="btn">Home Screen</a> 
+	<h1> Test complete! You scored @(testAnswer.score)  out of @(testAnswer.test.numQuestions) <h1>
+		<h2> Return to home screen </h2>
+		            <a href="@routes.Application.studentHome(id)" class="btn">Home Screen</a> 
 
 	
 	

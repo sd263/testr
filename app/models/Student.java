@@ -24,20 +24,15 @@ public class Student extends Model {
 	@Constraints.Required
 	public String name;
 	
-	@Constraints.Required
+	@Constraints.Required	
 	public String password;
-
-	@ManyToMany
-	public List<Classroom> classrooms;
-
-	@ManyToMany
-	public List<Test> pastTests;
 
 	public static Student findStudentbyId(Long id) {
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
 		return student;
 	}
+
 
 	
 	/*

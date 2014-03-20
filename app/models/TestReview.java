@@ -31,4 +31,18 @@ public class TestReview extends Model {
 	public TestReview(Test atest){
 		test = atest;
 	}
+	
+	public static String getClassroomName(TestReview testReview){
+		List<Classroom> classrooms = new Model.Finder<>(long.class, Classroom.class).all();
+		for(Classroom classroom : classrooms){
+			for(Test ctest : classroom.tests){
+				if(ctest.equals(testReview.test)){
+					return classroom.cname;
+				}
+			}
+		}
+		return "System error";
+		
+	}
+
 }

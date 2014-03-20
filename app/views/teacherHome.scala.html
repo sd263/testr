@@ -49,8 +49,9 @@
 	  	    <thead>
                 <tr>
                   <td> test name  </td>
-                    <td> test description</td>
-                   <td> Number of Questions</td>  
+				  <td> test description</td>
+                  <td> Classroom </td>
+                   <td> Number of Questions</td>         
                    <td> Review Test 	</td>
                 </tr>             
             </thead>
@@ -58,6 +59,7 @@
 	   @for(testReview <- tests) {
             <td>   @testReview.test.name </td>
             <td>   @testReview.test.testDesc </td>
+			<td> 	@TestReview.getClassroomName(testReview)</td>
             <td>   @testReview.test.numQuestions </td>
             <td>   	<form method="get" action="@routes.Application.reviewTest(testReview.test.id)">
         			   <input type="submit">
