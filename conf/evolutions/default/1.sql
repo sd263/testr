@@ -11,15 +11,14 @@ create table classroom (
 ;
 
 create table question (
-  id                        bigint not null,
+  question_text             varchar(255) not null,
   test_id                   bigint not null,
-  question_text             varchar(255),
   answer1                   varchar(255),
   answer2                   varchar(255),
   answer3                   varchar(255),
   answer4                   varchar(255),
   correct_answer            integer,
-  constraint pk_question primary key (id))
+  constraint pk_question primary key (question_text))
 ;
 
 create table student (
