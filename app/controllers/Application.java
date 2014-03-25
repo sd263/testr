@@ -65,14 +65,14 @@ public class Application extends Controller {
 	}
 
 	public static Result teacherHome(Long id) {
+		Teacher teacher = new Model.Finder<>(long.class, Teacher.class)
+				.byId(id);
 		List<TestReview> tests = new Model.Finder<>(long.class,
 				TestReview.class).all();
 		List<Classroom> classes = new Model.Finder<>(long.class,
 				Classroom.class).all();
 		Form<Test> testForm = form(Test.class);
 		Form<Classroom> classForm = form(Classroom.class);
-		Teacher teacher = new Model.Finder<>(long.class, Teacher.class)
-				.byId(id);
 		return ok(teacherHome.render(tests, classes, testForm, teacher));
 	}
 

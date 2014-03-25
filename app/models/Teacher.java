@@ -28,6 +28,9 @@ public class Teacher extends Model  {
 	@Constraints.Required
 	public String password;
 	
+	@OneToMany
+	public List<Classroom> classrooms;
+	
 	
 
 

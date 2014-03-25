@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import models.Teacher;
+
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
@@ -30,10 +32,7 @@ public class Classroom extends Model {
 	
 	@ManyToMany
 	public List<Student> students;
-	
-	@OneToOne
-	public Teacher teacher;
-	
+		
 	@OneToMany(cascade = {CascadeType.ALL})
 	public List<Test> tests;
 	
@@ -58,6 +57,11 @@ public class Classroom extends Model {
     
     public void addStudent(Student aStudent){
     	students.add(aStudent);
+    }
+    
+    public static teacher findTeacherByClassroom(Classroom aClassroom){
+		List<Teacher> teachers = new Model.Finder<>(long.class,
+				Teacher.class).all();
     }
 
 }
