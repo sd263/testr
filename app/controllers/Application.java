@@ -93,7 +93,7 @@ public class Application extends Controller {
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
-				.byId(classid);
+				.byId(classid);	
 		classroom.addStudent(student);
 		classroom.save();
 		return studentHome(id);
@@ -124,11 +124,11 @@ public class Application extends Controller {
 		return ok(createTest.render(test, classroom));
 	}
 	
-	public static Result addQuestion(long id, long classroomId) { // creates
+	public static Result addQuestion(long classroomId) { // creates
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
 				.byId(classroomId);
 		Question question = Form.form(Question.class).bindFromRequest().get();
-		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
+		Test test = classroom.tests.get(classroom.tests.size()-1);
 		test.numQuestions++;
 		test.addQuestion(question);
 		test.save();
@@ -138,13 +138,14 @@ public class Application extends Controller {
 	public static Result publishTest(long id, long classroomId) {
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
-				.byId(id);
+				.byId(classroomId);
 		if (test.numQuestions <= 0) {
 			test.delete();
 			flash("notcreated", "your test has not been made");
 		} else {
 			flash("published", test.name);
-			TestReview testReview = new TestReview(test);
+			TestReview testReview = new TestReview();
+			testReview.setTest(test);
 			testReview.save();
 		}
 		return teacherHome(classroom.teacher.id); // test.classroom.teacher.id
@@ -153,13 +154,16 @@ public class Application extends Controller {
 
 
 	public static Result beginTest(long testId, long studentId) {
-		TestReview testReview = new Model.Finder<>(long.class, TestReview.class)
+		Test test = new Model.Finder<>(long.class, Test.class)
 				.byId(testId);
-		TestAnswer testAnswer = new TestAnswer(0, testId, studentId);
-
+		TestReview testReview = TestReview.findByTest(test);
+		Student student = new Model.Finder<>(long.class, Student.class)
+				.byId(studentId);
+		TestAnswer testAnswer = new TestAnswer();
+		testAnswer.setStudent(student);
+		testAnswer.setTest(test);
 		testReview.studentAnswers.add(testAnswer);
 		testReview.save();
-		testAnswer.save();
 		return ok(takeTest.render(0, testAnswer));
 	}
 
@@ -180,8 +184,6 @@ public class Application extends Controller {
 		}
 		testAnswer.save();
 		if (testAnswer.test.numQuestions <= current + 1) { // no more questions
-			Student student = testAnswer.student;
-			student.save();
 			testAnswer.save();
 			return ok(testResult.render(testAnswer, testAnswer.student.id));
 		}

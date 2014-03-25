@@ -8,7 +8,7 @@
     
     <h4>Number of Questions in this test: @test.numQuestions</h4>
     
-	<form action="@routes.Application.addQuestion(test.id, classroom.id)" method="post">
+	<form action="@routes.Application.addQuestion(classroom.id)" method="post">
 		<h4> Question name:  <input name="questionText"> </h4> 
 		<p> Answer 1:  <input name="answer1"> </p>
 		<p> Answer 2:  <input name="answer2"> </p>

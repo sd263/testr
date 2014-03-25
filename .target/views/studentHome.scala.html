@@ -35,9 +35,11 @@
 	<h2> Join a new classroom </h2>
 	@for(classroom <- classrooms){
 	@classroom.cname
-	}	
- 	 	<form action="@routes.Application.joinClassroom(id, classrooms(0).id)" method="post">
+	@classroom.id
+	 	 	<form action="@routes.Application.joinClassroom(id, classroom.id)" method="post">
  					<input type="submit">	
+	}	
+
  		</form>
 	
 

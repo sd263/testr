@@ -13,12 +13,12 @@ GET     /s/:id                           controllers.Application.studentHome(id:
 POST	/newstudent						controllers.Application.createStudent()
 POST	/newteacher						controllers.Application.createTeacher()
 POST	/newclass/:id					controllers.Application.createClassroom(id:Long)
-POST	/s/joinclass				controllers.Application.joinClassroom(s: Long, c:Long)
+POST	/join							controllers.Application.joinClassroom(s: Long, c:Long)
 
 # Create new test
-POST	/create				controllers.Application.createTest(id:Long)
+POST	/ctest/:id							controllers.Application.createTest(id:Long)
 GET		/publish/:id				controllers.Application.publishTest(id:Long,cid:Long)
-POST	/create/:id			controllers.Application.addQuestion(id: Long,cid:Long)
+POST	/q/:cid					controllers.Application.addQuestion(cid:Long)
 
 # Take a test
 GET		/takeTest/:studentId/:id						controllers.Application.beginTest(id: Long, studentId: Long)
@@ -28,10 +28,10 @@ POST 	/takeTest/						controllers.Application.markQuestion(current: Int, answer:
 GET		/tResult/:id					controllers.Application.reviewTest(id : Long)
 
 # 	JSON queries (DEBUG ONLY)
-GET		/testsAnswers			controllers.Application.getTestAnswers()
+GET		/testan			controllers.Application.getTestAnswers()
 GET		/tests					controllers.Application.getTests()
 GET		/questions					controllers.Application.getQuestions()
-GET		/testreview					controllers.Application.getTestReview()
+GET		/testre				controllers.Application.getTestReview()
 GET		/students				controllers.Application.getStudents()
 GET		/croom				controllers.Application.getClassrooms()
 GET		/teacher			controllers.Application.getTeachers()

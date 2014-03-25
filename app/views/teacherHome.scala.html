@@ -21,19 +21,19 @@
 		
 		 <h2> Create </h2>
 		 <h3> Create Test </h3>
+		 	<select id="newTestClass"> 
+		 	@for(aClass <- classes){
+		 	<option id=@aClass.id> @aClass.cname </option>
+		 	}
+		 	</select>
 		  	<form action="@routes.Application.createTest(1)" method="post">
 	        <fieldset>
             @inputText(testForm("name"), '_label -> "Test Name")
              @inputText(testForm("testDesc"), '_label -> "Test Description")
-            @select(
-                testForm("classroom.id"), 
-                options(Classroom.options), 
-                '_label -> "Classroom", '_default -> "-- Choose a classroom --",
-                '_showConstraints -> false
-            )
              	<input type="submit">
         </fieldset>
 					</form>	 
+					
 					
 		<h3> Create new classroom </h3>
 		 <h3>	Classroom </h3>

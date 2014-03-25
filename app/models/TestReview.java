@@ -27,10 +27,7 @@ public class TestReview extends Model {
 
 	@OneToMany(cascade = {CascadeType.ALL})
 	public List<TestAnswer> studentAnswers;
-	
-	public TestReview(Test atest){
-		test = atest;
-	}
+
 	
 	public static String getClassroomName(TestReview testReview){
 		List<Classroom> classrooms = new Model.Finder<>(long.class, Classroom.class).all();
@@ -43,6 +40,19 @@ public class TestReview extends Model {
 		}
 		return "System error";
 		
+	}
+	
+	public void setTest(Test aTest){
+		test = aTest;
+	}
+
+	public static TestReview findByTest(Test aTest) {
+		List<TestReview> treviews = new Model.Finder<>(long.class, TestReview.class).all();
+		for(TestReview tReview : treviews){
+			if(tReview.test.equals(aTest))
+				return tReview;
+		}
+		return null;
 	}
 
 }

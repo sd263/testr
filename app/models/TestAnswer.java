@@ -33,10 +33,7 @@ public class TestAnswer extends Model {
 	
 	public double percentage;
 		
-	public TestAnswer(int startPos, long testId, long studentId){
-		test = findTestByID(testId);
-		student = findStudentbyId(studentId);
-	}
+
 		
 	public Student findStudentbyId(Long id) {
 		Student student = new Model.Finder<>(long.class, Student.class)
@@ -64,12 +61,13 @@ public class TestAnswer extends Model {
 		percentage = (score/test.numQuestions)*100;
 	}
 	
-	public void addStudent(Student aStudent){
+	public void setStudent(Student aStudent){
 		student = aStudent;
 	}
-
-//	public void addAnswer(int answer) {
-//		questionAnswer.add(answer);
-//	}
 	
+	public void setTest(Test aTest){
+		test = aTest;
+	}
+
+
 }
