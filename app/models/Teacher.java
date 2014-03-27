@@ -28,9 +28,22 @@ public class Teacher extends Model  {
 	@Constraints.Required
 	public String password;
 	
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	public List<Classroom> classrooms;
 	
+	public void addClassroom(Classroom aClassroom){
+		classrooms.add(aClassroom);
+	}
+
+	public static Teacher findTeacherByClass(Classroom classroom) {
+		List<Teacher> teachers = new Model.Finder<>(long.class,
+				Teacher.class).all();
+		for(Teacher teacher: teachers){
+			if(teacher.classrooms.contains(classroom))
+				return teacher;
+		}
+		return teachers.get(0);
+	}
 	
 
 

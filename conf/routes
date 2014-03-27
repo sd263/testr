@@ -21,7 +21,7 @@ GET		/publish/:id				controllers.Application.publishTest(id:Long,cid:Long)
 POST	/q/:cid					controllers.Application.addQuestion(cid:Long)
 
 # Take a test
-GET		/takeTest/:studentId/:id						controllers.Application.beginTest(id: Long, studentId: Long)
+GET		/take/:studentId/:id						controllers.Application.beginTest(id: Long, studentId: Long)
 POST 	/takeTest/						controllers.Application.markQuestion(current: Int, answer: Int,id: Long)
 
 # reviewing test

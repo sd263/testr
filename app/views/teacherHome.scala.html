@@ -1,4 +1,4 @@
-@(tests: List[TestReview], classes: List[Classroom], testForm: Form[Test], teacher: Teacher)
+@(tests: List[TestReview], testForm: Form[Test], teacher: Teacher)
 @import helper._
 
 @main("Testr: test redefined") {
@@ -22,11 +22,11 @@
 		 <h2> Create </h2>
 		 <h3> Create Test </h3>
 		 	<select id="newTestClass"> 
-		 	@for(aClass <- classes){
-		 	<option id=@aClass.id> @aClass.cname </option>
+		 	@for(aClass <- teacher.classrooms){
+		 	<option id=@aClass.cid> @aClass.cname </option>
 		 	}
 		 	</select>
-		  	<form action="@routes.Application.createTest(1)" method="post">
+		  	<form action="@routes.Application.createTest(teacher.id)" method="post">
 	        <fieldset>
             @inputText(testForm("name"), '_label -> "Test Name")
              @inputText(testForm("testDesc"), '_label -> "Test Description")

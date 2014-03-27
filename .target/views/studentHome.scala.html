@@ -1,4 +1,4 @@
-@(tests: List[Test], classrooms : List[Classroom], id: Long)
+@(classrooms : List[Classroom], id: Long)
 @import helper._
 @main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
@@ -18,8 +18,8 @@
                    </b>
                 </tr>
             </thead>
-            
-	   @for(test <- tests) {
+       @for(classroom <- classrooms){
+	   @for(test <- classroom.tests) {
 	  
              <td>   @test.id </td> 
             <td>   @test.name </td>
@@ -30,13 +30,16 @@
    						</form>  </td>
             <tr>
         }
+        }
 	    </table>
 
 	<h2> Join a new classroom </h2>
+
 	@for(classroom <- classrooms){
 	@classroom.cname
-	@classroom.id
-	 	 	<form action="@routes.Application.joinClassroom(id, classroom.id)" method="post">
+	@classroom.cid
+	@id
+	 	 	<form action="@routes.Application.joinClassroom(id, classroom.cid)" method="post">
  					<input type="submit">	
 	}	
 

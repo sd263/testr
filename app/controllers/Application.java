@@ -47,21 +47,12 @@ public class Application extends Controller {
 	}
 
 	public static Result studentHome(Long id) {
-		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
-		List<Classroom> classrooms = new Model.Finder<>(long.class,
-				Classroom.class).all();
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
-		for (Classroom classroom : classrooms) {
-			if (!classroom.students.contains(student)) {
-				tests.removeAll(classroom.tests);
-			} 
-//			else {
-//				classrooms.remove(classroom);
-//			}
-		}
-
-		return ok(studentHome.render(tests, classrooms, id));
+		List<Classroom>  classrooms = new Model.Finder<>(long.class,
+				Classroom.class).all();
+//		List<Classroom> classrooms = Classroom.getClassWithoutStudent(student);
+		return ok(studentHome.render(classrooms, id));
 	}
 
 	public static Result teacherHome(Long id) {
@@ -69,11 +60,9 @@ public class Application extends Controller {
 				.byId(id);
 		List<TestReview> tests = new Model.Finder<>(long.class,
 				TestReview.class).all();
-		List<Classroom> classes = new Model.Finder<>(long.class,
-				Classroom.class).all();
 		Form<Test> testForm = form(Test.class);
 		Form<Classroom> classForm = form(Classroom.class);
-		return ok(teacherHome.render(tests, classes, testForm, teacher));
+		return ok(teacherHome.render(tests,testForm, teacher));
 	}
 
 	// creating students and classrooms
@@ -84,8 +73,8 @@ public class Application extends Controller {
 		Teacher teacher = new Model.Finder<>(long.class, Teacher.class)
 				.byId(id);
 		// breaks the program
-		classroom.addTeacher(teacher);
-		classroom.save();
+		teacher.addClassroom(classroom);
+		teacher.save();
 		return teacherHome(id);
 	}
 
@@ -148,7 +137,8 @@ public class Application extends Controller {
 			testReview.setTest(test);
 			testReview.save();
 		}
-		return teacherHome(classroom.teacher.id); // test.classroom.teacher.id
+		Teacher teacher = Teacher.findTeacherByClass(classroom);
+		return teacherHome(teacher.id); // test.classroom.teacher.id
 	}
 
 

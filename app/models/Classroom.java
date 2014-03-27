@@ -13,7 +13,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import models.Classroom;
+import models.Student;
 import models.Teacher;
+import models.TestReview;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
@@ -26,13 +29,13 @@ public class Classroom extends Model {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	public Long id;
+	public Long cid;
 	
 	public String cname;
 	
 	@ManyToMany
 	public List<Student> students;
-		
+			
 	@OneToMany(cascade = {CascadeType.ALL})
 	public List<Test> tests;
 	
@@ -42,7 +45,7 @@ public class Classroom extends Model {
     public static Map<String,String> options() {
         LinkedHashMap<String,String> options = new LinkedHashMap<String,String>();
         for(Classroom c: Classroom.find.orderBy("cname").findList()) {
-            options.put(c.id.toString(), c.cname);
+            options.put(c.cid.toString(), c.cname);
         }
         return options;
     }	
@@ -51,17 +54,18 @@ public class Classroom extends Model {
     	tests.add(aTest);
     }
     
-    public void addTeacher(Teacher aTeacher){
-    	teacher = aTeacher;
-    }
-    
     public void addStudent(Student aStudent){
     	students.add(aStudent);
     }
-    
-    public static teacher findTeacherByClassroom(Classroom aClassroom){
-		List<Teacher> teachers = new Model.Finder<>(long.class,
-				Teacher.class).all();
-    }
 
+	public static List<Classroom> getClassWithoutStudent(Student student) {
+		List<Classroom>  classrooms = new Model.Finder<>(long.class,
+				Classroom.class).all();
+		for(Classroom classroom : classrooms){
+			if(classroom.students.contains(student))
+				classrooms.remove(classroom);
+		}
+		return null;
+	}
+    
 }
