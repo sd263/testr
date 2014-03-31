@@ -33,7 +33,7 @@ public class Classroom extends Model {
 	
 	public String cname;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL})
 	public List<Student> students;
 			
 	@OneToMany(cascade = {CascadeType.ALL})
@@ -61,11 +61,27 @@ public class Classroom extends Model {
 	public static List<Classroom> getClassWithoutStudent(Student student) {
 		List<Classroom>  classrooms = new Model.Finder<>(long.class,
 				Classroom.class).all();
-		for(Classroom classroom : classrooms){
-			if(classroom.students.contains(student))
+		for(int i = 0; i < classrooms.size() ; i++){
+			Classroom classroom = classrooms.get(i);
+			if(classroom.students.contains(student)){
 				classrooms.remove(classroom);
+				i--;
+			}
 		}
-		return null;
+		return classrooms;
+	}
+	
+	public static List<Classroom> getClassWithStudent(Student student) {
+		List<Classroom>  classrooms = new Model.Finder<>(long.class,
+				Classroom.class).all();
+		for(int i = 0; i < classrooms.size() ; i++){
+			Classroom classroom = classrooms.get(i);
+			if(!classroom.students.contains(student)){
+				classrooms.remove(classroom);
+				i--;
+			}
+		}
+		return classrooms;
 	}
     
 }

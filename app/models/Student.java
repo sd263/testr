@@ -27,6 +27,8 @@ public class Student extends Model {
 	@Constraints.Required	
 	public String password;
 	
+	public List<Long> testComplete;
+	
 
 	public static Student findStudentbyId(Long id) {
 		Student student = new Model.Finder<>(long.class, Student.class)

@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.loginScreen()
-POST	/							controllers.Application.login(name:String, password:String)
+GET     /                       	    controllers.Application.loginScreen()
+POST	/								controllers.Application.login(name:String, password:String)
 GET     /t/:id                          controllers.Application.teacherHome(id: Long)
 GET     /s/:id                           controllers.Application.studentHome(id:Long)
 
@@ -13,28 +13,28 @@ GET     /s/:id                           controllers.Application.studentHome(id:
 POST	/newstudent						controllers.Application.createStudent()
 POST	/newteacher						controllers.Application.createTeacher()
 POST	/newclass/:id					controllers.Application.createClassroom(id:Long)
-POST	/join							controllers.Application.joinClassroom(s: Long, c:Long)
+POST	/join/:s/:c						controllers.Application.joinClassroom(s: Long, c:Long)
 
 # Create new test
-POST	/ctest/:id							controllers.Application.createTest(id:Long)
-GET		/publish/:id				controllers.Application.publishTest(id:Long,cid:Long)
-POST	/q/:cid					controllers.Application.addQuestion(cid:Long)
+POST	/ctest/:id						controllers.Application.createTest(id:Long)
+GET		/publish/:id					controllers.Application.publishTest(id:Long,cid:Long)
+POST	/q/:cid							controllers.Application.addQuestion(cid:Long)
 
 # Take a test
-GET		/take/:studentId/:id						controllers.Application.beginTest(id: Long, studentId: Long)
+GET		/take/:studentId/:testId		controllers.Application.beginTest(studentId : Long, testId: Long)
 POST 	/takeTest/						controllers.Application.markQuestion(current: Int, answer: Int,id: Long)
 
 # reviewing test
-GET		/tResult/:id					controllers.Application.reviewTest(id : Long)
+GET		/tResult/:teacherId/:id			controllers.Application.reviewTest(id : Long, teacherId:Long)
 
 # 	JSON queries (DEBUG ONLY)
-GET		/testan			controllers.Application.getTestAnswers()
-GET		/tests					controllers.Application.getTests()
-GET		/questions					controllers.Application.getQuestions()
-GET		/testre				controllers.Application.getTestReview()
-GET		/students				controllers.Application.getStudents()
-GET		/croom				controllers.Application.getClassrooms()
-GET		/teacher			controllers.Application.getTeachers()
+GET		/testan							controllers.Application.getTestAnswers()
+GET		/tests							controllers.Application.getTests()
+GET		/questions						controllers.Application.getQuestions()
+GET		/testre							controllers.Application.getTestReview()
+GET		/students						controllers.Application.getStudents()
+GET		/croom							controllers.Application.getClassrooms()
+GET		/teacher						controllers.Application.getTeachers()
 
 
 # Map static resources from the /public folder to the /assets URL path

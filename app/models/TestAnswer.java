@@ -8,6 +8,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import play.data.Form;
 import play.db.ebean.Model;
 
 @Entity
@@ -36,6 +38,11 @@ public class TestAnswer extends Model {
 		
 
 		
+	public TestAnswer(Student aStudent, Test aTest) {
+		student = aStudent;
+		test = aTest;
+	}
+
 	public Student findStudentbyId(Long id) {
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
@@ -69,6 +76,5 @@ public class TestAnswer extends Model {
 	public void setTest(Test aTest){
 		test = aTest;
 	}
-
-
 }
+

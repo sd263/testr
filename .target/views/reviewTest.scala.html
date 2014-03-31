@@ -1,9 +1,9 @@
-@(testReview:TestReview)
+@(testReview:TestReview,teacherId:Long)
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 	
 @main(testReview.test.name) {
 		
-		            <a href="@routes.Application.teacherHome(1)" class="btn">Home Screen</a> 
+		            <a href="@routes.Application.teacherHome(teacherId)" class="btn">Home Screen</a> 
 		            
 		            <h1> @TestReview.getClassroomName(testReview) </h1>
 		            <h1> @testReview.test.name </h1> 

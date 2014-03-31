@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -25,7 +26,7 @@ public class TestReview extends Model {
 	public Test test;
 	
 
-	@OneToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(cascade = {CascadeType.ALL})
 	public List<TestAnswer> studentAnswers;
 
 	
@@ -52,7 +53,11 @@ public class TestReview extends Model {
 			if(tReview.test.equals(aTest))
 				return tReview;
 		}
-		return null;
+		return treviews.get(0);
+	}
+
+	public void addTestAnswer(TestAnswer testAnswer) {
+		studentAnswers.add(testAnswer);
 	}
 
 }

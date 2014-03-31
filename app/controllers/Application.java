@@ -3,7 +3,9 @@ package controllers;
 import static play.data.Form.form;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import play.data.Form;
 import play.db.ebean.Model;
@@ -49,10 +51,12 @@ public class Application extends Controller {
 	public static Result studentHome(Long id) {
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
-		List<Classroom>  classrooms = new Model.Finder<>(long.class,
-				Classroom.class).all();
-//		List<Classroom> classrooms = Classroom.getClassWithoutStudent(student);
-		return ok(studentHome.render(classrooms, id));
+//		List<Classroom>  classrooms = new Model.Finder<>(long.class,
+//				Classroom.class).all();
+		List<Classroom> inCroom= Classroom.getClassWithStudent(student);
+		List<Test> tests = Test.getTestsForStudent(inCroom,student);
+		List<Classroom> outCroom = Classroom.getClassWithoutStudent(student);
+		return ok(studentHome.render(inCroom,outCroom,tests, id));
 	}
 
 	public static Result teacherHome(Long id) {
@@ -61,7 +65,6 @@ public class Application extends Controller {
 		List<TestReview> tests = new Model.Finder<>(long.class,
 				TestReview.class).all();
 		Form<Test> testForm = form(Test.class);
-		Form<Classroom> classForm = form(Classroom.class);
 		return ok(teacherHome.render(tests,testForm, teacher));
 	}
 
@@ -76,6 +79,15 @@ public class Application extends Controller {
 		teacher.addClassroom(classroom);
 		teacher.save();
 		return teacherHome(id);
+	}
+	
+	public static Result createTest(long classroomId) {
+		Test test = Form.form(Test.class).bindFromRequest().get();
+		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
+				.byId(classroomId);
+		 classroom.addTest(test); // breaks the program
+		classroom.save();
+		return ok(createTest.render(test, classroom));
 	}
 
 	public static Result joinClassroom(long id, long classid) {
@@ -102,15 +114,6 @@ public class Application extends Controller {
 			studentForm.get().save();
 		}
 		return loginScreen();
-	}
-
-	public static Result createTest(long classroomId) {
-		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
-				.byId(classroomId);
-		Test test = Form.form(Test.class).bindFromRequest().get();
-		 classroom.addTest(test); // breaks the program
-		classroom.save();
-		return ok(createTest.render(test, classroom));
 	}
 	
 	public static Result addQuestion(long classroomId) { // creates
@@ -143,17 +146,15 @@ public class Application extends Controller {
 
 
 
-	public static Result beginTest(long testId, long studentId) {
+	public static Result beginTest(long studentId, long testId) {
 		Test test = new Model.Finder<>(long.class, Test.class)
 				.byId(testId);
-		TestReview testReview = TestReview.findByTest(test);
-		Student student = new Model.Finder<>(long.class, Student.class)
-				.byId(studentId);
-		TestAnswer testAnswer = new TestAnswer();
-		testAnswer.setStudent(student);
-		testAnswer.setTest(test);
-		testReview.studentAnswers.add(testAnswer);
-		testReview.save();
+//		TestReview testReview = TestReview.findByTest(test);
+		Student student = Student.findStudentbyId(studentId);
+		TestAnswer testAnswer = new TestAnswer(student, test);
+		testAnswer.save();
+//		testReview.addTestAnswer(testAnswer);
+//		testReview.save();
 		return ok(takeTest.render(0, testAnswer));
 	}
 
@@ -181,10 +182,10 @@ public class Application extends Controller {
 		return ok(takeTest.render(++current, testAnswer));
 	}
 
-	public static Result reviewTest(long id) {
+	public static Result reviewTest(long id,long teacherId) {
 		TestReview testReview = new Model.Finder<>(long.class, TestReview.class)
 				.byId(id);
-		return ok(reviewTest.render(testReview));
+		return ok(reviewTest.render(testReview,teacherId));
 	}
 
 	// JSON USED FOR DEBUGGING

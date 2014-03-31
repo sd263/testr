@@ -3,7 +3,7 @@
 
 @main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
-<img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />
+<img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />	
 
 	    @if(flash.containsKey("published")) {
         <div class="alert-message warning">
@@ -26,7 +26,7 @@
 		 	<option id=@aClass.cid> @aClass.cname </option>
 		 	}
 		 	</select>
-		  	<form action="@routes.Application.createTest(teacher.id)" method="post">
+		  	<form action="@routes.Application.createTest(1)" method="post">
 	        <fieldset>
             @inputText(testForm("name"), '_label -> "Test Name")
              @inputText(testForm("testDesc"), '_label -> "Test Description")
@@ -61,7 +61,7 @@
             <td>   @testReview.test.testDesc </td>
 			<td> 	@TestReview.getClassroomName(testReview)</td>
             <td>   @testReview.test.numQuestions </td>
-            <td>   	<form method="get" action="@routes.Application.reviewTest(testReview.test.id)">
+            <td>   	<form method="get" action="@routes.Application.reviewTest(testReview.test.id,teacher.id)">
         			   <input type="submit">
    						</form>  </td>
             <tr>
