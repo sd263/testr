@@ -1,58 +1,41 @@
 @(classes: List[Classroom], studentForm: Form[Student], teacherForm: Form[Teacher], students: List[Student], teachers: List[Teacher])
-@import helper._
+
 
 @main("Testr") {
 <img src="@routes.Assets.at("images/testrlogo.png")"/>
-<br> 
-  	<h1> Teachers login </h1>
+
+	    @if(flash.containsKey("wrongLogin")) {
+        <div class="alert-message warning">
+            @flash.get("wrongLogin")
+        </div>
+        }
+
+  	<h1> Login </h1>
   	
-  	 	@for(teacher <- teachers){
- 	<form method="get" action="@routes.Application.teacherHome(teacher.id)">
- 			@teacher.name
- 		 <input type="submit">
- 		 </form>
-	 	 }
-    
-  	<h1> Students login </h1>
-
- 	@for(student <- students){
- 	<form method="get" action="@routes.Application.studentHome(student.id)">
- 			@student.name
- 		 <input type="submit">
- 		 </form>
-	 	 }
- 
- <h1> New Account </h1>
- 
-  <h3> Teacher </h3>
- 	<form action="@routes.Application.createTeacher()" method="post">
-	        <fieldset>
-            @inputText(studentForm("name"), '_label -> "Student Name")
-            @inputText(studentForm("password"), '_label -> "Password")
-
-             	<input type="submit">
-        </fieldset>
-					</form>	 		
-
-
- 
- <h3> Student </h3>
- 	<form action="@routes.Application.createStudent()" method="post">
-	        <fieldset>
-            @inputText(studentForm("name"), '_label -> "Student Name")
-            @inputText(studentForm("password"), '_label -> "Password")
-
-             	<input type="submit">
-        </fieldset>
-					</form>	 		
-					
-					
-					<h1> new features </h1>
-					
-					  	<form action="@routes.Application.login("Simon", "Date")" method="post">
-  			username: <input name="name"> 
+  			<form action="@routes.Application.login()" method="post">
+  			username <input name="name"> 
   			password <input name="password">
  			<input type="submit">	
   	</form>
-						
+  	
+ 
+ 
+ 
+ <h1> Create Accounts </h1>
+ 
+  <h3> Teacher </h3>
+ 	<form action="@routes.Application.createTeacher()" method="post">
+  			username: <input name="name"> 
+  			<br>
+  			password: <input name="password">
+             	<input type="submit">
+					</form>	 		
+
+ <h3> Student </h3>
+ 	<form action="@routes.Application.createStudent()" method="post">
+  			username: <input name="name"> 
+  			<br>
+  			password: <input name="password">
+             	<input type="submit">
+					</form>	 						
     } 

@@ -38,6 +38,7 @@ create table teacher (
 create table test (
   id                        bigint not null,
   classroom_cid             bigint not null,
+  class_id                  bigint,
   name                      varchar(255),
   test_desc                 varchar(255),
   num_questions             integer,
@@ -64,6 +65,12 @@ create table classroom_student (
   classroom_cid                  bigint not null,
   student_id                     bigint not null,
   constraint pk_classroom_student primary key (classroom_cid, student_id))
+;
+
+create table student_test (
+  student_id                     bigint not null,
+  test_id                        bigint not null,
+  constraint pk_student_test primary key (student_id, test_id))
 ;
 
 create table test_review_test_answer (
@@ -104,6 +111,10 @@ alter table classroom_student add constraint fk_classroom_student_classroo_01 fo
 
 alter table classroom_student add constraint fk_classroom_student_student_02 foreign key (student_id) references student (id) on delete restrict on update restrict;
 
+alter table student_test add constraint fk_student_test_student_01 foreign key (student_id) references student (id) on delete restrict on update restrict;
+
+alter table student_test add constraint fk_student_test_test_02 foreign key (test_id) references test (id) on delete restrict on update restrict;
+
 alter table test_review_test_answer add constraint fk_test_review_test_answer_te_01 foreign key (test_review_id) references test_review (id) on delete restrict on update restrict;
 
 alter table test_review_test_answer add constraint fk_test_review_test_answer_te_02 foreign key (test_answer_id) references test_answer (id) on delete restrict on update restrict;
@@ -119,6 +130,8 @@ drop table if exists classroom_student;
 drop table if exists question;
 
 drop table if exists student;
+
+drop table if exists student_test;
 
 drop table if exists teacher;
 

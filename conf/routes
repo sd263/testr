@@ -4,7 +4,7 @@
 
 # Home page
 GET     /                       	    controllers.Application.loginScreen()
-POST	/								controllers.Application.login(name:String, password:String)
+POST	/								controllers.Application.login()
 GET     /t/:id                          controllers.Application.teacherHome(id: Long)
 GET     /s/:id                           controllers.Application.studentHome(id:Long)
 
@@ -16,7 +16,7 @@ POST	/newclass/:id					controllers.Application.createClassroom(id:Long)
 POST	/join/:s/:c						controllers.Application.joinClassroom(s: Long, c:Long)
 
 # Create new test
-POST	/ctest/:id						controllers.Application.createTest(id:Long)
+POST	/ctest/							controllers.Application.createTest()
 GET		/publish/:id					controllers.Application.publishTest(id:Long,cid:Long)
 POST	/q/:cid							controllers.Application.addQuestion(cid:Long)
 

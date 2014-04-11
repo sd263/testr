@@ -11,8 +11,8 @@ import play.db.ebean.Model;
  * Test entity managed by Ebean
  */
 @Entity
-public class Test extends Model{
-	
+public class Test extends Model {
+
 	/**
 	 * 
 	 */
@@ -21,23 +21,36 @@ public class Test extends Model{
 	@Id
 	public Long id;
 	@Constraints.Required
+	public Long classId;
 	public String name;
 	public String testDesc;
-	
+
 	public int numQuestions;
 
-	@OneToMany(cascade = {CascadeType.ALL})
+	@OneToMany(cascade = { CascadeType.ALL })
 	public List<Question> questions;
 
-	public void addQuestion(Question aQuestion){
+	public void addQuestion(Question aQuestion) {
 		questions.add(aQuestion);
 	}
-	
-	public static List<Test> getTestsForStudent(List<Classroom> croom,Student student){
-		// todo
-		return null;
-		
+
+	public static List<Test> getTestsForStudent(List<Classroom> croom, Student student) {
+		List<Classroom> allClass = new Model.Finder<>(long.class, Classroom.class).all();
+		List<Test> testList = new Model.Finder<>(long.class, Test.class).all();
+		for(int i = 0 ; i < allClass.size() ; i++){
+			if(!allClass.get(i).students.contains(student)){
+				testList.removeAll(allClass.get(i).tests);
+			} else {
+				for(int n = 0 ; n < allClass.get(i).tests.size() ; n++){
+					if(student.testComplete.contains(allClass.get(i).tests.get(n)))
+						testList.remove(allClass.get(i).tests.get(n));
+				}
+			}
+		}
+		return testList;
+
 	}
 
-	public static Finder<Long,Test> find = new Finder<Long,Test>(Long.class, Test.class);
+	public static Finder<Long, Test> find = new Finder<Long, Test>(Long.class,
+			Test.class);
 }

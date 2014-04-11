@@ -27,13 +27,19 @@ public class Student extends Model {
 	@Constraints.Required	
 	public String password;
 	
-	public List<Long> testComplete;
+	@ManyToMany
+	public List<Test> testComplete;
 	
 
 	public static Student findStudentbyId(Long id) {
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
 		return student;
+	}
+
+
+	public void addTestTaken(Test test) {
+		testComplete.add(test);	
 	}
 
 

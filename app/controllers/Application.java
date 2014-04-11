@@ -30,33 +30,34 @@ public class Application extends Controller {
 				teachers));
 	}
 
-	public static Result login(String name, String password) {
+	public static Result login() {
+		Form<Student> studentLogin = form(Student.class).bindFromRequest();
+		Form<Teacher> teacherLogin = form(Teacher.class).bindFromRequest();
 		List<Teacher> teachers = new Model.Finder<>(long.class, Teacher.class)
 				.all();
 		List<Student> students = new Model.Finder<>(long.class, Student.class)
 				.all();
-		for (Teacher teacher : teachers) {
-			if (teacher.name.equals(name) || teacher.password.equals(password)) {
+		for (Teacher teacher : teachers) {	
+			if (teacher.name.equals(teacherLogin.get().name) && teacher.password.equals(teacherLogin.get().password)) {
 				return teacherHome(teacher.id);
 			}
 		}
 		for (Student student : students) {
-			if (student.name.equals(name) || student.password.equals(password)) {
+			if (student.name.equals(studentLogin.get().name) && student.password.equals(studentLogin.get().password)) {
 				return studentHome(student.id);
 			}
 		}
-		return teacherHome((long) 1);
+		flash("wrongLogin", "Your username or password is incorrect!");
+		return loginScreen();
 	}
 
 	public static Result studentHome(Long id) {
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
-//		List<Classroom>  classrooms = new Model.Finder<>(long.class,
-//				Classroom.class).all();
 		List<Classroom> inCroom= Classroom.getClassWithStudent(student);
 		List<Test> tests = Test.getTestsForStudent(inCroom,student);
 		List<Classroom> outCroom = Classroom.getClassWithoutStudent(student);
-		return ok(studentHome.render(inCroom,outCroom,tests, id));
+		return ok(studentHome.render(inCroom,outCroom,tests, student));
 	}
 
 	public static Result teacherHome(Long id) {
@@ -81,10 +82,10 @@ public class Application extends Controller {
 		return teacherHome(id);
 	}
 	
-	public static Result createTest(long classroomId) {
-		Test test = Form.form(Test.class).bindFromRequest().get();
+	public static Result createTest() {
+		Test test = Form.form(Test.class).bindFromRequest().get();	
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
-				.byId(classroomId);
+				.byId(test.classId);
 		 classroom.addTest(test); // breaks the program
 		classroom.save();
 		return ok(createTest.render(test, classroom));
@@ -151,6 +152,8 @@ public class Application extends Controller {
 				.byId(testId);
 //		TestReview testReview = TestReview.findByTest(test);
 		Student student = Student.findStudentbyId(studentId);
+		student.addTestTaken(test);
+		student.save();
 		TestAnswer testAnswer = new TestAnswer(student, test);
 		testAnswer.save();
 //		testReview.addTestAnswer(testAnswer);

@@ -53,7 +53,7 @@ public class TestReview extends Model {
 			if(tReview.test.equals(aTest))
 				return tReview;
 		}
-		return treviews.get(0);
+		return treviews.get(100);
 	}
 
 	public void addTestAnswer(TestAnswer testAnswer) {

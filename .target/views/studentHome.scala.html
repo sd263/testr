@@ -1,16 +1,16 @@
-@(inCroom : List[Classroom], outCroom : List[Classroom], test : List[Test], id: Long)
+@(inCroom : List[Classroom], outCroom : List[Classroom], readyTests : List[Test], student : Student)
 @import helper._
 @main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 <img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />
-	<h1> Hello, @Student.findStudentbyId(id).name</h1>
+	<h1> Hello, @student.name</h1>
 	
 	<h2> These tests are ready for you to take</h2>
 	  	<table border> 
 	  	       <thead>	  	       
                 <tr>
                   <b> 
-                  <td> test ID </td>
+                  <td> Classroom </td>
                   <td> test name  </td>
                     <td> test description</td>
                    <td> Number of Questions</td>  
@@ -18,26 +18,26 @@
                    </b>
                 </tr>
             </thead>
-       @for(classroom <- inCroom){
-	   @for(test <- classroom.tests) {
+
+	   @for(test <- readyTests) {
 	  
              <td>   @test.id </td> 
             <td>   @test.name </td>
             <td>   @test.testDesc </td>
             <td>   @test.numQuestions </td>
-            <td>   	<form method="get" action="@routes.Application.beginTest(id, test.id)">
+            <td>   	<form method="get" action="@routes.Application.beginTest(student.id, test.id)">
         			   <input type="submit">
    						</form>  </td>
             <tr>
         }
-        }
+
 	    </table>
 
 	<h2> Join a new classroom </h2>
 
 	@for(classroom <- outCroom){
 	<h3>@classroom.cname</h3>
-	 	 	<form action="@routes.Application.joinClassroom(id, classroom.cid)" method="post">
+	 	 	<form action="@routes.Application.joinClassroom(student.id, classroom.cid)" method="post">
  					<input type="submit">	
  	<br>
 	}	
