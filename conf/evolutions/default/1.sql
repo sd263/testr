@@ -50,7 +50,7 @@ create table test_answer (
   student_id                bigint,
   test_id                   bigint,
   score                     integer,
-  percentage                double,
+  percentage                integer,
   constraint pk_test_answer primary key (id))
 ;
 

@@ -1,4 +1,4 @@
-@(tests: List[TestReview], testForm: Form[Test], teacher: Teacher)
+@(tests: List[Test], testForm: Form[Test], teacher: Teacher)
 @import helper._
 
 @main("Testr: test redefined") {
@@ -19,9 +19,11 @@
 
 	<h1> Hello, @teacher.name </h1>
 		
-		 <h2> Create </h2>
-		 <h3> Create Test </h3>
-
+	
+		 	 <h2> Create </h2>
+		 
+		 @if(!teacher.classrooms.isEmpty){
+		<h3> Create Test </h3>	
 		  	<form action="@routes.Application.createTest()" method="post">
 		  	<select name="classId"> 
 		 	@for(aClass <- teacher.classrooms){
@@ -35,9 +37,10 @@
         </fieldset>
 					</form>	 
 					
+		}
+					
 					
 		<h3> Create new classroom </h3>
-		 <h3>	Classroom </h3>
  	 	<form action="@routes.Application.createClassroom(teacher.id)" method="post">
 					Name: <input name="cname"> 
  					<input type="submit">	
@@ -58,11 +61,11 @@
             </thead>
             
 	   @for(testReview <- tests) {
-            <td>   @testReview.test.name </td>
-            <td>   @testReview.test.testDesc </td>
-			<td> 	@TestReview.getClassroomName(testReview)</td>
-            <td>   @testReview.test.numQuestions </td>
-            <td>   	<form method="get" action="@routes.Application.reviewTest(testReview.test.id,teacher.id)">
+            <td>   @testReview.name </td>
+            <td>   @testReview.testDesc </td>
+			<td> 	@Test.getClassroomName(testReview)</td>
+            <td>   @testReview.numQuestions </td>
+            <td>   	<form method="get" action="@routes.Application.reviewTest(testReview.id,teacher.id)">
         			   <input type="submit">
    						</form>  </td>
             <tr>

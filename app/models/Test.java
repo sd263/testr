@@ -50,7 +50,26 @@ public class Test extends Model {
 		return testList;
 
 	}
+	
+	public static String getClassroomName(Test aTest){
+		Classroom aClass = new Model.Finder<>(long.class, Classroom.class)
+				.byId(aTest.classId);
+		return aClass.cname;
+	}
+	
 
 	public static Finder<Long, Test> find = new Finder<Long, Test>(Long.class,
 			Test.class);
+
+	public static List<Test> getTestForTeacher(Teacher teacher) {
+		List<Test> testList = new Model.Finder<>(long.class, Test.class).all();
+		for(int i = 0 ; i < testList.size() ; i++){
+			Long cId = testList.get(i).classId;
+			Classroom aClass = new Model.Finder<>(long.class, Classroom.class)
+					.byId(cId);
+			if(!teacher.classrooms.contains(aClass))
+			 testList.remove(testList.get(i));
+		}
+		return testList;
+	}
 }

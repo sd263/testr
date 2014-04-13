@@ -1,8 +1,9 @@
 @(test: Test, classroom: Classroom)
 @import helper._
 
-    
-  @main(test.name) {
+ @main(test.name) {
+ <script src='@routes.Assets.at("javascripts/index.js")'></script>
+  <img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />
     <h1>Test name: @test.name  for classroom @classroom.cname</h1>	
     <h3>Test Description: @test.testDesc</h3>
     
@@ -22,7 +23,9 @@
 						</select>
 		<input type="submit">	
 	</form>
-            <a href="@routes.Application.publishTest(test.id, classroom.cid)" class="btn">End Test</a> 
-        }
+		@if(test.numQuestions >= 1){
+            <a href="@routes.Application.publishTest(test.id, classroom.cid)" class="btn">End Test</a>
+    	 }
+    }
     
  

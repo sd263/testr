@@ -57,6 +57,12 @@ public class Classroom extends Model {
     public void addStudent(Student aStudent){
     	students.add(aStudent);
     }
+    
+    public static String getClassNamebyId(Long id){
+    	Classroom aClassroom = new Model.Finder<>(long.class, Classroom.class)
+				.byId(id);
+		return aClassroom.cname;
+    }
 
 	public static List<Classroom> getClassWithoutStudent(Student student) {
 		List<Classroom>  classrooms = new Model.Finder<>(long.class,

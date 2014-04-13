@@ -9,12 +9,20 @@
             @flash.get("wrongLogin")
         </div>
         }
+        
+        	    @if(flash.containsKey("accountCreated")) {
+        <div class="alert-message warning">
+            @flash.get("accountCreated")
+        </div>
+        }
+        
+        
 
   	<h1> Login </h1>
   	
   			<form action="@routes.Application.login()" method="post">
   			username <input name="name"> 
-  			password <input name="password">
+  			password <input name="password" input type="password">
  			<input type="submit">	
   	</form>
   	
@@ -27,7 +35,7 @@
  	<form action="@routes.Application.createTeacher()" method="post">
   			username: <input name="name"> 
   			<br>
-  			password: <input name="password">
+  			password: <input name="password" input type="password">
              	<input type="submit">
 					</form>	 		
 
@@ -35,7 +43,7 @@
  	<form action="@routes.Application.createStudent()" method="post">
   			username: <input name="name"> 
   			<br>
-  			password: <input name="password">
+  			password: <input name="password" input type="password">
              	<input type="submit">
 					</form>	 						
     } 

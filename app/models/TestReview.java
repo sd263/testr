@@ -39,7 +39,7 @@ public class TestReview extends Model {
 				}
 			}
 		}
-		return "System error";
+		return "System error"; // unreachable state
 		
 	}
 	
@@ -53,11 +53,25 @@ public class TestReview extends Model {
 			if(tReview.test.equals(aTest))
 				return tReview;
 		}
-		return treviews.get(100);
+		return null; //unreachable state
 	}
 
 	public void addTestAnswer(TestAnswer testAnswer) {
 		studentAnswers.add(testAnswer);
+	}
+
+	public static List<TestReview> getReviewforTeacher(Teacher teacher) {
+		List<TestReview> tests = new Model.Finder<>(long.class,
+				TestReview.class).all();
+		for(int i = 0 ; i < tests.size() ; i++){
+			Classroom aClass =  new Model.Finder<>(long.class, Classroom.class)
+					.byId(tests.get(i).test.classId);
+			if(!teacher.classrooms.contains(aClass)){
+				tests.remove(i);
+				i--;
+			}
+		}
+		return tests;
 	}
 
 }

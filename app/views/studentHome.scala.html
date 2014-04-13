@@ -5,44 +5,53 @@
 <img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />
 	<h1> Hello, @student.name</h1>
 	
-	<h2> These tests are ready for you to take</h2>
-	  	<table border> 
-	  	       <thead>	  	       
-                <tr>
-                  <b> 
-                  <td> Classroom </td>
-                  <td> test name  </td>
-                    <td> test description</td>
-                   <td> Number of Questions</td>  
-                   <td> Take this test! 	</td>
-                   </b>
-                </tr>
-            </thead>
+	 @if(!readyTests.isEmpty){
+			<h2> These tests are ready for you to take</h2>
+	 		 <table border> 
+	 		 	       <thead>	  	       
+     		           <tr>
+     		             <td> Classroom </td>
+     		             <td> test name  </td>
+     		               <td> test description</td>
+     		              <td> Number of Questions</td>  
+    		               <td> Take this test! 	</td>
+    		            </tr>
+   		         </thead>
+		
+			   @for(test <- readyTests) {  
+         		    <td>   @Classroom.getClassNamebyId(test.classId) </td> 
+         		   <td>   @test.name </td>
+         		   <td>   @test.testDesc </td>
+         		   <td>   @test.numQuestions </td>
+          		   <td>   	<form method="get" action="@routes.Application.beginTest(student.id, test.id)">
+        					<input type="submit">
+   							</form>  </td>
+            		<tr>
+       		 }
+	   		 </table>
+	  }
 
-	   @for(test <- readyTests) {
-	  
-             <td>   @test.id </td> 
-            <td>   @test.name </td>
-            <td>   @test.testDesc </td>
-            <td>   @test.numQuestions </td>
-            <td>   	<form method="get" action="@routes.Application.beginTest(student.id, test.id)">
-        			   <input type="submit">
-   						</form>  </td>
-            <tr>
-        }
+	 @if(!outCroom.isEmpty){
+			<h2> Join a new classroom </h2>
+	
+			  	<table border> 
+	  			       <thead>	  	       
+    		            <tr>
+            		      <td> Classroom </td>
+                 		 <td> Join  </td>
+      		          </tr>
+    		        </thead>
 
-	    </table>
+			@for(classroom <- outCroom){
+			             <td>  @classroom.cname </td> 
+     		            <td> <form action="@routes.Application.joinClassroom(student.id, classroom.cid)" method="post">
+ 							<input type="submit"> 	 </td>
+						<tr>
+			}	
+	 		 </table> 
+	  }
 
-	<h2> Join a new classroom </h2>
-
-	@for(classroom <- outCroom){
-	<h3>@classroom.cname</h3>
-	 	 	<form action="@routes.Application.joinClassroom(student.id, classroom.cid)" method="post">
- 					<input type="submit">	
- 	<br>
-	}	
-
- 		</form>
+ 		
 	
 
 	

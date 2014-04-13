@@ -1,13 +1,13 @@
-@(testReview:TestReview,teacherId:Long)
+@(test:Test,answers:List[TestAnswer],teacherId:Long)
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 	
-@main(testReview.test.name) {
-		
-		            <a href="@routes.Application.teacherHome(teacherId)" class="btn">Home Screen</a> 
-		            
-		            <h1> @TestReview.getClassroomName(testReview) </h1>
-		            <h1> @testReview.test.name </h1> 
-		            <h2> @testReview.test.testDesc </h2>
+@main(test.name) {
+				<img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />	
+		            <a href="@routes.Application.teacherHome(teacherId)" class="btn">Home Screen</a> 		            
+
+					<h1> @Test.getClassroomName(test) </h1>
+		            <h1> @test.name </h1> 
+		            <h2> @test.testDesc </h2>
 		            
 		    <table border> 
 	  	    <thead>
@@ -16,12 +16,11 @@
 				  <td> Score    </td>
                   <td> Questions </td>
                    <td> percentage </td>         
-                   <td> See students answer	</td>
+                   <td> See answers	</td>
                 </tr>             
             </thead>
            
-           
-           		  @for(studentAnswer <- testReview.studentAnswers){
+           		  @for(studentAnswer <- answers){
 		        <td>    @studentAnswer.student.name </td>
 		        <td> 	@studentAnswer.score </td>
 		        <td> 	@studentAnswer.test.numQuestions </td>
@@ -29,11 +28,6 @@
 		        <td> TODO	</td>
 		         <tr>
 		            }
-		           
-		            
 		            </table>
 		            
-
-	
-	
 }

@@ -8,7 +8,6 @@ POST	/								controllers.Application.login()
 GET     /t/:id                          controllers.Application.teacherHome(id: Long)
 GET     /s/:id                           controllers.Application.studentHome(id:Long)
 
-
 # Create Student/class
 POST	/newstudent						controllers.Application.createStudent()
 POST	/newteacher						controllers.Application.createTeacher()

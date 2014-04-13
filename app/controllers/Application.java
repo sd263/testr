@@ -63,8 +63,7 @@ public class Application extends Controller {
 	public static Result teacherHome(Long id) {
 		Teacher teacher = new Model.Finder<>(long.class, Teacher.class)
 				.byId(id);
-		List<TestReview> tests = new Model.Finder<>(long.class,
-				TestReview.class).all();
+		List<Test> tests = Test.getTestForTeacher(teacher);
 		Form<Test> testForm = form(Test.class);
 		return ok(teacherHome.render(tests,testForm, teacher));
 	}
@@ -104,6 +103,7 @@ public class Application extends Controller {
 	public static Result createTeacher() {
 		Form<Teacher> teacherForm = form(Teacher.class).bindFromRequest();
 		if (!teacherForm.hasErrors()) {
+			flash("accountCreated", "Teacher account created!");
 			teacherForm.get().save();
 		}
 		return loginScreen();
@@ -112,6 +112,7 @@ public class Application extends Controller {
 	public static Result createStudent() {
 		Form<Student> studentForm = form(Student.class).bindFromRequest();
 		if (!studentForm.hasErrors()) {
+			flash("accountCreated", "Student account created!");
 			studentForm.get().save();
 		}
 		return loginScreen();
@@ -150,14 +151,14 @@ public class Application extends Controller {
 	public static Result beginTest(long studentId, long testId) {
 		Test test = new Model.Finder<>(long.class, Test.class)
 				.byId(testId);
-//		TestReview testReview = TestReview.findByTest(test);
+		TestReview testReview = TestReview.findByTest(test);
 		Student student = Student.findStudentbyId(studentId);
 		student.addTestTaken(test);
 		student.save();
 		TestAnswer testAnswer = new TestAnswer(student, test);
 		testAnswer.save();
-//		testReview.addTestAnswer(testAnswer);
-//		testReview.save();
+		testReview.addTestAnswer(testAnswer);
+		testReview.save();
 		return ok(takeTest.render(0, testAnswer));
 	}
 
@@ -178,6 +179,7 @@ public class Application extends Controller {
 		}
 		testAnswer.save();
 		if (testAnswer.test.numQuestions <= current + 1) { // no more questions
+			testAnswer.calculatePercentage();
 			testAnswer.save();
 			return ok(testResult.render(testAnswer, testAnswer.student.id));
 		}
@@ -186,9 +188,10 @@ public class Application extends Controller {
 	}
 
 	public static Result reviewTest(long id,long teacherId) {
-		TestReview testReview = new Model.Finder<>(long.class, TestReview.class)
+		Test test = new Model.Finder<>(long.class, Test.class)
 				.byId(id);
-		return ok(reviewTest.render(testReview,teacherId));
+		List<TestAnswer> answers = new Model.Finder<>(long.class, TestAnswer.class).all();
+		return ok(reviewTest.render(test,answers,teacherId));
 	}
 
 	// JSON USED FOR DEBUGGING
@@ -207,8 +210,6 @@ public class Application extends Controller {
 	public static Result getQuestions() {
 		List<Question> questions = new Model.Finder<>(long.class,
 				Question.class).all();
-		// Test test = new Model.Finder<>(long.class,Test.class).byId((long) 1);
-		// List<Question> quest = Question.testQuestion(test);
 		return ok(Json.toJson(questions));
 	}
 

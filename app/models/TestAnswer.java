@@ -34,7 +34,7 @@ public class TestAnswer extends Model {
 	
 	public int score;	// counts the total correctly answered questions
 	
-	public double percentage;
+	public int percentage;
 		
 
 		
@@ -63,11 +63,9 @@ public class TestAnswer extends Model {
 	}
 	
 	public void calculatePercentage(){
-		if(score == 0)
-			percentage = 0.0;
-		else
-		percentage = (score/test.numQuestions)*100;
+		percentage =(int) (score *100 / test.numQuestions + 0.5);
 	}
+	// http://stackoverflow.com/questions/10415531/overflow-safe-way-to-calculate-percentage-from-two-longs-in-java
 	
 	public void setStudent(Student aStudent){
 		student = aStudent;
@@ -76,5 +74,7 @@ public class TestAnswer extends Model {
 	public void setTest(Test aTest){
 		test = aTest;
 	}
+
+	
 }
 
