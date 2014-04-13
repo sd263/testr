@@ -4,7 +4,7 @@
 
 # Home page
 GET     /                       	    controllers.Application.loginScreen()
-POST	/								controllers.Application.login()
+POST	/log							controllers.Application.login()
 GET     /t/:id                          controllers.Application.teacherHome(id: Long)
 GET     /s/:id                           controllers.Application.studentHome(id:Long)
 
@@ -30,7 +30,6 @@ GET		/tResult/:teacherId/:id			controllers.Application.reviewTest(id : Long, tea
 GET		/testan							controllers.Application.getTestAnswers()
 GET		/tests							controllers.Application.getTests()
 GET		/questions						controllers.Application.getQuestions()
-GET		/testre							controllers.Application.getTestReview()
 GET		/students						controllers.Application.getStudents()
 GET		/croom							controllers.Application.getClassrooms()
 GET		/teacher						controllers.Application.getTeachers()

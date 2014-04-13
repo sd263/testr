@@ -54,12 +54,6 @@ create table test_answer (
   constraint pk_test_answer primary key (id))
 ;
 
-create table test_review (
-  id                        bigint not null,
-  test_id                   bigint,
-  constraint pk_test_review primary key (id))
-;
-
 
 create table classroom_student (
   classroom_cid                  bigint not null,
@@ -71,12 +65,6 @@ create table student_test (
   student_id                     bigint not null,
   test_id                        bigint not null,
   constraint pk_student_test primary key (student_id, test_id))
-;
-
-create table test_review_test_answer (
-  test_review_id                 bigint not null,
-  test_answer_id                 bigint not null,
-  constraint pk_test_review_test_answer primary key (test_review_id, test_answer_id))
 ;
 create sequence classroom_seq;
 
@@ -90,8 +78,6 @@ create sequence test_seq;
 
 create sequence test_answer_seq;
 
-create sequence test_review_seq;
-
 alter table classroom add constraint fk_classroom_teacher_1 foreign key (teacher_id) references teacher (id) on delete restrict on update restrict;
 create index ix_classroom_teacher_1 on classroom (teacher_id);
 alter table question add constraint fk_question_test_2 foreign key (test_id) references test (id) on delete restrict on update restrict;
@@ -102,8 +88,6 @@ alter table test_answer add constraint fk_test_answer_student_4 foreign key (stu
 create index ix_test_answer_student_4 on test_answer (student_id);
 alter table test_answer add constraint fk_test_answer_test_5 foreign key (test_id) references test (id) on delete restrict on update restrict;
 create index ix_test_answer_test_5 on test_answer (test_id);
-alter table test_review add constraint fk_test_review_test_6 foreign key (test_id) references test (id) on delete restrict on update restrict;
-create index ix_test_review_test_6 on test_review (test_id);
 
 
 
@@ -114,10 +98,6 @@ alter table classroom_student add constraint fk_classroom_student_student_02 for
 alter table student_test add constraint fk_student_test_student_01 foreign key (student_id) references student (id) on delete restrict on update restrict;
 
 alter table student_test add constraint fk_student_test_test_02 foreign key (test_id) references test (id) on delete restrict on update restrict;
-
-alter table test_review_test_answer add constraint fk_test_review_test_answer_te_01 foreign key (test_review_id) references test_review (id) on delete restrict on update restrict;
-
-alter table test_review_test_answer add constraint fk_test_review_test_answer_te_02 foreign key (test_answer_id) references test_answer (id) on delete restrict on update restrict;
 
 # --- !Downs
 
@@ -139,10 +119,6 @@ drop table if exists test;
 
 drop table if exists test_answer;
 
-drop table if exists test_review;
-
-drop table if exists test_review_test_answer;
-
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists classroom_seq;
@@ -156,6 +132,4 @@ drop sequence if exists teacher_seq;
 drop sequence if exists test_seq;
 
 drop sequence if exists test_answer_seq;
-
-drop sequence if exists test_review_seq;
 

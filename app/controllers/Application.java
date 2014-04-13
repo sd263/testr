@@ -138,9 +138,6 @@ public class Application extends Controller {
 			flash("notcreated", "your test has not been made");
 		} else {
 			flash("published", test.name);
-			TestReview testReview = new TestReview();
-			testReview.setTest(test);
-			testReview.save();
 		}
 		Teacher teacher = Teacher.findTeacherByClass(classroom);
 		return teacherHome(teacher.id); // test.classroom.teacher.id
@@ -151,14 +148,11 @@ public class Application extends Controller {
 	public static Result beginTest(long studentId, long testId) {
 		Test test = new Model.Finder<>(long.class, Test.class)
 				.byId(testId);
-		TestReview testReview = TestReview.findByTest(test);
 		Student student = Student.findStudentbyId(studentId);
 		student.addTestTaken(test);
 		student.save();
 		TestAnswer testAnswer = new TestAnswer(student, test);
 		testAnswer.save();
-		testReview.addTestAnswer(testAnswer);
-		testReview.save();
 		return ok(takeTest.render(0, testAnswer));
 	}
 
@@ -211,12 +205,6 @@ public class Application extends Controller {
 		List<Question> questions = new Model.Finder<>(long.class,
 				Question.class).all();
 		return ok(Json.toJson(questions));
-	}
-
-	public static Result getTestReview() {
-		List<TestReview> testreview = new Model.Finder<>(long.class,
-				TestReview.class).all();
-		return ok(Json.toJson(testreview));
 	}
 
 	public static Result getStudents() {
