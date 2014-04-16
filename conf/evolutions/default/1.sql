@@ -11,14 +11,20 @@ create table classroom (
 ;
 
 create table question (
-  question_text             varchar(255) not null,
+  id                        bigint not null,
   test_id                   bigint not null,
+  question_text             varchar(255),
   answer1                   varchar(255),
   answer2                   varchar(255),
   answer3                   varchar(255),
   answer4                   varchar(255),
   correct_answer            integer,
-  constraint pk_question primary key (question_text))
+  constraint pk_question primary key (id))
+;
+
+create table question_response (
+  test_answer_id            bigint not null,
+  answer                    integer)
 ;
 
 create table student (
@@ -39,6 +45,7 @@ create table test (
   id                        bigint not null,
   classroom_cid             bigint not null,
   class_id                  bigint,
+  retired                   boolean,
   name                      varchar(255),
   test_desc                 varchar(255),
   num_questions             integer,
@@ -82,12 +89,14 @@ alter table classroom add constraint fk_classroom_teacher_1 foreign key (teacher
 create index ix_classroom_teacher_1 on classroom (teacher_id);
 alter table question add constraint fk_question_test_2 foreign key (test_id) references test (id) on delete restrict on update restrict;
 create index ix_question_test_2 on question (test_id);
-alter table test add constraint fk_test_classroom_3 foreign key (classroom_cid) references classroom (cid) on delete restrict on update restrict;
-create index ix_test_classroom_3 on test (classroom_cid);
-alter table test_answer add constraint fk_test_answer_student_4 foreign key (student_id) references student (id) on delete restrict on update restrict;
-create index ix_test_answer_student_4 on test_answer (student_id);
-alter table test_answer add constraint fk_test_answer_test_5 foreign key (test_id) references test (id) on delete restrict on update restrict;
-create index ix_test_answer_test_5 on test_answer (test_id);
+alter table question_response add constraint fk_question_response_test_answ_3 foreign key (test_answer_id) references test_answer (id) on delete restrict on update restrict;
+create index ix_question_response_test_answ_3 on question_response (test_answer_id);
+alter table test add constraint fk_test_classroom_4 foreign key (classroom_cid) references classroom (cid) on delete restrict on update restrict;
+create index ix_test_classroom_4 on test (classroom_cid);
+alter table test_answer add constraint fk_test_answer_student_5 foreign key (student_id) references student (id) on delete restrict on update restrict;
+create index ix_test_answer_student_5 on test_answer (student_id);
+alter table test_answer add constraint fk_test_answer_test_6 foreign key (test_id) references test (id) on delete restrict on update restrict;
+create index ix_test_answer_test_6 on test_answer (test_id);
 
 
 
@@ -108,6 +117,8 @@ drop table if exists classroom;
 drop table if exists classroom_student;
 
 drop table if exists question;
+
+drop table if exists question_response;
 
 drop table if exists student;
 

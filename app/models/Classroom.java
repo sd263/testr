@@ -8,17 +8,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
 
 import models.Classroom;
 import models.Student;
-import models.Teacher;
 
-
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 @Entity

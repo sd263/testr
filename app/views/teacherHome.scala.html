@@ -57,6 +57,7 @@
                   <td> Classroom </td>
                    <td> Number of Questions</td>         
                    <td> Review Test 	</td>
+                   <td> Retire Test 	</td>
                 </tr>             
             </thead>
             
@@ -66,8 +67,9 @@
 			<td> 	@Test.getClassroomName(testReview)</td>
             <td>   @testReview.numQuestions </td>
             <td>   	<form method="get" action="@routes.Application.reviewTest(testReview.id,teacher.id)">
-        			   <input type="submit">
-   						</form>  </td>
+        			   <input type="submit"> </form>  </td>
+            <td>   	<form method="post" action="@routes.Application.retireTest(testReview.id,teacher.id)">
+        			   <input type="submit"> </form>  </td>   						
             <tr>
         }
 	    </table>

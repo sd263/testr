@@ -14,10 +14,8 @@
         <div class="alert-message warning">
             @flash.get("accountCreated")
         </div>
-        }
-        
-        
-
+        }    
+ 
   	<h1> Login </h1>
   	
   			<form action="@routes.Application.login()" method="post">
@@ -25,11 +23,8 @@
   			password <input name="password" input type="password">
  			<input type="submit">	
   	</form>
-  	
  
- 
- 
- <h1> Create Accounts </h1>
+ <h1>Create Account</h1>
  
   <h3> Teacher </h3>
  	<form action="@routes.Application.createTeacher()" method="post">

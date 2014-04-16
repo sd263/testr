@@ -3,7 +3,7 @@
 	
 @main(testAnswer.test.name) {
 <img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />
-	<h1> Test complete! You scored @(testAnswer.score)  out of @(testAnswer.test.numQuestions) <h1>
+	<h1> Test complete! You scored @(testAnswer.score) out of @(testAnswer.test.numQuestions), @testAnswer.percentage%<h1>
 		<h2> Return to home screen </h2>
 		            <a href="@routes.Application.studentHome(id)" class="btn">Home Screen</a> 
 

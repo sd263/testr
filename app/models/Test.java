@@ -22,6 +22,7 @@ public class Test extends Model {
 	public Long id;
 	@Constraints.Required
 	public Long classId;
+	public boolean retired;
 	public String name;
 	public String testDesc;
 
@@ -48,19 +49,8 @@ public class Test extends Model {
 			}
 		}
 		return testList;
-
 	}
 	
-	public static String getClassroomName(Test aTest){
-		Classroom aClass = new Model.Finder<>(long.class, Classroom.class)
-				.byId(aTest.classId);
-		return aClass.cname;
-	}
-	
-
-	public static Finder<Long, Test> find = new Finder<Long, Test>(Long.class,
-			Test.class);
-
 	public static List<Test> getTestForTeacher(Teacher teacher) {
 		List<Test> testList = new Model.Finder<>(long.class, Test.class).all();
 		for(int i = 0 ; i < testList.size() ; i++){
@@ -69,7 +59,32 @@ public class Test extends Model {
 					.byId(cId);
 			if(!teacher.classrooms.contains(aClass))
 			 testList.remove(testList.get(i));
+			else if(testList.get(i).retired == true){
+				testList.remove(testList.get(i));
+				i--;
+			}
+			
 		}
 		return testList;
 	}
+	
+	public static String getClassroomName(Test aTest){
+		Classroom aClass = new Model.Finder<>(long.class, Classroom.class)
+				.byId(aTest.classId);
+		return aClass.cname;
+	}
+	
+	public void openTest(){
+		retired = false;
+	}
+	
+	public void retireTest(){
+		retired = true;
+	}
+	
+
+	public static Finder<Long, Test> find = new Finder<Long, Test>(Long.class,
+			Test.class);
+
+
 }

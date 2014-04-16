@@ -3,29 +3,32 @@
 	
 @main(test.name) {
 				<img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />	
-		            <a href="@routes.Application.teacherHome(teacherId)" class="btn">Home Screen</a> 		            
+		          <a href="@routes.Application.teacherHome(teacherId)" class="btn">Home Screen</a> 	            
 
-					<h1> @Test.getClassroomName(test) </h1>
-		            <h1> @test.name </h1> 
-		            <h2> @test.testDesc </h2>
+					<h1>@test.name: @test.testDesc for @Test.getClassroomName(test) </h1>
+					<h2> There are @test.numQuestions questions </h2>
 		            
 		    <table border> 
 	  	    <thead>
                 <tr>
                   <td> Student Name </td>
 				  <td> Score    </td>
-                  <td> Questions </td>
                    <td> percentage </td>         
                    <td> See answers	</td>
-                </tr>             
+                <tr>             
             </thead>
+                <tr> <b>
+                  <td> CLASS AVERAGE </td>
+				  <td> @TestAnswer.getClassAverageScore(answers) out of @test.numQuestions</td>
+                   <td> @TestAnswer.getClassAveragePercentage(answers)% </td>         
+                   <td> </td>
+                <tr>            
            
            		  @for(studentAnswer <- answers){
 		        <td>    @studentAnswer.student.name </td>
-		        <td> 	@studentAnswer.score </td>
-		        <td> 	@studentAnswer.test.numQuestions </td>
-		        <td> 	@studentAnswer.percentage </td>
-		        <td> TODO	</td>
+		        <td> 	@studentAnswer.score out of @test.numQuestions</td>
+		        <td> 	@studentAnswer.percentage% </td>
+		        <td>  <a href="@routes.Application.reviewStudentTest(studentAnswer.id,teacherId)" class="btn">See students results</a> </td>
 		         <tr>
 		            }
 		            </table>

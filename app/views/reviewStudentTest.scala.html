@@ -1,0 +1,31 @@
+@(testAnswer:TestAnswer,student:Student,teacherId:Long)
+	<script src='@routes.Assets.at("javascripts/index.js")'></script>
+	
+@main("review") {
+				<img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />	
+				  <a href="@routes.Application.reviewTest(testAnswer.test.id,teacherId)" class="btn">Go back</a> 	
+		            		            
+
+					<h1>@student.name results for @testAnswer.test.name , @testAnswer.test.testDesc in @Test.getClassroomName(testAnswer.test) </h1>
+
+					<h2> @student.name scored @testAnswer.score out of @testAnswer.test.numQuestions which is @testAnswer.percentage %
+		            
+		    <table border> 
+	  	    <thead>
+                <tr>
+                  <td> Question </td>
+				  <td> Student Answer  </td>
+                  <td> Correct answer </td>
+
+                </tr>             
+            </thead>
+           
+           		  @for(i <- 1 to testAnswer.test.numQuestions){
+		        <td>    @TestAnswer.getQuestionName(i,testAnswer) </td> 
+		        <td> 	@TestAnswer.getStudentAnswer(i,testAnswer) </td>
+		        <td> 	@TestAnswer.getQuestionAnswer(i,testAnswer) </td>
+		         <tr>
+		            }
+		            </table>
+		            
+}

@@ -11,7 +11,9 @@ import play.db.ebean.Model;
 public class Question extends Model {
 	private static final long serialVersionUID = 1L;
 
-	@Constraints.Required @Id
+	@Id
+	public long Id;
+	@Constraints.Required 
 	public String questionText;
 	
 	public String answer1;
@@ -19,7 +21,6 @@ public class Question extends Model {
 	public String answer3;
 	public String answer4;
 
-	@Constraints.Required
 	@Constraints.Max(value = 4)
 	@Constraints.Min(value = 1)
 	public int correctAnswer;

@@ -83,6 +83,7 @@ public class Application extends Controller {
 	
 	public static Result createTest() {
 		Test test = Form.form(Test.class).bindFromRequest().get();	
+		test.openTest();
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
 				.byId(test.classId);
 		 classroom.addTest(test); // breaks the program
@@ -142,6 +143,16 @@ public class Application extends Controller {
 		Teacher teacher = Teacher.findTeacherByClass(classroom);
 		return teacherHome(teacher.id); // test.classroom.teacher.id
 	}
+	
+	public static Result scrapTest(long id, long classroomId){
+		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
+		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
+				.byId(classroomId);
+		test.delete();
+		flash("notcreated", "your test has not been made");
+		Teacher teacher = Teacher.findTeacherByClass(classroom);
+		return teacherHome(teacher.id); // test.classroom.teacher.id
+	}
 
 
 
@@ -161,7 +172,8 @@ public class Application extends Controller {
 		TestAnswer testAnswer = new Model.Finder<>(long.class, TestAnswer.class)
 				.byId(id);
 
-		// testAnswer.addAnswer(answer);
+		QuestionResponse qr = new QuestionResponse(answer);
+		testAnswer.addAnswer(qr);
 
 		if (testAnswer.test.questions.get(current).correctAnswer == answer) {
 			flash("correct", "");
@@ -171,21 +183,35 @@ public class Application extends Controller {
 					testAnswer.test.questions.get(current),
 					testAnswer.test.questions.get(current).correctAnswer - 1));
 		}
-		testAnswer.save();
 		if (testAnswer.test.numQuestions <= current + 1) { // no more questions
 			testAnswer.calculatePercentage();
 			testAnswer.save();
 			return ok(testResult.render(testAnswer, testAnswer.student.id));
 		}
-
+		testAnswer.save();
 		return ok(takeTest.render(++current, testAnswer));
 	}
 
 	public static Result reviewTest(long id,long teacherId) {
 		Test test = new Model.Finder<>(long.class, Test.class)
 				.byId(id);
-		List<TestAnswer> answers = new Model.Finder<>(long.class, TestAnswer.class).all();
+		List<TestAnswer> answers = TestAnswer.getTAForTest(test);
 		return ok(reviewTest.render(test,answers,teacherId));
+	}
+	
+	public static Result reviewStudentTest(long id,long teacherId) {
+		TestAnswer test = new Model.Finder<>(long.class, TestAnswer.class)
+				.byId(id);		
+		return ok(reviewStudentTest.render(test,test.student,teacherId));
+	}
+	
+	public static Result retireTest(long id, long teacherId){
+		Test test = new Model.Finder<>(long.class, Test.class)
+				.byId(id);
+		flash("notcreated", "your test has not been made");
+		test.retireTest();
+		test.save();
+		return teacherHome(teacherId);	
 	}
 
 	// JSON USED FOR DEBUGGING
