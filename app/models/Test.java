@@ -34,6 +34,14 @@ public class Test extends Model {
 	public void addQuestion(Question aQuestion) {
 		questions.add(aQuestion);
 	}
+	
+	public void openTest(){
+		retired = false;
+	}
+	
+	public void retireTest(){
+		retired = true;
+	}
 
 	public static List<Test> getTestsForStudent(List<Classroom> croom, Student student) {
 		List<Classroom> allClass = new Model.Finder<>(long.class, Classroom.class).all();
@@ -72,16 +80,7 @@ public class Test extends Model {
 		Classroom aClass = new Model.Finder<>(long.class, Classroom.class)
 				.byId(aTest.classId);
 		return aClass.cname;
-	}
-	
-	public void openTest(){
-		retired = false;
-	}
-	
-	public void retireTest(){
-		retired = true;
-	}
-	
+	}	
 
 	public static Finder<Long, Test> find = new Finder<Long, Test>(Long.class,
 			Test.class);

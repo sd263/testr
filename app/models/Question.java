@@ -26,11 +26,11 @@ public class Question extends Model {
 	public int correctAnswer;
 
 	public static String getAnswer(Question question, int i) {
-		if (i == 0)
+		if (i == 1)
 			return question.answer1;
-		else if (i == 1)
+		else if (i == 2)
 			return question.answer2;
-		if (i == 2)
+		if (i == 3)
 			return question.answer3;
 		else
 			return question.answer4;

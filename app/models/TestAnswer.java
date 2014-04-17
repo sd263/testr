@@ -1,19 +1,15 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import play.data.Form;
 import play.db.ebean.Model;
 
 @Entity
@@ -39,7 +35,7 @@ public class TestAnswer extends Model {
 	public int score;	// counts the total correctly answered questions
 	
 	public int percentage;
-		
+	
 		
 	public TestAnswer(Student aStudent, Test aTest) {
 		student = aStudent;
@@ -48,18 +44,6 @@ public class TestAnswer extends Model {
 	
 	public void addAnswer(QuestionResponse qr){
 		answers.add(qr);
-	}
-
-
-	public Student findStudentbyId(Long id) {
-		Student student = new Model.Finder<>(long.class, Student.class)
-				.byId(id);
-		return student;
-	}
-	
-	public Test findTestByID(Long id){
-		Test test = new Model.Finder<>(long.class,Test.class).byId(id);
-		return test;
 	}
 
 	public  Question getQuestion(int current){
@@ -82,7 +66,6 @@ public class TestAnswer extends Model {
 	public void setTest(Test aTest){
 		test = aTest;
 	}
-	
 
 	public static String getClassAverageScore(List<TestAnswer> tests){
 		float average = (float) 0.0;
@@ -112,7 +95,6 @@ public class TestAnswer extends Model {
 	public static String getStudentAnswer(int i , TestAnswer testAnswer ){
 		return String.valueOf(Question.getAnswer(testAnswer.test.questions.get(i-1),testAnswer.answers.get(i-1).getAnswer()));
 	}
-	
 	
 	public static String getQuestionAnswer(int i , TestAnswer testAnswer){
 		int n = testAnswer.test.questions.get(i-1).correctAnswer;

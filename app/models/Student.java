@@ -37,19 +37,8 @@ public class Student extends Model {
 		return student;
 	}
 
-
 	public void addTestTaken(Test test) {
 		testComplete.add(test);	
 	}
-
-
-	
-	/*
-	 * student join classroom code
-	 * 
-	 * @select( studentForm("classroom.id"), options(Classroom.options), '_label
-	 * -> "Classroom", '_default -> "-- Choose a company --", '_showConstraints
-	 * -> false ) /*
-	 */
 
 }
