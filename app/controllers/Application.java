@@ -79,12 +79,16 @@ public class Application extends Controller {
 		return teacherHome(id);
 	}
 
-	public static Result createTest() {
+	public static Result createTest(long teacherId) {
 		Test test = Form.form(Test.class).bindFromRequest().get();
 		test.openTest();
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
 				.byId(test.classId);
 		classroom.addTest(test);
+		if(test.name == ""){
+			flash("notcreated", "your test has not been made");
+			return teacherHome(teacherId);
+		}
 		classroom.save();
 		return ok(createTest.render(test, classroom));
 	}

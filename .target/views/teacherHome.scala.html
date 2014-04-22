@@ -4,6 +4,8 @@
 @main("Testr: test redefined") {
 	<script src='@routes.Assets.at("javascripts/index.js")'></script>
 <img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />	
+ <a href="@routes.Application.login()" class="btn">Logout</a> 	     
+
 
 	    @if(flash.containsKey("published")) {
         <div class="alert-message warning">
@@ -24,7 +26,7 @@
 		 
 		 @if(!teacher.classrooms.isEmpty){
 		<h3> Create Test </h3>	
-		  	<form action="@routes.Application.createTest()" method="post">
+		  	<form action="@routes.Application.createTest(teacher.id)" method="post">
 		  	<select name="classId"> 
 		 	@for(aClass <- teacher.classrooms){
 		 	<option value=@aClass.cid> @aClass.cname </option>

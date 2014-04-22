@@ -3,6 +3,19 @@
 	
 @main(testAnswer.test.name) {
 <img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />
+
+	    @if(flash.containsKey("correct")) {
+        <div class="alert-message warning">
+            <strong>Correct Answer</strong> @flash.get("correct")
+        </div>
+        }
+        
+      @if(flash.containsKey("wrong")) {
+        <div class="alert-message warning">
+            <strong>Wrong Answer</strong> @flash.get("wrong")
+        </div>
+    } 
+
 	<h1> Test complete! You scored @(testAnswer.score) out of @(testAnswer.test.numQuestions), @testAnswer.percentage%<h1>
 		<h2> Return to home screen </h2>
 		            <a href="@routes.Application.studentHome(id)" class="btn">Home Screen</a> 

@@ -15,7 +15,7 @@ POST	/newclass/:id					controllers.Application.createClassroom(id:Long)
 POST	/join/:s/:c						controllers.Application.joinClassroom(s: Long, c:Long)
 
 # Create new test
-POST	/ctest/							controllers.Application.createTest()
+POST	/ctest/							controllers.Application.createTest(id:Long)
 GET		/publish/:id					controllers.Application.publishTest(id:Long,cid:Long)
 GET		/scrap/:id						controllers.Application.scrapTest(id:Long,cid:Long)
 POST	/q/:cid							controllers.Application.addQuestion(cid:Long)
