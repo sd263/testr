@@ -11,9 +11,17 @@ import play.mvc.*;
 import models.*;
 import views.html.*;
 
+/**
+ * Application executes methods called at view level.
+ */
 public class Application extends Controller {
 
-	// Home screen and login
+	/**
+	 * Loads the login screen. Loads of domain name being entered.
+	 * 
+	 * @since prototype 2
+	 * @return login screen
+	 */
 	public static Result loginScreen() {
 		List<Classroom> classes = new Model.Finder<>(long.class,
 				Classroom.class).all();
@@ -27,6 +35,16 @@ public class Application extends Controller {
 				teachers));
 	}
 
+	/**
+	 * Verfies if account exists. Logs in as either student, teacher, or returns
+	 * incorrect login data error message.
+	 * 
+	 * @since prototype 2
+	 * @return Student home screen
+	 * @return Teacher home screen
+	 * @throws Bad
+	 *             Login error
+	 */
 	public static Result login() {
 		Form<Student> studentLogin = form(Student.class).bindFromRequest();
 		Form<Teacher> teacherLogin = form(Teacher.class).bindFromRequest();
@@ -50,6 +68,14 @@ public class Application extends Controller {
 		return loginScreen();
 	}
 
+	/**
+	 * Loads the home screen of a Student
+	 * 
+	 * @since prototype 2
+	 * @param id
+	 *            The Student id
+	 * @return Student home screen
+	 */
 	public static Result studentHome(Long id) {
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
@@ -59,6 +85,14 @@ public class Application extends Controller {
 		return ok(studentHome.render(inCroom, outCroom, tests, student));
 	}
 
+	/**
+	 * Loads the home screen of a Teacher
+	 * 
+	 * @since prototype 2
+	 * @param id
+	 *            The Teacher id
+	 * @return Teacher home screen
+	 */
 	public static Result teacherHome(Long id) {
 		Teacher teacher = new Model.Finder<>(long.class, Teacher.class)
 				.byId(id);
@@ -67,8 +101,14 @@ public class Application extends Controller {
 		return ok(teacherHome.render(tests, testForm, teacher));
 	}
 
-	// creating students and classrooms
-
+	/**
+	 * Creates a classroom. Adds to teachers list
+	 * 
+	 * @since prototype 2
+	 * @param id
+	 *            The Teacher id
+	 * @return Teacher home screen
+	 */
 	public static Result createClassroom(long id) {
 		Classroom classroom = Form.form(Classroom.class).bindFromRequest()
 				.get();
@@ -79,13 +119,23 @@ public class Application extends Controller {
 		return teacherHome(id);
 	}
 
+	/**
+	 * Creates a Test to have questions be added to it.
+	 * 
+	 * @since Prototype 1
+	 * @param teacherId
+	 *            the id of the Teacher who is creating test
+	 * @return Teacher home screen
+	 * @throws No
+	 *             test name error
+	 */
 	public static Result createTest(long teacherId) {
 		Test test = Form.form(Test.class).bindFromRequest().get();
 		test.openTest();
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
 				.byId(test.classId);
 		classroom.addTest(test);
-		if(test.name == ""){
+		if (test.name == "") {
 			flash("notcreated", "your test has not been made");
 			return teacherHome(teacherId);
 		}
@@ -93,16 +143,32 @@ public class Application extends Controller {
 		return ok(createTest.render(test, classroom));
 	}
 
-	public static Result joinClassroom(long id, long classid) {
+	/**
+	 * Joins a student to a classroom.
+	 * 
+	 * @since Prototype 2
+	 * @param id
+	 *            The Student id
+	 * @param classId
+	 *            The Classroom Id
+	 * @return Student home screen
+	 */
+	public static Result joinClassroom(long id, long classId) {
 		Student student = new Model.Finder<>(long.class, Student.class)
 				.byId(id);
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
-				.byId(classid);
+				.byId(classId);
 		classroom.addStudent(student);
 		classroom.save();
 		return studentHome(id);
 	}
 
+	/**
+	 * Creates a new Teacher.
+	 * 
+	 * @since Prototype 2
+	 * @return Login screen
+	 */
 	public static Result createTeacher() {
 		Form<Teacher> teacherForm = form(Teacher.class).bindFromRequest();
 		if (!teacherForm.hasErrors()) {
@@ -112,6 +178,12 @@ public class Application extends Controller {
 		return loginScreen();
 	}
 
+	/**
+	 * Creates a new Student
+	 * 
+	 * @since Prototype 2
+	 * @return Login screen
+	 */
 	public static Result createStudent() {
 		Form<Student> studentForm = form(Student.class).bindFromRequest();
 		if (!studentForm.hasErrors()) {
@@ -121,9 +193,17 @@ public class Application extends Controller {
 		return loginScreen();
 	}
 
-	public static Result addQuestion(long classroomId) { // creates
+	/**
+	 * Adds a new question to non published test.
+	 * 
+	 * @since Prototype 1
+	 * @param classId
+	 *            The Classroom Id
+	 * @return Question creation screen
+	 */
+	public static Result addQuestion(long classId) { // creates
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
-				.byId(classroomId);
+				.byId(classId);
 		Question question = Form.form(Question.class).bindFromRequest().get();
 		Test test = classroom.tests.get(classroom.tests.size() - 1);
 		test.numQuestions++;
@@ -132,10 +212,22 @@ public class Application extends Controller {
 		return ok(createTest.render(test, classroom));
 	}
 
-	public static Result publishTest(long id, long classroomId) {
+	/**
+	 * Publishes a test when the Teacher has created all questions.
+	 * 
+	 * @since Prototype 1
+	 * @param id
+	 *            The Test id
+	 * @param classId
+	 *            The Classroom Id
+	 * @return Teacher home screen
+	 * @throws no
+	 *             questions error
+	 */
+	public static Result publishTest(long id, long classId) {
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
-				.byId(classroomId);
+				.byId(classId);
 		if (test.numQuestions <= 0) {
 			test.delete();
 			flash("notcreated", "your test has not been made");
@@ -146,6 +238,16 @@ public class Application extends Controller {
 		return teacherHome(teacher.id);
 	}
 
+	/**
+	 * Deletes a unwanted Test before being published.
+	 * 
+	 * @since Prototype 2
+	 * @param id
+	 *            The Test id
+	 * @param classId
+	 *            The Classroom Id
+	 * @return Teacher home screen
+	 */
 	public static Result scrapTest(long id, long classroomId) {
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
 		Classroom classroom = new Model.Finder<>(long.class, Classroom.class)
@@ -156,9 +258,18 @@ public class Application extends Controller {
 		return teacherHome(teacher.id);
 	}
 
+	/**
+	 * Student begins taking a Test.
+	 * 
+	 * @since Prototype 1
+	 * @param studentId
+	 *            The Student id
+	 * @param testId
+	 *            The Test id
+	 * @return Take test screen
+	 */
 	public static Result beginTest(long studentId, long testId) {
 		Test test = new Model.Finder<>(long.class, Test.class).byId(testId);
-
 		Student student = Student.findStudentbyId(studentId);
 		student.addTestTaken(test);
 		student.save();
@@ -167,6 +278,19 @@ public class Application extends Controller {
 		return ok(takeTest.render(0, testAnswer));
 	}
 
+	/**
+	 * Marks a Students answer and checks if any more questions in test.
+	 * 
+	 * @since Prototype 1
+	 * @param current
+	 *            the current postion in the test
+	 * @param answer
+	 *            the Student answer for the current question
+	 * @param id
+	 *            The Student id
+	 * @return Take test screen
+	 * @return Test result screen
+	 */
 	public static Result markQuestion(int current, int answer, long id) {
 
 		TestAnswer testAnswer = new Model.Finder<>(long.class, TestAnswer.class)
@@ -177,7 +301,7 @@ public class Application extends Controller {
 		if (testAnswer.test.questions.get(current).correctAnswer == answer) {
 			flash("correct", "");
 			testAnswer.markCorrect();
-		} else {	// incorrect answer
+		} else { // incorrect answer
 			flash("wrong", Question.getAnswer(
 					testAnswer.test.questions.get(current),
 					testAnswer.test.questions.get(current).correctAnswer - 1));
@@ -191,18 +315,49 @@ public class Application extends Controller {
 		return ok(takeTest.render(++current, testAnswer));
 	}
 
+	/**
+	 * Allows a Teacher to review all the answers for a Test.
+	 * 
+	 * @since Prototype 2
+	 * @param id
+	 *            The Test Id
+	 * @param teacherId
+	 *            The Teacher Id
+	 * @return Review test screen
+	 */
 	public static Result reviewTest(long id, long teacherId) {
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
 		List<TestAnswer> answers = TestAnswer.getTAForTest(test);
 		return ok(reviewTest.render(test, answers, teacherId));
 	}
 
+	
+	/**
+	 * Allows a Teacher to review a Student's response to a Test
+	 * 
+	 * @since Prototype 2
+	 * @param id
+	 *            The Test Id
+	 * @param teacherId
+	 *            The Teacher Id
+	 * @return Review Student test screen
+	 */
 	public static Result reviewStudentTest(long id, long teacherId) {
 		TestAnswer test = new Model.Finder<>(long.class, TestAnswer.class)
 				.byId(id);
 		return ok(reviewStudentTest.render(test, test.student, teacherId));
 	}
 
+	/**
+	 * Prevents Test from showing any more in Teachers Test list
+	 * 
+	 * @since Prototype 2
+	 * @param id
+	 *            The Test Id
+	 * @param teacherId
+	 *            The Teacher Id
+	 * @return Teacher home screen
+	 */
 	public static Result retireTest(long id, long teacherId) {
 		Test test = new Model.Finder<>(long.class, Test.class).byId(id);
 		flash("notcreated", "This test has been retired");
@@ -210,9 +365,10 @@ public class Application extends Controller {
 		test.save();
 		return teacherHome(teacherId);
 	}
-	
+
 	// JSON USED FOR DEBUGGING
-	
+	// Would be removed in production build.
+
 	public static Result getTests() {
 		List<Test> tests = new Model.Finder<>(long.class, Test.class).all();
 		return ok(Json.toJson(tests));

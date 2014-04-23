@@ -8,14 +8,11 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 /**
- * Test entity managed by Ebean
+ * 
  */
 @Entity
 public class Test extends Model {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,18 +28,42 @@ public class Test extends Model {
 	@OneToMany(cascade = { CascadeType.ALL })
 	public List<Question> questions;
 
+	/**
+	 * Adds new Question to the test
+	 * 
+	 * @param aQuestion the Question to add
+	 * @since Prototype 1
+	 */
 	public void addQuestion(Question aQuestion) {
 		questions.add(aQuestion);
 	}
 	
+	/**
+	 * Sets the test to be ready
+	 * 
+	 * @since Prototype 2
+	 */
 	public void openTest(){
 		retired = false;
 	}
 	
+	/**
+	 * Sets the test to be retired 
+	 * 
+	 * @since Prototype 2
+	 */
 	public void retireTest(){
 		retired = true;
 	}
 
+	/**
+	 * Returns all the Tests available to take for a Student
+	 * 
+	 * @param croom List of Classrooms Student is in.
+	 * @param student the Student
+	 * @return testLIst lists of Tests
+	 * @since Prototype 2
+	 */
 	public static List<Test> getTestsForStudent(List<Classroom> croom, Student student) {
 		List<Classroom> allClass = new Model.Finder<>(long.class, Classroom.class).all();
 		List<Test> testList = new Model.Finder<>(long.class, Test.class).all();
@@ -59,6 +80,13 @@ public class Test extends Model {
 		return testList;
 	}
 	
+	/**
+	 * Returns all the Tests available to review for Teacher
+	 * 
+	 * @param teacher
+	 * @return testLIst lists of Tests
+	 * @since Prototype 2
+	 */
 	public static List<Test> getTestForTeacher(Teacher teacher) {
 		List<Test> testList = new Model.Finder<>(long.class, Test.class).all();
 		for(int i = 0 ; i < testList.size() ; i++){
@@ -76,14 +104,17 @@ public class Test extends Model {
 		return testList;
 	}
 	
+	/**
+	 * Returns the name of classroom based on a Test
+	 * 
+	 * @param aTest
+	 * @return Classroom Name
+	 * @since Prototype 2
+	 */
 	public static String getClassroomName(Test aTest){
 		Classroom aClass = new Model.Finder<>(long.class, Classroom.class)
 				.byId(aTest.classId);
 		return aClass.cname;
 	}	
-
-	public static Finder<Long, Test> find = new Finder<Long, Test>(Long.class,
-			Test.class);
-
 
 }
