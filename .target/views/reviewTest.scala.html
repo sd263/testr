@@ -1,6 +1,4 @@
-@(test:Test,answers:List[TestAnswer],teacherId:Long)
-	<script src='@routes.Assets.at("javascripts/index.js")'></script>
-	
+@(test:Test,answers:List[TestAnswer],teacherId:Long)	
 @main(test.name) {
 				<img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />	
 		          <a href="@routes.Application.teacherHome(teacherId)" class="btn">Home Screen</a> 	            
@@ -17,8 +15,8 @@
                    <td> See answers	</td>
                 <tr>             
             </thead>
-                <tr> <b>
-                  <td> CLASS AVERAGE </td>
+                <tr> 
+                  <td> Class Average </td>
 				  <td> @TestAnswer.getClassAverageScore(answers) out of @test.numQuestions</td>
                    <td> @TestAnswer.getClassAveragePercentage(answers)% </td>         
                    <td> </td>

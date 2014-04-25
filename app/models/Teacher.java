@@ -30,6 +30,8 @@ public class Teacher extends Model  {
 	@OneToMany(cascade = {CascadeType.ALL})
 	public List<Classroom> classrooms;
 	
+	 public static Model.Finder<Long,Teacher> find = new Model.Finder<Long,Teacher>(Long.class, Teacher.class);
+	
 	/**
 	 * Adds a new Classroom to classrooms
 	 * 
@@ -57,6 +59,15 @@ public class Teacher extends Model  {
 		return teachers.get(0);
 	}
 	
+	/**
+	 * Used in Junit
+	 * 
+	 * @param id
+	 * @since Prototype 2
+	 */
+	public static Teacher findById(long id){
+		return find.byId(id);
+	}
 
 
 }

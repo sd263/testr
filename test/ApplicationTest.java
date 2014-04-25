@@ -1,3 +1,6 @@
+import models.Student;
+import models.Teacher;
+
 import org.junit.*;
 
 import play.mvc.Result;
@@ -17,6 +20,16 @@ import static play.test.Helpers.status;
 *
 */
 public class ApplicationTest {
+	
+	@Test
+	public void setUp() {
+	    running(fakeApplication(), new Runnable() {
+	        public void run() {
+	            Student student = Student.find.byId((long) 1);
+	            assertThat(student.name).isEqualTo("Macintosh");
+	        }
+	     });
+	}
 
     @Test
     public void simpleCheck() {
@@ -25,16 +38,10 @@ public class ApplicationTest {
     }
     
     @Test
-    public void redirectHomePage() {
-        running(fakeApplication(), new Runnable() {
-           public void run() {
-               Result result = callAction(controllers.routes.ref.Application.loginScreen());
-
-               assertThat(status(result)).isEqualTo(SEE_OTHER);
-               assertThat(redirectLocation(result)).isEqualTo("/computers");
-           }
-        });
+    public void createTeacher(){
+//    	assertEqual(3, Classroom.)
     }
+
     
 
 //    @Test

@@ -31,6 +31,8 @@ public class Student extends Model {
 	 */
 	@ManyToMany
 	public List<Test> testComplete;
+	
+	 public static Model.Finder<Long,Student> find = new Model.Finder<Long,Student>(Long.class, Student.class);
 
 	/**
 	 * Returns a Student with their Id

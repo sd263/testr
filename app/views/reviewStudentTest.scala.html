@@ -1,10 +1,7 @@
-@(testAnswer:TestAnswer,student:Student,teacherId:Long)
-	<script src='@routes.Assets.at("javascripts/index.js")'></script>
-	
+@(testAnswer:TestAnswer,student:Student,teacherId:Long)	
 @main("review") {
 				<img src="@routes.Assets.at("images/testrbanner.png")" height = "200" />	
 				  <a href="@routes.Application.reviewTest(testAnswer.test.id,teacherId)" class="btn">Go back</a> 	
-		            		            
 
 					<h1>@student.name results for @testAnswer.test.name , @testAnswer.test.testDesc in @Test.getClassroomName(testAnswer.test) </h1>
 

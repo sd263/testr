@@ -40,7 +40,6 @@ public class Classroom extends Model {
 	 */
 	public List<Test> tests;
 	
-	
     public static Model.Finder<Long,Classroom> find = new Model.Finder<Long,Classroom>(Long.class, Classroom.class);
 	
 	/**
@@ -128,5 +127,7 @@ public class Classroom extends Model {
 		}
 		return classrooms;
 	}
+	
+	
     
 }
