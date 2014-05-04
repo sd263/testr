@@ -116,6 +116,7 @@ public class TestAnswer extends Model {
 		for(int i = 0 ; i < tests.size() ; i++){
 			average += tests.get(i).percentage;
 		}	
+		if(tests.size() > 0)
 		average = average / tests.size();
 		return String.valueOf(average);
 	}

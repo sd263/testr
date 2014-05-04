@@ -5,11 +5,12 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.MappedSuperclass;
 
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
-@Entity
+@Entity @MappedSuperclass
 public class Student extends Model {
 
 	/**
@@ -25,6 +26,15 @@ public class Student extends Model {
 
 	@Constraints.Required
 	public String password;
+	
+	/**
+	 * JUNIT CODE Constructor
+	 * 
+	 */
+public Student(String aName, String pass) {
+	name = aName;
+	password = pass;
+}
 
 	/**
 	 * List of all tests completed by the Student
@@ -32,7 +42,7 @@ public class Student extends Model {
 	@ManyToMany
 	public List<Test> testComplete;
 	
-	 public static Model.Finder<Long,Student> find = new Model.Finder<Long,Student>(Long.class, Student.class);
+	 public static Finder<Long,Student> find = new Model.Finder<Long,Student>(Long.class, Student.class);
 
 	/**
 	 * Returns a Student with their Id

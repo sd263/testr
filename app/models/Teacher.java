@@ -32,6 +32,15 @@ public class Teacher extends Model  {
 	
 	 public static Model.Finder<Long,Teacher> find = new Model.Finder<Long,Teacher>(Long.class, Teacher.class);
 	
+		/**
+		 * JUNIT CODE Constructor
+		 * 
+		 */
+	public Teacher(String aName, String pass) {
+		name = aName;
+		password = pass;
+	}
+
 	/**
 	 * Adds a new Classroom to classrooms
 	 * 

@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,14 @@ public class Classroom extends Model {
 	public List<Test> tests;
 	
     public static Model.Finder<Long,Classroom> find = new Model.Finder<Long,Classroom>(Long.class, Classroom.class);
+    
+	/**
+	 * JUNIT CODE Constructor
+	 * 
+	 */
+public Classroom(String aName) {
+	cname = aName;
+}
 	
 	/**
 	 * Renders the Classrooms in a list
@@ -72,6 +81,7 @@ public class Classroom extends Model {
 	 * @since Prototype 2
 	 */
     public void addStudent(Student aStudent){
+    	System.out.println(cname);
     	students.add(aStudent);
     }
     
